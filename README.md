@@ -46,12 +46,12 @@ Create/Upload your code in the folder following the convention `Add Code Here`
 - Choose an extract language folder `drop your code`
 - Below is `an example` to add file properly
 - You can follow up `any languages`
-```
+
 /PYTHON/<YOUR-FILERNAME>.py
-```
-```
+
+
 /C++/<YOUR-FILERNAME>.cpp
-```
+
 You can follow any pathway a `code` or `profile information`
 
 ## 2. Wait for Pull Request to merge
