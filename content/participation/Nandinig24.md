@@ -1,6 +1,6 @@
 ### Nandini Gupta
 ![Profile Picture](static/images/Nandinig24-image.png)
-- 3rd Year Undergraduate Student at ```Indira  Institute of Information Technology,Allahabad```
+- 3rd Year Undergraduate Student at ```Indian  Institute of Information Technology,Allahabad```
 - Web Developer and good command on DSA
 - Currently learning Machine Learning
 
@@ -8,4 +8,4 @@
 
 
 ## Contribution
-- [Longest Subarray With Maximum Bitwise AND](.../C++/LongestSubarrayWithMaximumBitwiseAnd.py)
+-Folder named DP_QUESTION created containing placements questions for DP.
