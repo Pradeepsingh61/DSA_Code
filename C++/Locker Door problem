@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/*
+    Locker Door Problem:
+    - There are 'n' lockers, all initially closed.
+    - A person toggles each locker (open if closed, close if open).
+    - The second person toggles every second locker, the third person toggles every third locker, and so on.
+    - The goal is to determine which lockers remain open after all toggling operations.
+
+    Key Insight:
+    - A locker will be toggled for every divisor it has.
+    - Lockers that are toggled an odd number of times will remain open.
+    - Only lockers with perfect square numbers will have an odd number of divisors (e.g., 1, 4, 9, 16, etc.).
+
+    Approach:
+    - Use a vector to represent the state of each locker (true for open, false for closed).
+    - Iterate over each person and toggle the lockers as per the described rules.
+    - Finally, print out the lockers that remain open.
+*/
+
+// Function to solve the locker door problem
+void lockerDoorProblem(int n) {
+    // Create a vector to represent the lockers (all initially closed)
+    vector<bool> lockers(n + 1, false);
+
+    // Simulate the toggling process
+    for (int person = 1; person <= n; person++) {
+        for (int locker = person; locker <= n; locker += person) {
+            // Toggle the locker state
+            lockers[locker] = !lockers[locker];
+        }
+    }
+
+    // Output the lockers that remain open
+    cout << "Lockers that remain open are: ";
+    for (int i = 1; i <= n; i++) {
+        if (lockers[i]) {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
+}
+
+int main() {
+    // Total number of lockers
+    int n = 100;
+
+    // Call the function to solve the locker door problem
+    lockerDoorProblem(n);
+
+    return 0;
+}
+
+/*
+    Example Explanation:
+    Suppose there are 100 lockers.
+    - Each locker is toggled according to the rules (1st person toggles all, 2nd toggles every second, etc.).
+    - After all toggling operations, lockers with perfect square numbers (1, 4, 9, 16, 25, 36, 49, 64, 81, 100) remain open.
+
+    Time Complexity:
+    - O(n^2): The nested loops will run for each locker for every person.
+
+    Space Complexity:
+    - O(n): A vector of size n+1 is used to keep track of the locker states.
+*/
