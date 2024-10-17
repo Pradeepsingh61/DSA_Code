@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "Insertion_Sort",
+      "request": "launch",
+      "mainClass": "Insertion_Sort",
+      "projectName": "DSA_Code_963e403e"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
