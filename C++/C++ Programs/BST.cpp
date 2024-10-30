@@ -8,11 +8,7 @@ struct Node {
     Node* left;
     Node* right;
 
-    Node(int value) {
-        data = value;
-        left = nullptr;
-        right = nullptr;
-    }
+    Node(int value) : data(value), left(nullptr), right(nullptr) {}
 };
 
 // Function to insert a new node into the BST
@@ -63,14 +59,26 @@ void postOrderTraversal(Node* root) {
     cout << root->data << " ";
 }
 
+// Function to free the allocated memory for the BST
+void freeTree(Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+    freeTree(root->left);
+    freeTree(root->right);
+    delete root;
+}
+
 int main() {
     Node* root = nullptr;
     int values[] = {50, 30, 70, 20, 40, 60, 80};
 
+    // Insert values into the BST
     for (int value : values) {
         root = insert(root, value);
     }
 
+    // Perform and print the traversals
     cout << "In-order traversal: ";
     inOrderTraversal(root);
     cout << endl;
@@ -83,5 +91,7 @@ int main() {
     postOrderTraversal(root);
     cout << endl;
 
+    // Free the allocated memory
+    freeTree(root);
     return 0;
 }
