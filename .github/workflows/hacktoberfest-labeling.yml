@@ -1,0 +1,210 @@
+name: 🎃 Hacktoberfest Auto-Labeling
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize]
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-label:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 Get changed files
+      if: github.event_name == 'pull_request'
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+
+    - name: 🎃 Add Hacktoberfest labels and welcome contributors
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          try {
+            // Get changed files
+            const { data: changedFiles } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+
+            const files = changedFiles.map(file => file.filename);
+            const labels = ['hacktoberfest'];
+
+            console.log(`Processing ${files.length} changed files`);
+
+            // Determine contribution type
+            const hasAlgorithms = files.some(f => f.includes('/algorithms/'));
+            const hasDataStructures = files.some(f => f.includes('/data_structures/'));
+            const hasDP = files.some(f => f.includes('/dynamic_programming/'));
+            const hasProjects = files.some(f => f.includes('/projects/'));
+            const hasDocumentation = files.some(f => f.includes('README') || f.includes('.md'));
+            const hasNewLanguage = files.some(f =>
+              !f.startsWith('C/') &&
+              !f.startsWith('CPP/') &&
+              !f.startsWith('Java/') &&
+              !f.startsWith('Python/') &&
+              /\.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$/.test(f)
+            );
+
+            // Add specific labels
+            if (hasAlgorithms) labels.push('algorithms');
+            if (hasDataStructures) labels.push('data-structures');
+            if (hasDP) labels.push('dynamic-programming');
+            if (hasProjects) labels.push('projects');
+            if (hasDocumentation) labels.push('documentation');
+            if (hasNewLanguage) labels.push('new-language');
+
+            // Language-specific labels
+            const languages = {
+              'C/': 'lang:c',
+              'CPP/': 'lang:cpp',
+              'Java/': 'lang:java',
+              'Python/': 'lang:python',
+              'JavaScript/': 'lang:javascript',
+              'Go/': 'lang:go',
+              'Rust/': 'lang:rust',
+              'Kotlin/': 'lang:kotlin',
+              'Swift/': 'lang:swift',
+              'PHP/': 'lang:php',
+              'Ruby/': 'lang:ruby',
+              'CSharp/': 'lang:csharp',
+              'Dart/': 'lang:dart',
+              'Scala/': 'lang:scala'
+            };
+
+            for (const [dir, label] of Object.entries(languages)) {
+              if (files.some(f => f.startsWith(dir))) {
+                labels.push(label);
+              }
+            }
+
+            // Difficulty estimation
+            const fileCount = files.length;
+            if (fileCount === 1) labels.push('good first issue');
+            else if (fileCount <= 3) labels.push('easy');
+            else if (fileCount <= 7) labels.push('medium');
+            else labels.push('hard');
+
+            // Check if first-time contributor (with error handling)
+            let isFirstTime = false;
+            try {
+              const { data: commits } = await github.rest.repos.listCommits({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                author: context.payload.pull_request.user.login,
+                per_page: 5
+              });
+
+              if (commits.length <= 1) {
+                isFirstTime = true;
+                labels.push('first-time-contributor');
+              }
+            } catch (error) {
+              console.log('Could not check contributor history:', error.message);
+              isFirstTime = true;
+              labels.push('first-time-contributor');
+            }
+
+            // Apply labels
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: labels
+            });
+
+            console.log(`Applied labels: ${labels.join(', ')}`);
+
+            // Welcome first-time contributors
+            if (isFirstTime) {
+              const welcomeMessage = `🎉 **Welcome to the DSA Code Repository!**
+
+              Thank you @${context.payload.pull_request.user.login} for your first contribution!
+
+              🎃 **Hacktoberfest 2025**: This PR counts towards Hacktoberfest!
+
+              📋 **Next Steps**:
+              - Our team will review your PR shortly
+              - Make sure your code follows our [contribution guidelines](./CONTRIBUTING.md)
+              - Check our [Hall of Fame](./HALL_OF_FAME.md) to see where you'll be featured!
+
+              🚀 **Pro Tips**:
+              - Add clear comments to your code
+              - Include time/space complexity analysis
+              - Test your implementation with sample inputs
+
+              Thanks for contributing to open source! 🌟`;
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: welcomeMessage
+              });
+
+              console.log('Welcome message posted for first-time contributor');
+            }
+
+          } catch (error) {
+            console.error('Error in labeling workflow:', error);
+            try {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: ['hacktoberfest']
+              });
+            } catch (fallbackError) {
+              console.error('Fallback labeling also failed:', fallbackError);
+            }
+          }
+
+    - name: 🏷️ Add Hacktoberfest label to issues
+      if: github.event_name == 'issues'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          try {
+            const labels = ['hacktoberfest'];
+
+            // Check issue content for categories
+            const body = context.payload.issue.body?.toLowerCase() || '';
+            const title = context.payload.issue.title?.toLowerCase() || '';
+
+            if (body.includes('algorithm') || title.includes('algorithm')) labels.push('algorithms');
+            if (body.includes('data structure') || title.includes('data structure')) labels.push('data-structures');
+            if (body.includes('bug') || title.includes('bug')) labels.push('bug');
+            if (body.includes('enhancement') || title.includes('enhancement')) labels.push('enhancement');
+            if (body.includes('documentation') || title.includes('doc')) labels.push('documentation');
+            if (body.includes('language') || title.includes('language')) labels.push('new-language');
+
+            // Add beginner-friendly label for certain keywords
+            if (body.includes('beginner') || body.includes('first') || body.includes('easy')) {
+              labels.push('good first issue');
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: labels
+            });
+
+            console.log(`Applied issue labels: ${labels.join(', ')}`);
+
+          } catch (error) {
+            console.error('Error labeling issue:', error);
+          }

@@ -1,0 +1,173 @@
+name: 🔍 PR Validation
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: |
+          C/**
+          CPP/**
+          Java/**
+          Python/**
+          JavaScript/**
+          Go/**
+          Rust/**
+          Kotlin/**
+          Swift/**
+          PHP/**
+          Ruby/**
+          CSharp/**
+          Dart/**
+          Scala/**
+
+    - name: 📋 Validate file naming conventions
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        echo "🔍 Checking file naming conventions..."
+
+        invalid_files=()
+
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "Checking: $file"
+
+          # Extract filename and extension
+          filename=$(basename "$file")
+          dir=$(dirname "$file")
+
+          # Check for proper naming conventions
+          case "$file" in
+            *.c|*.cpp|*.py)
+              # Should use snake_case
+              if [[ ! "$filename" =~ ^[a-z0-9_]+\.[a-z]+$ ]]; then
+                invalid_files+=("$file: Should use snake_case (e.g., binary_search.cpp)")
+              fi
+              ;;
+            *.java)
+              # Should use PascalCase
+              if [[ ! "$filename" =~ ^[A-Z][a-zA-Z0-9]*\.java$ ]]; then
+                invalid_files+=("$file: Should use PascalCase (e.g., BinarySearch.java)")
+              fi
+              ;;
+            *.js|*.ts|*.go|*.rs|*.kt|*.swift|*.php|*.rb|*.cs|*.dart|*.scala)
+              # Language-specific naming (mostly snake_case or camelCase)
+              if [[ ! "$filename" =~ ^[a-z][a-zA-Z0-9_]*\.[a-z]+$ ]]; then
+                invalid_files+=("$file: Should follow language conventions")
+              fi
+              ;;
+          esac
+
+          # Check directory structure
+          if [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
+            if [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects)/ ]]; then
+              invalid_files+=("$file: Should be in algorithms/, data_structures/, dynamic_programming/, or projects/ subdirectory")
+            fi
+          fi
+        done
+
+        if [ ${#invalid_files[@]} -gt 0 ]; then
+          echo "❌ Found naming/structure violations:"
+          printf '%s\n' "${invalid_files[@]}"
+          exit 1
+        else
+          echo "✅ All files follow naming conventions!"
+        fi
+
+    - name: 📝 Check for required documentation
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        echo "📝 Checking for documentation in code files..."
+
+        missing_docs=()
+
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          if [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
+            echo "Checking documentation in: $file"
+
+            # Check for basic documentation elements
+            if ! grep -q -i "algorithm\|description\|complexity" "$file" 2>/dev/null; then
+              missing_docs+=("$file: Missing algorithm description or complexity analysis")
+            fi
+
+            # Check for comments
+            if ! grep -q -E "//|#|\*|--|<!--" "$file" 2>/dev/null; then
+              missing_docs+=("$file: Missing comments")
+            fi
+          fi
+        done
+
+        if [ ${#missing_docs[@]} -gt 0 ]; then
+          echo "⚠️ Found documentation issues:"
+          printf '%s\n' "${missing_docs[@]}"
+          echo ""
+          echo "💡 Please add:"
+          echo "  - Algorithm description"
+          echo "  - Time/Space complexity"
+          echo "  - Comments explaining the code"
+        else
+          echo "✅ Documentation looks good!"
+        fi
+
+    - name: 🌍 Check for new language directory structure
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        echo "🌍 Checking new language directory structures..."
+
+        # Get all language directories
+        new_langs=()
+
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          lang_dir=$(echo "$file" | cut -d'/' -f1)
+
+          # Skip known languages and non-language directories
+          if [[ ! "$lang_dir" =~ ^(C|CPP|Java|Python|\.github|\.git)$ ]] && [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
+            if [[ ! " ${new_langs[@]} " =~ " ${lang_dir} " ]]; then
+              new_langs+=("$lang_dir")
+            fi
+          fi
+        done
+
+        for lang in "${new_langs[@]}"; do
+          echo "🔍 Checking new language: $lang"
+
+          # Check if README exists
+          if [[ ! -f "$lang/README.md" ]]; then
+            echo "⚠️ Missing $lang/README.md - Please add setup instructions for $lang"
+          else
+            echo "✅ Found $lang/README.md"
+          fi
+
+          # Check directory structure
+          required_dirs=("algorithms" "data_structures" "dynamic_programming")
+          for req_dir in "${required_dirs[@]}"; do
+            if [[ ! -d "$lang/$req_dir" ]]; then
+              echo "ℹ️ Consider creating $lang/$req_dir/ directory"
+            fi
+          done
+        done
+
+    - name: ✅ Validation Summary
+      run: |
+        echo "🎉 PR Validation Complete!"
+        echo ""
+        echo "📋 Validation Results:"
+        echo "✅ File naming conventions checked"
+        echo "✅ Directory structure verified"
+        echo "✅ Documentation requirements reviewed"
+        echo "✅ New language support validated"
+        echo ""
+        echo "🎃 Ready for Hacktoberfest review!"

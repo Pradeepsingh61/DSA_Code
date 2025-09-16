@@ -1,0 +1,55 @@
+# Compiled source files
+*.o
+*.out
+*.exe
+*.class
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# C/C++
+*.obj
+*.so
+*.dll
+*.a
+*.lib
+*.dylib
+
+# Java
+*.jar
+*.war
+*.ear
+
+# Python
+.env
+.venv
+ENV/
+venv/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Other
+*.swp
+*.swo
+.idea/
+*.iml
+
+.claude/

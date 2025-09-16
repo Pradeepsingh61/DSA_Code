@@ -1,0 +1,162 @@
+name: 🏆 Update Contributors
+
+on:
+  schedule:
+    # Run daily at midnight UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-contributors:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: 🔍 Get contributor stats
+      id: contributors
+      run: |
+        echo "📊 Fetching contributor statistics..."
+
+        # Get contributors with commit counts
+        contributors=$(curl -s "https://api.github.com/repos/${{ github.repository }}/contributors?per_page=100" | jq -r '.[] | "\(.login) \(.contributions)"')
+
+        echo "Contributors found:"
+        echo "$contributors"
+
+        # Count total contributors
+        total_contributors=$(echo "$contributors" | wc -l)
+        echo "total_contributors=$total_contributors" >> $GITHUB_OUTPUT
+
+        # Get top contributors
+        top_contributors=$(echo "$contributors" | head -10)
+        echo "top_contributors<<EOF" >> $GITHUB_OUTPUT
+        echo "$top_contributors" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: 📊 Update repository stats
+      run: |
+        echo "📊 Updating repository statistics..."
+
+        # Update stats in README.md
+        if [ -f "README.md" ]; then
+          # Update contributor count in README
+          sed -i "s/🎯 \*\*[0-9]*+ Contributors\*\*/🎯 **${{ steps.contributors.outputs.total_contributors }}+ Contributors**/g" README.md
+
+          echo "✅ Updated README.md with new contributor count"
+        fi
+
+        # Update stats in HALL_OF_FAME.md
+        if [ -f "HALL_OF_FAME.md" ]; then
+          # Update contributor count in Hall of Fame
+          sed -i "s/\*\*Total 2024 Contributors: [0-9]*+ Amazing Developers!\*\*/\*\*Total 2024 Contributors: ${{ steps.contributors.outputs.total_contributors }}+ Amazing Developers!\*\*/g" HALL_OF_FAME.md
+          sed -i "s/We extend our heartfelt gratitude to all \*\*[0-9]*+ contributors\*\*/We extend our heartfelt gratitude to all **${{ steps.contributors.outputs.total_contributors }}+ contributors**/g" HALL_OF_FAME.md
+          sed -i "s/| 👥 \*\*Total Contributors\*\* | [0-9]*+ Amazing Developers |/| 👥 **Total Contributors** | ${{ steps.contributors.outputs.total_contributors }}+ Amazing Developers |/g" HALL_OF_FAME.md
+
+          echo "✅ Updated HALL_OF_FAME.md with new contributor count"
+        fi
+
+    - name: 📈 Update language statistics
+      run: |
+        echo "📈 Updating language statistics..."
+
+        # Count files by language
+        c_files=$(find C/ -name "*.c" 2>/dev/null | wc -l || echo 0)
+        cpp_files=$(find CPP/ -name "*.cpp" 2>/dev/null | wc -l || echo 0)
+        java_files=$(find Java/ -name "*.java" 2>/dev/null | wc -l || echo 0)
+        python_files=$(find Python/ -name "*.py" 2>/dev/null | wc -l || echo 0)
+        js_files=$(find . -name "*.js" -not -path "./node_modules/*" 2>/dev/null | wc -l || echo 0)
+        go_files=$(find . -name "*.go" 2>/dev/null | wc -l || echo 0)
+        rust_files=$(find . -name "*.rs" 2>/dev/null | wc -l || echo 0)
+
+        total_implementations=$((c_files + cpp_files + java_files + python_files + js_files + go_files + rust_files))
+
+        echo "📊 Language Statistics:"
+        echo "C: $c_files files"
+        echo "C++: $cpp_files files"
+        echo "Java: $java_files files"
+        echo "Python: $python_files files"
+        echo "JavaScript: $js_files files"
+        echo "Go: $go_files files"
+        echo "Rust: $rust_files files"
+        echo "Total: $total_implementations implementations"
+
+        # Count supported languages
+        supported_languages=4 # Base languages: C, C++, Java, Python
+        [ $js_files -gt 0 ] && supported_languages=$((supported_languages + 1))
+        [ $go_files -gt 0 ] && supported_languages=$((supported_languages + 1))
+        [ $rust_files -gt 0 ] && supported_languages=$((supported_languages + 1))
+
+        echo "Supported languages: $supported_languages"
+
+        # Update README stats
+        if [ -f "README.md" ]; then
+          sed -i "s/💻 \*\*[0-9]*+ Languages\*\*/💻 **${supported_languages}+ Languages**/g" README.md
+        fi
+
+    - name: 📅 Update last modified date
+      run: |
+        echo "📅 Updating last modified date..."
+        current_date=$(date +"%B %Y")
+
+        if [ -f "HALL_OF_FAME.md" ]; then
+          sed -i "s/\*Last updated: .* [0-9]*\*/\*Last updated: $current_date\*/g" HALL_OF_FAME.md
+          echo "✅ Updated last modified date in HALL_OF_FAME.md"
+        fi
+
+    - name: 🔍 Check for changes
+      id: changes
+      run: |
+        if git diff --quiet; then
+          echo "No changes to commit"
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "Changed files:"
+          git diff --name-only
+        fi
+
+    - name: 💾 Commit and push changes
+      if: steps.changes.outputs.has_changes == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+        git add README.md HALL_OF_FAME.md
+
+        git commit -m "🏆 Auto-update contributor statistics
+
+        - Updated contributor count: ${{ steps.contributors.outputs.total_contributors }}+ amazing developers
+        - Refreshed repository statistics
+        - Updated last modified date
+
+        🤖 Generated by GitHub Actions"
+
+        git push
+
+    - name: 📋 Generate summary
+      run: |
+        echo "🏆 Contributors Update Summary"
+        echo "=============================="
+        echo ""
+        echo "📊 Statistics:"
+        echo "  👥 Total Contributors: ${{ steps.contributors.outputs.total_contributors }}"
+        echo "  🔥 Repository Status: Active"
+        echo "  📅 Last Updated: $(date)"
+        echo ""
+        echo "🎉 Contributor statistics updated successfully!"
+
+        if [ "${{ steps.changes.outputs.has_changes }}" == "true" ]; then
+          echo "✅ Changes committed and pushed"
+        else
+          echo "ℹ️ No changes needed"
+        fi
