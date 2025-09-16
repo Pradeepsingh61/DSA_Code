@@ -2,7 +2,7 @@
 
 Welcome to the **DSA Code Repository**! This is a comprehensive collection of **Data Structures and Algorithms** implementations in multiple programming languages, organized specifically for **Hacktoberfest 2025** contributions.
 
-![HacktoberFest 2025](https://media.dev.to/cdn-cgi/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmuni0707qyw76apl5ax8.png)
+![Hacktoberfest 2025](./assets/HF2025-EmailHeader.png)
 
 <div align="center">
 
