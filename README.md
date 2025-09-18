@@ -26,6 +26,8 @@ This repository serves as:
 
 📢 **Register [here](https://hacktoberfest.com/) for Hacktoberfest and make six pull requests (PRs) between October 1st-31st for exclusive T-shirt + Tree contribution! 🔥🌱**
 
+📖 **[Read our complete Hacktoberfest 2025 guide on dev.to](https://dev.to/karanjot786/join-hacktoberfest-2025-contribute-to-our-dsa-code-repository-7nb)** - Step-by-step instructions, tips, and everything you need to get started!
+
 ## 👥 Repository Maintainers
 
 <div align="center">
