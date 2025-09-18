@@ -1,0 +1,118 @@
+name: 🐛 Bug Report
+description: Report a bug in existing code
+title: "[BUG] Brief description of the issue"
+labels: ["bug", "needs-triage"]
+assignees:
+  - Karanjot786
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! 🐛 This helps us improve the codebase.
+
+  - type: input
+    id: file_path
+    attributes:
+      label: File Path
+      description: Which file contains the bug?
+      placeholder: e.g., CPP/algorithms/sorting/quick_sort.cpp
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Programming Language
+      description: What language is the buggy code written in?
+      options:
+        - C
+        - C++
+        - Java
+        - Python
+        - JavaScript
+        - Go
+        - Rust
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: bug_type
+    attributes:
+      label: Bug Type
+      description: What type of bug is this?
+      options:
+        - Logic Error (incorrect algorithm implementation)
+        - Syntax Error (code doesn't compile)
+        - Runtime Error (crashes during execution)
+        - Performance Issue (inefficient implementation)
+        - Documentation Error (incorrect comments/complexity)
+        - Style Issue (doesn't follow conventions)
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_behavior
+    attributes:
+      label: Current Behavior
+      description: What is currently happening?
+      placeholder: Describe the incorrect behavior you're seeing
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+      description: What should happen instead?
+      placeholder: Describe what the correct behavior should be
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this bug?
+      placeholder: |
+        1. Compile the file with...
+        2. Run with input...
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_case
+    attributes:
+      label: Test Case (Optional)
+      description: Provide a test case that demonstrates the bug
+      placeholder: |
+        Input: [1, 3, 2, 5, 4]
+        Expected Output: [1, 2, 3, 4, 5]
+        Actual Output: [1, 3, 2, 5, 4]
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: What environment are you using?
+      placeholder: e.g., g++ 11.2.0, Ubuntu 20.04, VS Code
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Fix Contribution
+      description: Would you like to help fix this bug?
+      options:
+        - label: I would like to submit a fix for this bug
+        - label: I need help understanding how to fix this
+        - label: I'm just reporting for someone else to fix
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

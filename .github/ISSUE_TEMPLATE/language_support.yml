@@ -1,0 +1,121 @@
+name: 🌍 New Language Support
+description: Request support for a new programming language
+title: "[LANGUAGE] Add support for [Language Name]"
+labels: ["enhancement", "new-language", "hacktoberfest"]
+assignees:
+  - Karanjot786
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Awesome! Adding a new language expands our community reach! 🌍
+
+  - type: input
+    id: language_name
+    attributes:
+      label: Language Name
+      description: What programming language would you like to add?
+      placeholder: e.g., TypeScript, Dart, Kotlin, PHP, Ruby
+    validations:
+      required: true
+
+  - type: textarea
+    id: why_language
+    attributes:
+      label: Why This Language?
+      description: Why would this language be valuable for the repository?
+      placeholder: |
+        - Popular in certain domains (web dev, mobile, etc.)
+        - Growing community interest
+        - Unique language features for algorithms
+        - Educational value
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: setup_requirements
+    attributes:
+      label: Setup Requirements
+      description: What would be needed to support this language?
+      options:
+        - label: Language directory structure (Language/algorithms/, Language/data_structures/, etc.)
+        - label: README.md with setup instructions
+        - label: Code examples and templates
+        - label: Testing framework integration
+        - label: GitHub Actions workflow support
+
+  - type: textarea
+    id: initial_algorithms
+    attributes:
+      label: Initial Algorithm Set
+      description: Which algorithms would you implement first?
+      placeholder: |
+        Suggest 3-5 basic algorithms to start with:
+        - Bubble Sort
+        - Linear Search
+        - Binary Search
+        - Stack Implementation
+        - Queue Implementation
+
+  - type: dropdown
+    id: difficulty_assessment
+    attributes:
+      label: Implementation Difficulty
+      description: How challenging would it be to add this language?
+      options:
+        - Easy (similar syntax to existing languages)
+        - Medium (some unique features to consider)
+        - Hard (significantly different paradigm)
+    validations:
+      required: true
+
+  - type: textarea
+    id: naming_conventions
+    attributes:
+      label: Naming Conventions
+      description: What naming conventions should be used for this language?
+      placeholder: |
+        File naming: camelCase.ext, snake_case.ext, PascalCase.ext
+        Variable naming: camelCase, snake_case, etc.
+        Function naming: camelCase, snake_case, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: language_resources
+    attributes:
+      label: Helpful Resources
+      description: Share resources for this language
+      placeholder: |
+        - Official documentation
+        - Popular algorithms repositories in this language
+        - Coding style guides
+        - Testing frameworks
+
+  - type: checkboxes
+    id: contribution_plan
+    attributes:
+      label: Contribution Plan
+      description: How would you like to contribute?
+      options:
+        - label: I want to create the initial language structure
+        - label: I want to implement the first set of algorithms
+        - label: I want to help with documentation and setup
+        - label: I want to help with testing and CI/CD integration
+        - label: I'm just requesting for someone else to implement
+
+  - type: input
+    id: timeline
+    attributes:
+      label: Estimated Timeline
+      description: If you're implementing, what's your timeline?
+      placeholder: e.g., 1-2 weeks for initial setup, 1 month for basic algorithms
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

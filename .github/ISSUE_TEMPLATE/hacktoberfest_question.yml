@@ -1,0 +1,134 @@
+name: 🎃 Hacktoberfest Question
+description: Questions about Hacktoberfest participation
+title: "[HACKTOBERFEST] Question about participation"
+labels: ["question", "hacktoberfest", "help-wanted"]
+assignees:
+  - Karanjot786
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Welcome to Hacktoberfest 2025! 🎃 We're here to help you get started with open source contributions!
+
+  - type: dropdown
+    id: experience_level
+    attributes:
+      label: Your Experience Level
+      description: How would you describe your programming experience?
+      options:
+        - Complete beginner (new to programming)
+        - Beginner (basic programming knowledge)
+        - Intermediate (comfortable with programming)
+        - Advanced (experienced developer)
+        - Expert (senior developer)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: git_experience
+    attributes:
+      label: Git/GitHub Experience
+      description: How comfortable are you with Git and GitHub?
+      options:
+        - Never used Git/GitHub before
+        - Basic knowledge (can clone and commit)
+        - Intermediate (can branch, merge, handle conflicts)
+        - Advanced (comfortable with complex workflows)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: question_type
+    attributes:
+      label: Question Category
+      description: What do you need help with? (Select all that apply)
+      options:
+        - label: Getting started with first contribution
+        - label: Understanding the project structure
+        - label: Choosing what to contribute
+        - label: Git/GitHub workflow help
+        - label: Code review process
+        - label: Setting up development environment
+        - label: Understanding algorithm requirements
+        - label: Hacktoberfest rules and guidelines
+        - label: Finding good first issues
+
+  - type: textarea
+    id: specific_question
+    attributes:
+      label: Your Specific Question
+      description: What exactly would you like help with?
+      placeholder: Be as specific as possible so we can provide the best help
+    validations:
+      required: true
+
+  - type: dropdown
+    id: preferred_language
+    attributes:
+      label: Preferred Programming Language
+      description: Which language would you like to contribute in?
+      options:
+        - C
+        - C++
+        - Java
+        - Python
+        - JavaScript
+        - Go
+        - Rust
+        - I'm not sure yet
+        - I want to learn a new language
+    validations:
+      required: true
+
+  - type: textarea
+    id: attempted_solutions
+    attributes:
+      label: What Have You Tried? (Optional)
+      description: Have you already tried anything or looked at any resources?
+      placeholder: |
+        This helps us avoid repeating advice you've already seen:
+        - Documentation you've read
+        - Tutorials you've followed
+        - Previous attempts you've made
+
+  - type: checkboxes
+    id: help_type
+    attributes:
+      label: Type of Help Needed
+      description: How can we best help you?
+      options:
+        - label: Step-by-step guidance
+        - label: Resource recommendations
+        - label: Live help/mentoring
+        - label: Code review feedback
+        - label: Pair programming session
+        - label: Just need quick clarification
+
+  - type: textarea
+    id: goals
+    attributes:
+      label: Your Hacktoberfest Goals
+      description: What do you hope to achieve during Hacktoberfest?
+      placeholder: |
+        e.g.:
+        - Make my first open source contribution
+        - Learn a new programming language
+        - Improve my algorithm knowledge
+        - Complete 6 PRs for Hacktoberfest (Super Contributor with T-shirt + Tree!)
+        - Build portfolio projects
+
+  - type: input
+    id: timeline
+    attributes:
+      label: Timeline
+      description: When would you like to start contributing?
+      placeholder: e.g., This week, by end of October, as soon as possible
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

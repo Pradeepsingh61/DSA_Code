@@ -298,7 +298,7 @@ Welcome to the **Hall of Fame**! This page celebrates all the amazing contributo
 | 🥇 **Legendary** | Gold Crown | 20+ merged PRs | Top of Hall of Fame, special privileges |
 | 🥈 **Expert** | Silver Crown | 10-19 merged PRs | Expert contributor status |
 | 🥉 **Advanced** | Bronze Crown | 5-9 merged PRs | Advanced contributor recognition |
-| ⭐ **Rising Star** | Star Badge | 1-4 merged PRs | New contributor highlight |
+| ⭐ **Rising Star** | Star Badge | 1-5 merged PRs | New contributor highlight |
 
 ---
 
@@ -312,7 +312,7 @@ Welcome to the **Hall of Fame**! This page celebrates all the amazing contributo
 - **Prize**: Special badge + permanent recognition
 
 #### 🏃‍♂️ **Speed Demon**
-*Fastest to complete 4 quality PRs*
+*Fastest to complete 6 quality PRs (Super Contributor)*
 - **Winner**: *TBD*
 - **Prize**: Lightning bolt badge
 

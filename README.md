@@ -24,7 +24,7 @@ This repository serves as:
 
 🗣 **Hacktoberfest encourages participation in the open-source community, which grows bigger every year. Complete the challenge and get a tree planted on your name showing your love towards mother Earth 🌍**
 
-📢 **Register [here](https://hacktoberfest.com/) for Hacktoberfest and make four pull requests (PRs) between October 1st-31st 🔥.**
+📢 **Register [here](https://hacktoberfest.com/) for Hacktoberfest and make six pull requests (PRs) between October 1st-31st for exclusive T-shirt + Tree contribution! 🔥🌱**
 
 ## 👥 Repository Maintainers
 
@@ -211,7 +211,7 @@ Python/
 
 ### 💡 Hacktoberfest Pro Tips
 
-- Make **4+ quality pull requests** for Hacktoberfest completion
+- Make **6+ quality pull requests** for Hacktoberfest Super Contributor status (T-shirt + Tree!)
 - **Quality over quantity** - make meaningful contributions
 - Help others by **reviewing PRs**
 - Ensure proper **documentation** and **testing**

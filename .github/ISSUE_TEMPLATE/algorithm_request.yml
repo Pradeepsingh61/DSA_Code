@@ -1,0 +1,108 @@
+name: 🔥 Algorithm Request
+description: Request a new algorithm implementation
+title: "[REQUEST] Add [Algorithm Name] in [Language]"
+labels: ["enhancement", "algorithm-request", "hacktoberfest"]
+assignees:
+  - Karanjot786
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for requesting a new algorithm! This helps our community grow. 🚀
+
+  - type: input
+    id: algorithm_name
+    attributes:
+      label: Algorithm Name
+      description: What algorithm would you like to see implemented?
+      placeholder: e.g., Dijkstra's Algorithm, Quick Sort, Binary Search Tree
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Programming Language
+      description: Which language should this be implemented in?
+      options:
+        - C
+        - C++
+        - Java
+        - Python
+        - JavaScript
+        - Go
+        - Rust
+        - Kotlin
+        - Swift
+        - Any language
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category does this algorithm belong to?
+      options:
+        - Sorting
+        - Searching
+        - Graph Algorithms
+        - Dynamic Programming
+        - Tree Algorithms
+        - String Algorithms
+        - Greedy Algorithms
+        - Divide and Conquer
+        - Mathematical Algorithms
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty Level
+      description: How difficult is this algorithm?
+      options:
+        - Easy (Beginner friendly)
+        - Medium (Intermediate)
+        - Hard (Advanced)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Algorithm Description
+      description: Briefly describe what this algorithm does and why it's useful
+      placeholder: Describe the algorithm's purpose, use cases, and why it would be valuable for the repository
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References (Optional)
+      description: Any helpful resources, links, or documentation
+      placeholder: |
+        - Wikipedia: https://en.wikipedia.org/wiki/...
+        - GeeksforGeeks: https://www.geeksforgeeks.org/...
+        - LeetCode: https://leetcode.com/problems/...
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution Intent
+      description: Are you planning to implement this yourself?
+      options:
+        - label: I would like to implement this algorithm myself
+        - label: I'm requesting this for someone else to implement
+        - label: I need help implementing this algorithm
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

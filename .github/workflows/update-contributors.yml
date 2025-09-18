@@ -1,9 +1,11 @@
 name: 🏆 Update Contributors
 
 on:
-  schedule:
-    # Run daily at midnight UTC
-    - cron: '0 0 * * *'
+  push:
+    branches: [main]
+  pull_request:
+    types: [closed]
+    branches: [main]
   workflow_dispatch: # Allow manual trigger
 
 permissions:
@@ -13,6 +15,8 @@ permissions:
 jobs:
   update-contributors:
     runs-on: ubuntu-latest
+    # Only run on push to main or when PR is merged (not just closed)
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
 
     steps:
     - name: 📥 Checkout code
@@ -26,14 +30,15 @@ jobs:
       run: |
         echo "📊 Fetching contributor statistics..."
 
-        # Get contributors with commit counts
-        contributors=$(curl -s "https://api.github.com/repos/${{ github.repository }}/contributors?per_page=100" | jq -r '.[] | "\(.login) \(.contributions)"')
+        # Get contributors with commit counts, excluding GitHub Actions users
+        contributors=$(curl -s "https://api.github.com/repos/${{ github.repository }}/contributors?per_page=100" | \
+          jq -r '.[] | select(.login != "github-actions[bot]" and .login != "actions-user" and .type != "Bot") | "\(.login) \(.contributions)"')
 
-        echo "Contributors found:"
+        echo "Contributors found (excluding bots):"
         echo "$contributors"
 
-        # Count total contributors
-        total_contributors=$(echo "$contributors" | wc -l)
+        # Count total contributors (excluding bots)
+        total_contributors=$(echo "$contributors" | grep -v '^$' | wc -l)
         echo "total_contributors=$total_contributors" >> $GITHUB_OUTPUT
 
         # Get top contributors

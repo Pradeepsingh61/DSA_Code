@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Ask a Question
+    url: https://github.com/Pradeepsingh61/DSA_Code/discussions
+    about: Ask questions and discuss with our community
+  - name: 🐛 Security Issue
+    url: https://github.com/Pradeepsingh61/DSA_Code/security/advisories/new
+    about: Report security vulnerabilities privately
+  - name: 📞 Contact Maintainers
+    url: https://twitter.com/Karanjotdulay
+    about: Contact co-admin for urgent matters

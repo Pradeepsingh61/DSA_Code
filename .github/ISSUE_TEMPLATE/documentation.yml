@@ -1,0 +1,130 @@
+name: 📚 Documentation Improvement
+description: Suggest improvements to documentation
+title: "[DOCS] Improve documentation for [specific area]"
+labels: ["documentation", "enhancement"]
+assignees:
+  - Karanjot786
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our documentation! Clear docs help everyone learn better. 📚
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs improvement?
+      options:
+        - README.md (main repository README)
+        - CONTRIBUTING.md (contribution guidelines)
+        - Language-specific README (C/README.md, Java/README.md, etc.)
+        - Algorithm documentation (comments in code files)
+        - HALL_OF_FAME.md (contributors page)
+        - GitHub templates (issue/PR templates)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: specific_file
+    attributes:
+      label: Specific File/Section
+      description: Which file or section needs improvement?
+      placeholder: e.g., Python/README.md, CPP/algorithms/sorting/merge_sort.cpp
+
+  - type: dropdown
+    id: improvement_type
+    attributes:
+      label: Type of Improvement
+      description: What kind of improvement is needed?
+      options:
+        - Missing information
+        - Incorrect information
+        - Unclear explanations
+        - Poor formatting
+        - Missing examples
+        - Outdated content
+        - Better organization
+        - Language/grammar fixes
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_issue
+    attributes:
+      label: Current Issue
+      description: What's wrong with the current documentation?
+      placeholder: Describe the specific problem with the current documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_improvement
+    attributes:
+      label: Suggested Improvement
+      description: How would you improve it?
+      placeholder: |
+        Describe your suggested changes:
+        - What should be added?
+        - What should be changed?
+        - How should it be organized?
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples (Optional)
+      description: Provide examples of good documentation or specific content
+      placeholder: |
+        You can include:
+        - Example text/code
+        - Links to well-documented repositories
+        - Specific wording suggestions
+
+  - type: dropdown
+    id: target_audience
+    attributes:
+      label: Target Audience
+      description: Who would benefit most from this improvement?
+      options:
+        - Complete beginners
+        - Intermediate programmers
+        - Advanced developers
+        - Contributors
+        - Maintainers
+        - All users
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: urgency
+    attributes:
+      label: Priority Level
+      description: How important is this improvement?
+      options:
+        - label: Low priority (nice to have)
+        - label: Medium priority (would help many users)
+        - label: High priority (critical for understanding)
+        - label: Blocking (prevents contribution/usage)
+
+  - type: checkboxes
+    id: contribution_offer
+    attributes:
+      label: Contribution Offer
+      description: Would you like to help with this improvement?
+      options:
+        - label: I can write the improved documentation
+        - label: I can help review and provide feedback
+        - label: I need guidance on how to contribute
+        - label: I'm just reporting for someone else to fix
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
