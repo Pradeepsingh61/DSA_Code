@@ -2,55 +2,61 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
-using namespace std;
-
 // Function to calculate the largest rectangle area in a histogram
-int largestRectangleArea(vector<int>& heights) {
-    stack<int> st;
+int largestRectangleArea(std::vector<int>& heights) {
+    std::stack<int> st;
     int maxArea = 0;
     int n = heights.size();
 
-    for (int i = 0; i <= n; i++) {
-        while (!st.empty() && (i == n || heights[st.top()] >= heights[i])) {
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && heights[st.top()] >= heights[i]) {
             int height = heights[st.top()];
             st.pop();
             int width = st.empty() ? i : i - st.top() - 1;
-            maxArea = max(maxArea, height * width);
+            maxArea = std::max(maxArea, height * width);
         }
         st.push(i);
+    }
+
+    // Final pass to process remaining indices in the stack
+    while (!st.empty()) {
+        int height = heights[st.top()];
+        st.pop();
+        int width = st.empty() ? n : n - st.top() - 1;
+        maxArea = std::max(maxArea, height * width);
     }
 
     return maxArea;
 }
 
 // Function to find the maximum rectangle area in a binary matrix
-int maxRectangle(vector<vector<int>>& mat) {
+int maxRectangle(std::vector<std::vector<int>>& mat) {
     if (mat.empty()) return 0;
 
     int maxArea = 0;
     int rows = mat.size();
     int cols = mat[0].size();
-    vector<int> heights(cols, 0);
+    std::vector<int> heights(cols, 0);
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             heights[j] = mat[i][j] == 0 ? 0 : heights[j] + 1;
         }
-        maxArea = max(maxArea, largestRectangleArea(heights));
+        maxArea = std::max(maxArea, largestRectangleArea(heights));
     }
 
     return maxArea;
 }
 
 int main() {
-    vector<vector<int>> mat = {
+    std::vector<std::vector<int>> mat = {
         {1, 0, 1, 0, 0},
         {1, 0, 1, 1, 1},
         {1, 1, 1, 1, 1},
         {1, 0, 0, 1, 0}
     };
 
-    cout << "Maximum rectangle area: " << maxRectangle(mat) << endl;
+    std::cout << "Maximum rectangle area: " << maxRectangle(mat) << std::endl;
 
     return 0;
 }
@@ -68,5 +74,7 @@ int main() {
  * - maxRectangle: O(rows * cols), where rows and cols are the dimensions of the matrix.
  *
  * Space Complexity:
- * - O(cols), where cols is the number of columns in the matrix due to the heights array.
+ * - largestRectangleArea: O(cols) for the stack used to store indices.
+ * - maxRectangle: O(cols) for the heights array.
+ * - Overall auxiliary space: O(cols) + O(cols) = O(cols).
  */
