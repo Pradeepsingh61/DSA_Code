@@ -78,3 +78,4 @@ int main() {
  * - maxRectangle: O(cols) for the heights array.
  * - Overall auxiliary space: O(cols) + O(cols) = O(cols).
  */
+
