@@ -5,6 +5,11 @@ on:
     types: [opened, synchronize, reopened]
     branches: [main]
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   # Run all tests and validations
   run-tests:
@@ -128,9 +133,14 @@ jobs:
     steps:
     - name: 🎃 Add Hacktoberfest labels and welcome contributors
       uses: actions/github-script@v7
+      env:
+        VALIDATION_PASSED: ${{ needs.run-tests.outputs.validation-passed }}
+        TESTS_PASSED: ${{ needs.run-tests.outputs.tests-passed }}
       with:
         script: |
           const { owner, repo, number } = context.issue;
+          const validationPassed = process.env.VALIDATION_PASSED === 'true';
+          const testsPassed = process.env.TESTS_PASSED === 'true';
 
           // Get PR and contributor info
           const pr = await github.rest.pulls.get({ owner, repo, pull_number: number });
@@ -172,7 +182,7 @@ jobs:
           if (files.data.length > 5) labels.push('advanced');
 
           // Add status labels
-          if (needs.run-tests.outputs.tests-passed === 'true') {
+          if (testsPassed) {
             labels.push('tests-passing');
           } else {
             labels.push('needs-work');
@@ -198,11 +208,11 @@ jobs:
           Thank you for your first contribution to our DSA repository! Here's what happens next:
 
           ## 🔍 Automatic Checks
-          - ✅ **Code Validation**: ${needs.run-tests.outputs.validation-passed === 'true' ? 'Passed' : 'Failed'}
-          - 🧪 **Compilation Tests**: ${needs.run-tests.outputs.tests-passed === 'true' ? 'Passed' : 'Failed'}
+          - ✅ **Code Validation**: ${validationPassed ? 'Passed' : 'Failed'}
+          - 🧪 **Compilation Tests**: ${testsPassed ? 'Passed' : 'Failed'}
 
           ## 📋 Next Steps
-          ${needs.run-tests.outputs.tests-passed === 'true' ?
+          ${testsPassed ?
             '🎯 **Great job!** Your code compiled successfully. A maintainer will review your PR soon.' :
             '⚠️ **Action needed**: Please fix the compilation errors and push your changes.'}
 
