@@ -214,7 +214,7 @@ jobs:
 
           ## 📋 Next Steps
           ${testsPassed ?
-            '🎯 **Great job!** Your code compiled successfully. A maintainer will review your PR soon.' :
+            '🎯 **Great job!** Your code compiled successfully. Maintainers [@Karanjot786](https://github.com/Karanjot786) and [@Pradeepsingh61](https://github.com/Pradeepsingh61) will review your PR soon.' :
             '⚠️ **Action needed**: Please fix the compilation errors and push your changes.'}
 
           ## 🎁 What You Get
