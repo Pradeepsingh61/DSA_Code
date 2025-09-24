@@ -34,24 +34,24 @@ while IFS= read -r file; do
     filename=$(basename "$file")
     dir=$(dirname "$file")
 
-    # Check naming conventions based on file extension
+    # Check naming conventions based on file extension (Allow flexible naming)
     case "$file" in
         *.c|*.cpp|*.py)
-            # Should use snake_case
-            if [[ ! "$filename" =~ ^[a-z0-9_]+\.[a-z]+$ ]]; then
-                invalid_files+=("$file: Should use snake_case (e.g., binary_search.cpp)")
+            # Allow snake_case, camelCase, or PascalCase for C/C++/Python
+            if [[ ! "$filename" =~ ^[a-zA-Z0-9_]+\.[a-z]+$ ]]; then
+                invalid_files+=("$file: Use alphanumeric characters and underscores only (e.g., binary_search.cpp, maxRectangle.cpp)")
             fi
             ;;
         *.java)
-            # Should use PascalCase
+            # Should use PascalCase for Java classes
             if [[ ! "$filename" =~ ^[A-Z][a-zA-Z0-9]*\.java$ ]]; then
-                invalid_files+=("$file: Should use PascalCase (e.g., BinarySearch.java)")
+                invalid_files+=("$file: Java files should use PascalCase (e.g., BinarySearch.java, MaxRectangle.java)")
             fi
             ;;
         *.js|*.ts|*.go|*.rs|*.kt|*.swift|*.php|*.rb|*.cs|*.dart|*.scala)
-            # Language-specific naming
-            if [[ ! "$filename" =~ ^[a-z][a-zA-Z0-9_]*\.[a-z]+$ ]]; then
-                invalid_files+=("$file: Should follow language conventions")
+            # Allow flexible naming for other languages
+            if [[ ! "$filename" =~ ^[a-zA-Z0-9_]+\.[a-z]+$ ]]; then
+                invalid_files+=("$file: Use alphanumeric characters and underscores only")
             fi
             ;;
     esac
