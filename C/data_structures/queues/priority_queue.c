@@ -1,87 +1,141 @@
-// Priority Queue implementation in C
+/*
+  Priority Queue Implementation using Max-Heap in C
+  -------------------------------------------------
+  A Priority Queue is a data structure where each element has a priority,
+  and the element with the highest priority is served before others.
+
+  Here, we use a binary Max-Heap representation:
+  - Insertion maintains heap order by heapifying up.
+  - Deletion of root (highest priority element) is handled by replacing it 
+    with the last element and heapifying down.
+
+  Time Complexity:
+    - Insertion: O(log n)
+    - Deletion: O(log n)
+    - Heapify: O(log n)
+    - Printing: O(n)
+
+  Space Complexity:
+    - O(n), where n is the number of elements in the heap.
+*/
 
 #include <stdio.h>
-int size = 0;
+
+int heapSize = 0;  // Global variable to track current heap size
+
+// Utility function to swap two elements
 void swap(int *a, int *b) {
   int temp = *b;
   *b = *a;
   *a = temp;
 }
 
-// Function to heapify the tree
-void heapify(int array[], int size, int i) {
-  if (size == 1) {
-    printf("Single element in the heap");
-  } else {
-    // Find the largest among root, left child and right child
-    int largest = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
-    if (l < size && array[l] > array[largest])
-      largest = l;
-    if (r < size && array[r] > array[largest])
-      largest = r;
+/*
+  Heapify function:
+  Ensures the max-heap property at index 'i' assuming subtrees are already heaps.
+  - Compares node with left and right children.
+  - If any child is larger, swap and continue heapifying down.
+*/
+void heapify(int heapArray[], int heapSize, int index) {
+  if (heapSize == 1) {
+    printf("Single element in the heap\n");
+    return;
+  }
 
-    // Swap and continue heapifying if root is not largest
-    if (largest != i) {
-      swap(&array[i], &array[largest]);
-      heapify(array, size, largest);
+  int largest = index;              // Initialize largest as root
+  int leftChild = 2 * index + 1;    // Left child index
+  int rightChild = 2 * index + 2;   // Right child index
+
+  // Compare left child with root
+  if (leftChild < heapSize && heapArray[leftChild] > heapArray[largest])
+    largest = leftChild;
+
+  // Compare right child with current largest
+  if (rightChild < heapSize && heapArray[rightChild] > heapArray[largest])
+    largest = rightChild;
+
+  // If root is not largest, swap with largest and recurse
+  if (largest != index) {
+    swap(&heapArray[index], &heapArray[largest]);
+    heapify(heapArray, heapSize, largest);
+  }
+}
+
+/*
+  Insert function:
+  Inserts a new element into the heap and restores max-heap property.
+  - Add new element at the end.
+  - Call heapify from bottom-up to restore heap.
+*/
+void insert(int heapArray[], int newElement) {
+  if (heapSize == 0) {
+    heapArray[0] = newElement;
+    heapSize += 1;
+  } else {
+    heapArray[heapSize] = newElement;
+    heapSize += 1;
+
+    // Re-heapify the tree
+    for (int i = heapSize / 2 - 1; i >= 0; i--) {
+      heapify(heapArray, heapSize, i);
     }
   }
 }
 
-// Function to insert an element into the tree
-void insert(int array[], int newNum) {
-  if (size == 0) {
-    array[0] = newNum;
-    size += 1;
-  } else {
-    array[size] = newNum;
-    size += 1;
-    for (int i = size / 2 - 1; i >= 0; i--) {
-      heapify(array, size, i);
-    }
-  }
-}
-
-// Function to delete an element from the tree
-void deleteRoot(int array[], int num) {
+/*
+  Delete function:
+  Deletes the element 'elementToDelete' from the heap.
+  - Find the element.
+  - Replace it with the last element.
+  - Reduce heap size and restore max-heap property.
+*/
+void deleteRoot(int heapArray[], int elementToDelete) {
   int i;
-  for (i = 0; i < size; i++) {
-    if (num == array[i])
+  for (i = 0; i < heapSize; i++) {
+    if (elementToDelete == heapArray[i])
       break;
   }
 
-  swap(&array[i], &array[size - 1]);
-  size -= 1;
-  for (int i = size / 2 - 1; i >= 0; i--) {
-    heapify(array, size, i);
+  // Swap with last element and reduce heap size
+  swap(&heapArray[i], &heapArray[heapSize - 1]);
+  heapSize -= 1;
+
+  // Re-heapify the tree
+  for (int i = heapSize / 2 - 1; i >= 0; i--) {
+    heapify(heapArray, heapSize, i);
   }
 }
 
-// Print the array
-void printArray(int array[], int size) {
-  for (int i = 0; i < size; ++i)
-    printf("%d ", array[i]);
+/*
+  Print function:
+  Prints all elements of the heap array.
+  Complexity: O(n)
+*/
+void printHeap(int heapArray[], int heapSize) {
+  for (int i = 0; i < heapSize; ++i)
+    printf("%d ", heapArray[i]);
   printf("\n");
 }
 
-// Driver code
+// Driver code to test Priority Queue implementation
 int main() {
-  int array[10];
+  int heapArray[10];  // Fixed-size array for heap
 
-  insert(array, 3);
-  insert(array, 4);
-  insert(array, 9);
-  insert(array, 5);
-  insert(array, 2);
+  // Insert elements
+  insert(heapArray, 3);
+  insert(heapArray, 4);
+  insert(heapArray, 9);
+  insert(heapArray, 5);
+  insert(heapArray, 2);
 
   printf("Max-Heap array: ");
-  printArray(array, size);
+  printHeap(heapArray, heapSize);
 
-  deleteRoot(array, 4);
+  // Delete an element
+  deleteRoot(heapArray, 4);
 
-  printf("After deleting an element: ");
+  printf("After deleting element 4: ");
+  printHeap(heapArray, heapSize);
 
-  printArray(array, size);
+  return 0;
 }
