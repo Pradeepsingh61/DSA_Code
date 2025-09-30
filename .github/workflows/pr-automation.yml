@@ -124,11 +124,25 @@ jobs:
           echo "passed=true" >> $GITHUB_OUTPUT
         fi
 
+  # Wait for all checks to complete
+  wait-for-checks:
+    name: ⏳ Wait for All Tests
+    runs-on: ubuntu-latest
+    needs: run-tests
+    if: always()
+
+    steps:
+    - name: Wait for other workflows
+      run: |
+        echo "⏳ Waiting for all validation and test workflows to complete..."
+        sleep 30
+        echo "✅ Proceeding with labeling and notifications"
+
   # Auto-labeling and first-time contributor welcome
   auto-label:
     name: 🏷️ Auto Label & Welcome
     runs-on: ubuntu-latest
-    needs: run-tests
+    needs: [run-tests, wait-for-checks]
     if: always()
 
     steps:
@@ -279,7 +293,7 @@ jobs:
   notify-status:
     name: 📢 Notify Status
     runs-on: ubuntu-latest
-    needs: [run-tests, auto-label]
+    needs: [run-tests, auto-label, wait-for-checks]
     if: always()
 
     steps:
