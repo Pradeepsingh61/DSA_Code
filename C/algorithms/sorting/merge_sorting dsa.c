@@ -1,6 +1,6 @@
 
 /*
- * Algorithm: Merge Sort
+ * Algorithm: Merge Sorting in dsa
  * Description: A divide-and-conquer sorting algorithm that recursively splits the array, sorts the halves, and merges them in order.
  * Time Complexity: O(n log n) for best, average, and worst cases
  * Space Complexity: O(n) due to temporary arrays used during merging
