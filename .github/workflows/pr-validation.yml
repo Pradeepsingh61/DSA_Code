@@ -71,9 +71,9 @@ jobs:
               ;;
           esac
 
-          # Check directory structure
+          # Check directory structure - must contain a valid category
           if [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
-            if [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects)/ ]]; then
+            if [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects) ]]; then
               invalid_files+=("$file: Should be in algorithms/, data_structures/, dynamic_programming/, or projects/ subdirectory")
             fi
           fi
