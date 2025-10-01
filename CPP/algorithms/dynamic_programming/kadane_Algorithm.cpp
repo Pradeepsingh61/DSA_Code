@@ -1,3 +1,20 @@
+/**
+ * Kadane's Algorithm - Maximum Subarray Sum (C++)
+ *
+ * Description:
+ * Finds the maximum possible sum of a contiguous subarray within a
+ * one-dimensional array of integers. Handles arrays with all-negative
+ * numbers as well. Provided are two variants:
+ *  - kadane: classic approach with an all-negative safeguard
+ *  - kadane_optimized: concise variant that naturally handles all-negative arrays
+ *
+ * Time Complexity:
+ *  - O(n), where n is the number of elements in the array (single pass)
+ *
+ * Space Complexity:
+ *  - O(1), constant extra space
+ */
+
 #include <vector>
 #include <algorithm>
 #include <climits>
