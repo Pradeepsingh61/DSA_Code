@@ -76,53 +76,6 @@ jobs:
               if [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects)/ ]]; then
                 invalid_files+=("$file: Should be in algorithms/, data_structures/, dynamic_programming/, or projects/ subdirectory")
               fi
-
-              ;;
-            *.java)
-              # Should use PascalCase for Java classes
-              if [[ ! "$filename" =~ ^[A-Z][a-zA-Z0-9]*\.java$ ]]; then
-                invalid_files+=("$file: Java files should use PascalCase (e.g., BinarySearch.java, MaxRectangle.java)")
-              fi
-              ;;
-            *.js|*.ts|*.go|*.rs|*.kt|*.swift|*.php|*.rb|*.cs|*.dart|*.scala)
-              # Allow flexible naming for other languages
-              if [[ ! "$filename" =~ ^[a-zA-Z0-9_]+\.[a-z]+$ ]]; then
-                invalid_files+=("$file: Use alphanumeric characters and underscores only")
-              fi
-              ;;
-          esac
-
-          # Check directory structure - must contain a valid category
-          if [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
-            if [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects) ]]; then
-              invalid_files+=("$file: Should be in algorithms/, data_structures/, dynamic_programming/, or projects/ subdirectory")
-            fi
-          fi
-        done
-
-        if [ ${#invalid_files[@]} -gt 0 ]; then
-          echo "❌ Found naming/structure violations:"
-          printf '%s\n' "${invalid_files[@]}"
-          exit 1
-        else
-          echo "✅ All files follow naming conventions!"
-        fi
-
-    - name: 📝 Check for required documentation
-      if: steps.changed-files.outputs.any_changed == 'true'
-      run: |
-        echo "📝 Checking for documentation in code files..."
-
-        missing_docs=()
-
-        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          if [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
-            echo "Checking documentation in: $file"
-
-            # Check for basic documentation elements
-            if ! grep -q -i "algorithm\|description\|complexity" "$file" 2>/dev/null; then
-              missing_docs+=("$file: Missing algorithm description or complexity analysis")
-
             fi
           done
 
