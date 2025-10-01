@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <algorithm>
 using namespace std;
 
 // Structure to represent a sparse matrix element
