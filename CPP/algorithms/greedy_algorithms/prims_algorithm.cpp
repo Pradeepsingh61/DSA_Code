@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void primMST(int V, vector<pair<int, int>> adj[])
+void primMST(int V, vector<vector<pair<int, int>>>& adj)
 {
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
@@ -57,7 +57,7 @@ void primMST(int V, vector<pair<int, int>> adj[])
     cout << "Total weight of MST: " << total_weight << endl;
 }
 
-void addEdge(vector<pair<int, int>> adj[], int u, int v, int w)
+void addEdge(vector<vector<pair<int, int>>>& adj, int u, int v, int w)
 {
     adj[u].push_back({v, w});
     adj[v].push_back({u, w});
@@ -66,7 +66,7 @@ void addEdge(vector<pair<int, int>> adj[], int u, int v, int w)
 int main()
 {
     int V = 5;
-    vector<pair<int, int>> adj[V];
+    vector<vector<pair<int, int>>> adj(V);
 
     addEdge(adj, 0, 1, 2);
     addEdge(adj, 0, 3, 6);
