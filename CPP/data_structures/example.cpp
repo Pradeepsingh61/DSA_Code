@@ -3,6 +3,7 @@
 using namespace std;
 
 // Simplified version for demonstration
+
 struct Element {
     int row, col, value;
     Element(int r, int c, int v) : row(r), col(c), value(v) {}
