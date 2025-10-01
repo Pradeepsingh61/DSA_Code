@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
 
 /*
 =====================================================
@@ -34,11 +32,13 @@ Overall: O(V + E)
 =====================================================
 */
 
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 private:
-    // Depth-First Search helper
     void dfs(int node, vector<int> adjacencyList[], vector<int>& visited) {
-        visited[node] = 1; // mark current city as visited
+        visited[node] = 1;
         for (auto neighbor : adjacencyList[node]) {
             if (!visited[neighbor]) {
                 dfs(neighbor, adjacencyList, visited);
@@ -48,7 +48,6 @@ private:
 
 public:
     int numProvinces(vector<vector<int>> adjacencyMatrix, int V) {
-        // Convert adjacency matrix to adjacency list
         vector<int> adjacencyList[V];
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
@@ -59,18 +58,32 @@ public:
             }
         }
 
-        // Visited array to track explored cities
         vector<int> visited(V, 0);
         int provinceCount = 0;
 
-        // Perform DFS for each unvisited city
         for (int i = 0; i < V; i++) {
             if (!visited[i]) {
                 provinceCount++;
                 dfs(i, adjacencyList, visited);
             }
         }
-
         return provinceCount;
     }
 };
+
+int main() {
+    Solution sol;
+
+    // Example adjacency matrix
+    vector<vector<int>> adjacencyMatrix = {
+        {1, 1, 0},
+        {1, 1, 0},
+        {0, 0, 1}
+    };
+
+    int V = adjacencyMatrix.size();
+    cout << "Number of Provinces: " << sol.numProvinces(adjacencyMatrix, V) << endl;
+
+    return 0;
+}
+
