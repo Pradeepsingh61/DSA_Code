@@ -1,6 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <climits>
+#include <iostream>
 
 int kadane(std::vector<int> &nums)
 {
@@ -61,4 +62,37 @@ int kadane_optimized(std::vector<int> &nums)
     }
 
     return max_so_far;
+}
+
+int main()
+{
+    // Test case 1: Mixed positive and negative numbers
+    std::vector<int> arr1 = {-2, -3, 4, -1, -2, 1, 5, -3};
+    std::cout << "Array 1: [-2, -3, 4, -1, -2, 1, 5, -3]" << std::endl;
+    std::cout << "Maximum subarray sum (kadane): " << kadane(arr1) << std::endl;
+    std::cout << "Maximum subarray sum (optimized): " << kadane_optimized(arr1) << std::endl;
+    std::cout << std::endl;
+
+    // Test case 2: All negative numbers
+    std::vector<int> arr2 = {-5, -2, -8, -1};
+    std::cout << "Array 2: [-5, -2, -8, -1]" << std::endl;
+    std::cout << "Maximum subarray sum (kadane): " << kadane(arr2) << std::endl;
+    std::cout << "Maximum subarray sum (optimized): " << kadane_optimized(arr2) << std::endl;
+    std::cout << std::endl;
+
+    // Test case 3: All positive numbers
+    std::vector<int> arr3 = {1, 2, 3, 4, 5};
+    std::cout << "Array 3: [1, 2, 3, 4, 5]" << std::endl;
+    std::cout << "Maximum subarray sum (kadane): " << kadane(arr3) << std::endl;
+    std::cout << "Maximum subarray sum (optimized): " << kadane_optimized(arr3) << std::endl;
+    std::cout << std::endl;
+
+    // Test case 4: Single element
+    std::vector<int> arr4 = {-3};
+    std::cout << "Array 4: [-3]" << std::endl;
+    std::cout << "Maximum subarray sum (kadane): " << kadane(arr4) << std::endl;
+    std::cout << "Maximum subarray sum (optimized): " << kadane_optimized(arr4) << std::endl;
+    std::cout << std::endl;
+
+    return 0;
 }
