@@ -1,81 +1,132 @@
-#include <stdio.h>
+/*
+ * Algorithm: Merge Sort
+ * Description: Divide-and-conquer sorting algorithm that divides array into halves,
+ *              sorts them separately, and merges them back together
+ * Time Complexity: O(n log n) for all cases
+ * Space Complexity: O(n) for temporary arrays
+ * Author: Abhijit
+ * Date: October 2025
+ * Hacktoberfest 2025
+ */
 
-// Function to merge two halves into a sorted array
+#include <stdio.h>
+#include <stdlib.h>
+
+/**
+ * Merges two subarrays of arr[]
+ * First subarray is arr[left..mid]
+ * Second subarray is arr[mid+1..right]
+ */
 void merge(int arr[], int left, int mid, int right) {
+    int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    // Temporary arrays
-    int L[n1], R[n2];
+    // Create temporary arrays
+    int *leftArray = (int*)malloc(n1 * sizeof(int));
+    int *rightArray = (int*)malloc(n2 * sizeof(int));
 
     // Copy data to temporary arrays
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
-        R[j] = arr[mid + 1 + j];
+    for (i = 0; i < n1; i++)
+        leftArray[i] = arr[left + i];
+    for (j = 0; j < n2; j++)
+        rightArray[j] = arr[mid + 1 + j];
 
     // Merge the temporary arrays back into arr[left..right]
-    int i = 0, j = 0, k = left;
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = left; // Initial index of merged subarray
+
     while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
+        if (leftArray[i] <= rightArray[j]) {
+            arr[k] = leftArray[i];
             i++;
         } else {
-            arr[k] = R[j];
+            arr[k] = rightArray[j];
             j++;
         }
         k++;
     }
 
-    // Copy remaining elements of L[], if any
+    // Copy the remaining elements of leftArray[], if any
     while (i < n1) {
-        arr[k] = L[i];
+        arr[k] = leftArray[i];
         i++;
         k++;
     }
 
-    // Copy remaining elements of R[], if any
+    // Copy the remaining elements of rightArray[], if any
     while (j < n2) {
-        arr[k] = R[j];
+        arr[k] = rightArray[j];
         j++;
         k++;
     }
+
+    // Free the temporary arrays
+    free(leftArray);
+    free(rightArray);
 }
 
-// Function to implement merge sort recursively
+/**
+ * Main function that sorts arr[left..right] using merge sort
+ */
 void mergeSort(int arr[], int left, int right) {
     if (left < right) {
+        // Find the middle point to divide the array into two halves
         int mid = left + (right - left) / 2;
 
-        // Sort first half
+        // Sort first and second halves
         mergeSort(arr, left, mid);
-        // Sort second half
         mergeSort(arr, mid + 1, right);
 
-        // Merge sorted halves
+        // Merge the sorted halves
         merge(arr, left, mid, right);
     }
 }
 
-int main() {
-    int n;
-    printf("Enter the number of elements: ");
-    scanf("%d", &n);
-
-    int arr[n];
-    printf("Enter %d elements:\n", n);
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-    }
-
-    // Call mergeSort on entire array
-    mergeSort(arr, 0, n - 1);
-
-    printf("Sorted array:\n");
+/**
+ * Utility function to print array elements
+ */
+void printArray(int arr[], int n) {
     for (int i = 0; i < n; i++) {
         printf("%d ", arr[i]);
     }
     printf("\n");
+}
+
+int main() {
+    int n;
+
+    // Prompt the user for the number of elements
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    if (n <= 0) {
+        printf("Invalid input! Number of elements must be positive.\n");
+        return 1;
+    }
+
+    int arr[n]; // Declare an array of size n
+
+    // Read the elements from the user
+    printf("Enter %d numbers: ", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("\nOriginal array: ");
+    printArray(arr, n);
+
+    mergeSort(arr, 0, n - 1);
+
+    printf("Sorted array:   ");
+    printArray(arr, n);
+
+    printf("\nAlgorithm Information:\n");
+    printf("- Time Complexity: O(n log n) for all cases\n");
+    printf("- Space Complexity: O(n) for temporary arrays\n");
+    printf("- Stable sorting algorithm\n");
+    printf("- Divide-and-conquer approach\n");
 
     return 0;
 }
