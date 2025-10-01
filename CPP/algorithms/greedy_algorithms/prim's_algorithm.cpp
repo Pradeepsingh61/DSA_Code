@@ -57,24 +57,24 @@ void primMST(int V, vector<pair<int, int>> adj[])
     cout << "Total weight of MST: " << total_weight << endl;
 }
 
+void addEdge(vector<pair<int, int>> adj[], int u, int v, int w)
+{
+    adj[u].push_back({v, w});
+    adj[v].push_back({u, w});
+}
+
 int main()
 {
     int V = 5;
     vector<pair<int, int>> adj[V];
 
-    auto addEdge = [&](int u, int v, int w)
-    {
-        adj[u].push_back({v, w});
-        adj[v].push_back({u, w});
-    };
-
-    addEdge(0, 1, 2);
-    addEdge(0, 3, 6);
-    addEdge(1, 2, 3);
-    addEdge(1, 3, 8);
-    addEdge(1, 4, 5);
-    addEdge(2, 4, 7);
-    addEdge(3, 4, 9);
+    addEdge(adj, 0, 1, 2);
+    addEdge(adj, 0, 3, 6);
+    addEdge(adj, 1, 2, 3);
+    addEdge(adj, 1, 3, 8);
+    addEdge(adj, 1, 4, 5);
+    addEdge(adj, 2, 4, 7);
+    addEdge(adj, 3, 4, 9);
 
     primMST(V, adj);
 
