@@ -1,13 +1,15 @@
-// User function Template for C++
+// Kruskal’s Algorithm using Disjoint Set (Union-Find)
 #include <algorithm>
-#include <numeric>
 #include <vector>
 #include <iostream>
+
+#include <bits/stdc++.h>
 using namespace std;
 
 /*
    Disjoint Set Union (Union-Find)
    Uses path compression + union by size
+   Time per operation ≈ O(α(V)) (almost constant)
 */
 class DisjointSet
 {
@@ -33,7 +35,7 @@ public:
   {
     int pu = findUPar(u), pv = findUPar(v);
     if (pu == pv)
-      return false; // already in same set
+      return false; // already in same set (cycle)
 
     if (size[pu] < size[pv])
       swap(pu, pv);
@@ -48,8 +50,17 @@ public:
    V = number of vertices
    edges = list of {u, v, wt}
    Returns total weight of MST
-*/
 
+   Time Complexity:
+   - Sorting edges: O(E log E)
+   - Union-Find ops: O(E * α(V)) ~ O(E)
+   Overall: O(E log E)
+
+   Space Complexity:
+   - DSU arrays: O(V)
+   - Edge list: O(E)
+   Total: O(V + E)
+*/
 int kruskalMST(int V, vector<vector<int>> &edges)
 {
   // Step 1: Sort edges by weight
@@ -92,6 +103,7 @@ int main()
   cout << "MST Weight = " << kruskalMST(V, edges) << "\n";
   return 0;
 }
+
 /*
 🔹 Visualization Example
 Input:
@@ -115,4 +127,7 @@ Step 2: Process edges
 
 Final MST Weight = 19
 Edges in MST = {(2,3), (0,3), (0,1)}
+
+Time Complexity = O(E log E)
+Space Complexity = O(V + E)
 */
