@@ -57,7 +57,10 @@ int main() {
 /*
 Time Complexity: O(log b)
 
-Space Complexity: O(1)
+Space Complexity:
+Recursive: O(log b) (stack calls)
+
+Iterative: O(1)
 */
 
 /*
