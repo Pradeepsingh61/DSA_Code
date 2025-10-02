@@ -6,6 +6,8 @@
  *              included at most once (0/1 property).
  * Time Complexity: O(n * W) where n = number of items, W = knapsack capacity
  * Space Complexity: O(n * W)
+ * Author: Saujanya Das
+ * Date: 2025-10-02
  */
 
 #include <iostream>
