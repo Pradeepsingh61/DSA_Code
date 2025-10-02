@@ -138,7 +138,7 @@ jobs:
         fi
 
         # Only warn about comments/tests for non-single-file PRs or if there are other critical issues
-        if [ ${#missing_comments[@]} -gt 0 ] && [ "$is_single_file" = false ] || [ "$critical_issues" -gt 0 ]; then
+        if [ ${#missing_comments[@]} -gt 0 ] && ([ "$is_single_file" = false ] || [ "$critical_issues" -gt 0 ]); then
           has_quality_issues=true
           quality_issues="${quality_issues}### ⚠️ Insufficient Comments\n\n"
           quality_issues="${quality_issues}These files have very few comments:\n"
@@ -148,7 +148,7 @@ jobs:
           quality_issues="${quality_issues}\n**Recommended:** Add inline comments explaining the logic and key steps\n\n"
         fi
 
-        if [ ${#missing_tests[@]} -gt 0 ] && [ "$is_single_file" = false ] || [ "$critical_issues" -gt 0 ]; then
+        if [ ${#missing_tests[@]} -gt 0 ] && ([ "$is_single_file" = false ] || [ "$critical_issues" -gt 0 ]); then
           has_quality_issues=true
           quality_issues="${quality_issues}### ⚠️ No Test Cases or Examples\n\n"
           quality_issues="${quality_issues}These files don't include test cases:\n"
@@ -179,9 +179,11 @@ jobs:
     - name: 💬 Post quality feedback
       if: steps.quality-check.outputs.issues_found == 'true'
       uses: actions/github-script@v7
+      env:
+        QUALITY_REPORT: ${{ steps.quality-check.outputs.quality_report }}
       with:
         script: |
-          const report = `${{ steps.quality-check.outputs.quality_report }}`;
+          const report = process.env.QUALITY_REPORT;
 
           // Check if we already commented about quality
           const comments = await github.rest.issues.listComments({
