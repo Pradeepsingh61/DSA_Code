@@ -1,5 +1,5 @@
 ### Abhi (Abhi)
-![Profile Picture](.../static/images/abhii.png)
+![Profile Picture](https://avatars.githubusercontent.com/u/33179956?v=4)
 - Full Stack Developer
 - CS Student
 - [Github Profile](https://github.com/cruiz24)
