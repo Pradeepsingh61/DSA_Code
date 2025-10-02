@@ -6,3 +6,4 @@
 
 ## Contribution
 - [Euclidean Algorithm](../../CPP/algorithms/mathematical/euclidean_algorithm.cpp)
+- [Aho-Corasick Algorithm](../../CPP/algorithms/mathematical/aho_corasick.cpp)

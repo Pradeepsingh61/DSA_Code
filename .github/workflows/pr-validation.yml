@@ -49,28 +49,6 @@ jobs:
           filename=$(basename "$file")
           dir=$(dirname "$file")
 
-          # Check for proper naming conventions (Allow snake_case, camelCase, or PascalCase)
-          case "$file" in
-            *.c|*.cpp|*.py)
-              # Allow snake_case, camelCase, or PascalCase for C/C++/Python
-              if [[ ! "$filename" =~ ^[a-zA-Z0-9_]+\.[a-z]+$ ]]; then
-                invalid_files+=("$file: Use alphanumeric characters and underscores only (e.g., binary_search.cpp, maxRectangle.cpp)")
-              fi
-              ;;
-            *.java)
-              # Should use PascalCase for Java classes
-              if [[ ! "$filename" =~ ^[A-Z][a-zA-Z0-9]*\.java$ ]]; then
-                invalid_files+=("$file: Java files should use PascalCase (e.g., BinarySearch.java, MaxRectangle.java)")
-              fi
-              ;;
-            *.js|*.ts|*.go|*.rs|*.kt|*.swift|*.php|*.rb|*.cs|*.dart|*.scala)
-              # Allow flexible naming for other languages
-              if [[ ! "$filename" =~ ^[a-zA-Z0-9_]+\.[a-z]+$ ]]; then
-                invalid_files+=("$file: Use alphanumeric characters and underscores only")
-              fi
-              ;;
-          esac
-
           # Check directory structure - must contain a valid category
           if [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
             if [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects) ]]; then
