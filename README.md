@@ -26,6 +26,8 @@ This repository serves as:
 
 📢 **Register [here](https://hacktoberfest.com/) for Hacktoberfest and make six pull requests (PRs) between October 1st-31st for exclusive T-shirt + Tree contribution! 🔥🌱**
 
+🌟 **Make Sure to Star the repository - We need 100 Stars to make it a 'worthy repository' ⭐⭐⭐**
+
 📖 **[Read our complete Hacktoberfest 2025 guide on dev.to](https://dev.to/karanjot786/join-hacktoberfest-2025-contribute-to-our-dsa-code-repository-7nb)** - Step-by-step instructions, tips, and everything you need to get started!
 
 ## 👥 Repository Maintainers
@@ -233,7 +235,7 @@ Python/
 [![Karanjot Singh](https://img.shields.io/badge/🛠️_Co--Admin-Karanjot786-green?style=flat&logo=github)](https://github.com/Karanjot786)
 
 #### **📊 Repository Stats:**
-🎯 **84+ Contributors** • 🔥 **200+ Commits** • 💻 **4+ Languages** • 🎃 **Hacktoberfest Ready**
+🎯 **97+ Contributors** • 🔥 **200+ Commits** • 💻 **4+ Languages** • 🎃 **Hacktoberfest Ready**
 
 [![Start Contributing](https://img.shields.io/badge/Start_Contributing-Now-brightgreen?style=for-the-badge&logo=github)](https://github.com/Pradeepsingh61/DSA_Code)
 [![View Full Hall of Fame](https://img.shields.io/badge/View_Full-Hall_of_Fame-gold?style=for-the-badge&logo=trophy)](./HALL_OF_FAME.md)
