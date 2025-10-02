@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <conio.h> // For _kbhit() and _getch() on Windows
 #include <thread>
 #include <chrono>
 using namespace std;
@@ -19,11 +18,11 @@ struct PointHash {
 
 class SnakeGame {
     int width, height;
-    deque<Point> snake;                // snake body
-    unordered_set<Point, PointHash> snakeSet; // for fast collision check
+    deque<Point> snake;                
+    unordered_set<Point, PointHash> snakeSet; 
     Point food;
     unordered_set<Point, PointHash> obstacles;
-    char dir;                          // 'w','a','s','d'
+    char dir;                          
     int score;
     bool gameOver;
 
@@ -72,7 +71,6 @@ public:
             case 'd': head.x++; break;
         }
 
-        // Check collisions
         if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height ||
             snakeSet.count(head) || obstacles.count(head)) {
             gameOver = true;
@@ -93,7 +91,7 @@ public:
     }
 
     void display() {
-        system("cls"); // For Windows, use "clear" on Linux
+        system("clear"); // Works on Linux/macOS; on Windows use "cls"
         for(int y=0;y<height;y++){
             for(int x=0;x<width;x++){
                 Point p = {x,y};
@@ -110,13 +108,12 @@ public:
 
     void run() {
         while(!gameOver) {
-            if (_kbhit()) {
-                char c = _getch();
-                changeDirection(c);
-            }
-            move();
             display();
-            this_thread::sleep_for(chrono::milliseconds(200));
+            cout << "Enter direction (w/a/s/d): ";
+            char c;
+            cin >> c;
+            changeDirection(c);
+            move();
         }
         cout << "Game Over! Final Score: " << score << endl;
     }
