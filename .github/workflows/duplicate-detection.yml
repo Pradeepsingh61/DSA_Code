@@ -1,0 +1,175 @@
+name: 🔍 Duplicate Detection
+
+on:
+  pull_request_target:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  check-duplicates:
+    name: 🔎 Check for Duplicate Files
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout base branch
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.base_ref }}
+
+    - name: 📥 Checkout PR branch
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        path: pr-code
+
+    - name: 🔍 Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        path: pr-code
+        files: |
+          C/**/*.c
+          CPP/**/*.cpp
+          Java/**/*.java
+          Python/**/*.py
+          JavaScript/**/*.js
+          Go/**/*.go
+          Rust/**/*.rs
+
+    - name: 🔎 Detect duplicate implementations
+      if: steps.changed-files.outputs.any_changed == 'true'
+      id: duplicate-check
+      run: |
+        echo "Checking for potential duplicates..."
+        duplicates=""
+        warnings=""
+
+        for new_file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          # Remove pr-code/ prefix
+          file_path="${new_file#pr-code/}"
+          filename=$(basename "$file_path")
+          base_name="${filename%.*}"
+
+          # Normalize filename (remove underscores, hyphens, convert to lowercase)
+          normalized=$(echo "$base_name" | tr '_-' ' ' | tr '[:upper:]' '[:lower:]')
+
+          echo "Checking: $file_path (normalized: $normalized)"
+
+          # Get directory and language
+          lang_dir=$(echo "$file_path" | cut -d'/' -f1)
+          category=$(echo "$file_path" | cut -d'/' -f2)
+
+          # Search for similar files in the same category across the main branch
+          echo "Searching in $lang_dir/$category/ for similar implementations..."
+
+          # Find files with similar names
+          similar_files=$(find "$lang_dir/$category" -type f 2>/dev/null | while read existing_file; do
+            existing_name=$(basename "$existing_file")
+            existing_base="${existing_name%.*}"
+            existing_normalized=$(echo "$existing_base" | tr '_-' ' ' | tr '[:upper:]' '[:lower:]')
+
+            # Check if normalized names match
+            if [ "$normalized" = "$existing_normalized" ]; then
+              echo "$existing_file"
+            fi
+          done)
+
+          if [ -n "$similar_files" ]; then
+            duplicates="${duplicates}**⚠️ Potential Duplicate:** \`$file_path\`\n"
+            duplicates="${duplicates}Similar file(s) already exist:\n"
+            while IFS= read -r similar; do
+              duplicates="${duplicates}- \`$similar\`\n"
+            done <<< "$similar_files"
+            duplicates="${duplicates}\n"
+          fi
+        done
+
+        # Save results
+        if [ -n "$duplicates" ]; then
+          echo "found=true" >> $GITHUB_OUTPUT
+          echo "duplicates<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$duplicates" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "found=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: 💬 Comment on PR if duplicates found
+      if: steps.duplicate-check.outputs.found == 'true'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const duplicates = `${{ steps.duplicate-check.outputs.duplicates }}`;
+
+          // Check if we already commented about duplicates
+          const comments = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number
+          });
+
+          const botComment = comments.data.find(comment =>
+            comment.user.type === 'Bot' && comment.body.includes('🔍 Duplicate Detection Results')
+          );
+
+          const comment = `## 🔍 Duplicate Detection Results
+
+          ### ⚠️ Potential Duplicates Found
+
+          ${ duplicates }
+
+          ### 📝 What This Means
+
+          We found existing implementations that appear similar to your contribution. This doesn't necessarily mean your PR will be rejected, but please review:
+
+          1. **Is this truly a duplicate?** Check the existing files to see if they implement the same algorithm
+          2. **Is your implementation different/better?** If so, explain in your PR description:
+             - What makes it different
+             - Why it's an improvement
+             - Any unique features or optimizations
+          3. **Consider improving existing code** instead of adding a duplicate
+
+          ### ✅ What To Do Next
+
+          - **If it's a duplicate:** Consider withdrawing this PR and improving the existing implementation
+          - **If it's different:** Add a clear explanation in your PR description about how it differs
+          - **If unsure:** Ask the maintainers for guidance!
+
+          ### 💡 Quality Over Quantity
+
+          Remember: One high-quality, unique contribution is worth more than multiple duplicates! 🌟
+
+          ---
+          *This is an automated check. Maintainers will make the final decision.*`;
+
+          // Only post if we haven't already commented
+          if (!botComment) {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+          } else {
+            // Update existing comment
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: comment
+            });
+          }
+
+    - name: ✅ Summary
+      run: |
+        if [ "${{ steps.duplicate-check.outputs.found }}" = "true" ]; then
+          echo "⚠️ Potential duplicates detected - please review"
+          echo "This is a warning, not a failure. Maintainers will review."
+        else
+          echo "✅ No duplicates detected - great job!"
+        fi
