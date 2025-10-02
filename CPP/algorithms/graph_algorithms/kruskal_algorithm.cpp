@@ -1,11 +1,8 @@
-// Kruskal’s Algorithm using Disjoint Set (Union-Find)
+// Kruskal’s Algorithm using Disjoint Set (Union-Find) to calculate the Cost of MST
 #include <algorithm>
 #include <vector>
 #include <iostream>
-
-#include <bits/stdc++.h>
 using namespace std;
-
 /*
    Disjoint Set Union (Union-Find)
    Uses path compression + union by size
