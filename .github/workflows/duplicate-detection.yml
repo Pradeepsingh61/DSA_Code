@@ -67,6 +67,12 @@ jobs:
           # Search for similar files in the same category across the main branch
           echo "Searching in $lang_dir/$category/ for similar implementations..."
 
+          # Check if directory exists in base branch
+          if [ ! -d "$lang_dir/$category" ]; then
+            echo "Directory $lang_dir/$category doesn't exist in base branch - this is a new contribution!"
+            continue
+          fi
+
           # Find files with similar names
           similar_files=$(find "$lang_dir/$category" -type f 2>/dev/null | while read existing_file; do
             existing_name=$(basename "$existing_file")
@@ -102,9 +108,11 @@ jobs:
     - name: 💬 Comment on PR if duplicates found
       if: steps.duplicate-check.outputs.found == 'true'
       uses: actions/github-script@v7
+      env:
+        DUPLICATES_REPORT: ${{ steps.duplicate-check.outputs.duplicates }}
       with:
         script: |
-          const duplicates = `${{ steps.duplicate-check.outputs.duplicates }}`;
+          const duplicates = process.env.DUPLICATES_REPORT;
 
           // Check if we already commented about duplicates
           const comments = await github.rest.issues.listComments({

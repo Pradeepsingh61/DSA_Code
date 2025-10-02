@@ -23,11 +23,15 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
+          // Get the head repository owner (handles forks correctly)
+          const headOwner = context.payload.workflow_run.head_repository?.owner?.login || context.repo.owner;
+          const headBranch = context.payload.workflow_run.head_branch;
+
           const pulls = await github.rest.pulls.list({
             owner: context.repo.owner,
             repo: context.repo.repo,
             state: 'open',
-            head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`
+            head: `${headOwner}:${headBranch}`
           });
 
           if (pulls.data.length > 0) {
@@ -70,11 +74,14 @@ jobs:
     - name: 💬 Post helpful error explanation
       if: steps.get-pr.outputs.result != 'null'
       uses: actions/github-script@v7
+      env:
+        PR_NUMBER: ${{ steps.get-pr.outputs.result }}
+        FAILURES_JSON: ${{ steps.get-logs.outputs.result }}
       with:
         script: |
-          const prNumber = ${{ steps.get-pr.outputs.result }};
+          const prNumber = parseInt(process.env.PR_NUMBER);
           const workflowName = context.payload.workflow_run.name;
-          const failures = JSON.parse(`${{ steps.get-logs.outputs.result }}`);
+          const failures = JSON.parse(process.env.FAILURES_JSON || '[]');
 
           let errorExplanation = '';
 
