@@ -339,7 +339,7 @@ Welcome to the **Hall of Fame**! This page celebrates all the amazing contributo
 
 | Metric | Count | Growth |
 |--------|-------|--------|
-| 👥 **Total Contributors** | 92+ Amazing Developers | 📈 +Growing Daily |
+| 👥 **Total Contributors** | 90+ Amazing Developers | 📈 +Growing Daily |
 | 📝 **Total Commits** | 200+ Quality Commits | 📈 +Active Development |
 | 🔥 **Algorithms Implemented** | 100+ Implementations | 📈 +Weekly Additions |
 | 🌍 **Languages Supported** | 4 (C, C++, Java, Python) | 📈 +Expanding |
@@ -410,7 +410,7 @@ Welcome to the **Hall of Fame**! This page celebrates all the amazing contributo
 
 #### 🙏 **Special Thanks to All Our 2024 Contributors**
 
-We extend our heartfelt gratitude to all **92+ contributors** who made this repository possible in 2024:
+We extend our heartfelt gratitude to all **90+ contributors** who made this repository possible in 2024:
 
 **🏆 Top Contributors (5+ commits):**
 - [@Pradeepsingh61](https://github.com/Pradeepsingh61) - 130 contributions 👑 **Project Founder**
