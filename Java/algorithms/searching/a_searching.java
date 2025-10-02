@@ -15,6 +15,7 @@
  * @since Hacktoberfest 2025
  */
 
+
 import java.util.*;
 
 public class a_searching {
