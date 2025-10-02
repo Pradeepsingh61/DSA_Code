@@ -235,7 +235,7 @@ Python/
 [![Karanjot Singh](https://img.shields.io/badge/🛠️_Co--Admin-Karanjot786-green?style=flat&logo=github)](https://github.com/Karanjot786)
 
 #### **📊 Repository Stats:**
-🎯 **99+ Contributors** • 🔥 **200+ Commits** • 💻 **4+ Languages** • 🎃 **Hacktoberfest Ready**
+🎯 **97+ Contributors** • 🔥 **200+ Commits** • 💻 **4+ Languages** • 🎃 **Hacktoberfest Ready**
 
 [![Start Contributing](https://img.shields.io/badge/Start_Contributing-Now-brightgreen?style=for-the-badge&logo=github)](https://github.com/Pradeepsingh61/DSA_Code)
 [![View Full Hall of Fame](https://img.shields.io/badge/View_Full-Hall_of_Fame-gold?style=for-the-badge&logo=trophy)](./HALL_OF_FAME.md)
