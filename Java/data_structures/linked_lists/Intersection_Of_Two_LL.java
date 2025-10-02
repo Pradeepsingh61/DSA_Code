@@ -1,15 +1,17 @@
 /**
  * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) {
- *         val = x;
- *         next = null;
- *     }
- * }
  */
-public class Solution {
+
+class ListNode {
+  int val;
+  ListNode next;
+  ListNode(int x) {
+    val = x;
+    next = null;
+  }
+}
+
+public class Intersection_Of_Two_LL {
   public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
     ListNode tempA = headA;
     ListNode tempB = headB;
@@ -45,5 +47,31 @@ public class Solution {
       tempB = tempB.next;
     }
     return null;
+  }
+
+  public static void main(String[] args) {
+    // Creating two intersecting linked lists:
+    // A: 1 -> 2 \
+    //             3 -> 4 -> 5
+    // B:    6  /
+    ListNode common = new ListNode(3);
+    common.next = new ListNode(4);
+    common.next.next = new ListNode(5);
+
+    ListNode headA = new ListNode(1);
+    headA.next = new ListNode(2);
+    headA.next.next = common;
+
+    ListNode headB = new ListNode(6);
+    headB.next = common;
+
+    Intersection_Of_Two_LL solution = new Intersection_Of_Two_LL();
+    ListNode intersection = solution.getIntersectionNode(headA, headB);
+
+    if (intersection != null) {
+      System.out.println("Intersection at node with value: " + intersection.val);
+    } else {
+      System.out.println("No intersection.");
+    }
   }
 }
