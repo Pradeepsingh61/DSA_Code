@@ -1,115 +1,72 @@
-import java.util.*;
+/**
+ * Binary Search Algorithm
+ *
+ * Description:
+ * Binary Search is a divide-and-conquer algorithm that efficiently searches 
+ * for a target value in a sorted array by repeatedly dividing the search 
+ * interval in half.
+ *
+ * Approach:
+ * - Start with two pointers (left and right).
+ * - Find the middle element.
+ * - If the middle element is the target, return its index.
+ * - If the target is smaller, search the left half.
+ * - If the target is larger, search the right half.
+ * - Repeat until the element is found or the interval is empty.
+ *
+ * Time Complexity: O(log n) - halves the search space each step
+ * Space Complexity: O(1) - uses only constant extra space
+ *
+ * Use Cases:
+ * - Searching in sorted lists/arrays
+ * - Used in libraries (like Arrays.binarySearch in Java)
+ * - Applied in optimization problems (searching answer space)
+ */
 
-class AStarSearch {
-    static class Node implements Comparable<Node> {
-        int x, y;
-        int g; 
-        int h; 
-        Node parent;
+import java.util.Arrays;
 
-        Node(int x, int y, int g, int h, Node parent) {
-            this.x = x;
-            this.y = y;
-            this.g = g;
-            this.h = h;
-            this.parent = parent;
-        }
+public class BinarySearch {
 
-        int f() {
-            return g + h;
-        }
+    // Iterative Binary Search
+    public static int binarySearch(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
 
-        @Override
-        public int compareTo(Node other) {
-            return Integer.compare(this.f(), other.f());
-        }
+        while (left <= right) {
+            int mid = left + (right - left) / 2;  // avoid overflow
 
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof Node)) return false;
-            Node other = (Node) obj;
-            return this.x == other.x && this.y == other.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-    }
-
-    private static int heuristic(int x1, int y1, int x2, int y2) {
-        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-    }
-
-    public static List<int[]> aStar(int[][] grid, int[] start, int[] goal) {
-        int rows = grid.length, cols = grid[0].length;
-        PriorityQueue<Node> openSet = new PriorityQueue<>();
-        Set<Node> closedSet = new HashSet<>();
-
-        Node startNode = new Node(start[0], start[1], 0, heuristic(start[0], start[1], goal[0], goal[1]), null);
-        openSet.add(startNode);
-
-        int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}}; 
-
-        while (!openSet.isEmpty()) {
-            Node current = openSet.poll();
-
-            if (current.x == goal[0] && current.y == goal[1]) {
-                List<int[]> path = new ArrayList<>();
-                while (current != null) {
-                    path.add(new int[]{current.x, current.y});
-                    current = current.parent;
-                }
-                Collections.reverse(path);
-                return path;
+            // Check if target found
+            if (arr[mid] == target) {
+                return mid;
             }
-
-            closedSet.add(current);
-
-            for (int[] dir : directions) {
-                int nx = current.x + dir[0], ny = current.y + dir[1];
-                if (nx < 0 || ny < 0 || nx >= rows || ny >= cols || grid[nx][ny] == 1)
-                    continue; 
-
-                Node neighbor = new Node(nx, ny, current.g + 1, heuristic(nx, ny, goal[0], goal[1]), current);
-
-                if (closedSet.contains(neighbor))
-                    continue;
-
-                boolean better = true;
-                for (Node node : openSet) {
-                    if (node.equals(neighbor) && node.g <= neighbor.g) {
-                        better = false;
-                        break;
-                    }
-                }
-                if (better) {
-                    openSet.add(neighbor);
-                }
+            // If target greater, ignore left half
+            else if (arr[mid] < target) {
+                left = mid + 1;
+            }
+            // If target smaller, ignore right half
+            else {
+                right = mid - 1;
             }
         }
-        return Collections.emptyList(); 
+        return -1; // target not found
     }
 
+    // Test cases
     public static void main(String[] args) {
-        int[][] grid = {
-            {0, 0, 0, 0, 0},
-            {1, 1, 0, 1, 0},
-            {0, 0, 0, 1, 0},
-            {0, 1, 1, 0, 0},
-            {0, 0, 0, 0, 0}
-        };
-        int[] start = {0, 0};
-        int[] goal = {4, 4};
+        int[] testArr = {1, 3, 5, 7, 9, 11};
 
-        List<int[]> path = aStar(grid, start, goal);
-        if (path.isEmpty()) {
-            System.out.println("No path found.");
-        } else {
-            System.out.println("Path:");
-            for (int[] p : path) {
-                System.out.println(Arrays.toString(p));
-            }
-        }
+        System.out.println("Array: " + Arrays.toString(testArr));
+
+        // Example tests
+        int target1 = 5;
+        System.out.println("Searching for " + target1 + ": Index = " +
+                binarySearch(testArr, target1)); // Expected 2
+
+        int target2 = 6;
+        System.out.println("Searching for " + target2 + ": Index = " +
+                binarySearch(testArr, target2)); // Expected -1 (not found)
+
+        int target3 = 11;
+        System.out.println("Searching for " + target3 + ": Index = " +
+                binarySearch(testArr, target3)); // Expected 5
     }
 }
