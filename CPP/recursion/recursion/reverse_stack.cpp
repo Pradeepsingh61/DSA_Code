@@ -1,26 +1,31 @@
-/******************************************************
- * Reverse a Stack using Recursion
+/****************************************
+ * @description: Reverse a Stack using Recursion
  *
  * Intuition:
  * - A stack only allows access to the top element.
- * - To reverse, we need the bottom element first, but we can’t directly access it.
- * - Recursion helps simulate going "deep" into the stack until it’s empty.
- * - When recursion starts to unwind, we insert each popped element at the bottom instead of the top.
- * - This gradually reverses the order of elements.
+ * - To reverse it, we need to place the bottom element first.
+ * - Recursion lets us remove elements until the stack is empty.
+ * - As recursion unwinds, each popped element is inserted at the bottom, reversing the stack.
  *
  * Approach:
- * - Base case: If the stack is empty → return.
- * - Pop the top element and store it.
- * - Recursively reverse the rest of the stack.
- * - Insert the popped element at the bottom:
- *     - Move all elements into a temporary stack.
- *     - Push the saved element.
- *     - Push everything back from the temporary stack.
- * - Continue until all elements are placed back in reversed order.
+ * - Base case: If the stack is empty, return.
+ * - Pop the top element and store it temporarily.
+ * - Recursively reverse the remaining stack.
+ * - Insert the stored element at the bottom using a temporary stack:
+ *     - Move all elements to a temporary stack.
+ *     - Push the saved element onto the main stack.
+ *     - Restore the elements from the temporary stack.
+ * - Repeat until all elements are back in reversed order.
  *
  * Complexity:
- * - Time: O(n^2)  (moving elements for each recursion)
- * - Space: O(n)   (recursion depth + temporary stack)
+ * - Time: O(n^2)
+ * - Space: O(n)
+ *
+ * Output:
+ * Original: 5 4 3 2 1
+ * Reversed: 1 2 3 4 5
+ ****************************************/
+
  * 
  * Output:
  * Original: 5 4 3 2 1 
