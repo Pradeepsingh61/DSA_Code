@@ -26,18 +26,6 @@
  * Reversed: 1 2 3 4 5
  ****************************************/
 
- * 
- * Output:
- * Original: 5 4 3 2 1 
- * Reversed: 1 2 3 4 5 
- *
- * Original: 51 12 42 
- * Reversed: 42 12 51 
- *
- * Original: 
- * Reversed:
- ******************************************************/
-
 #include <bits/stdc++.h>
 using namespace std;
 
