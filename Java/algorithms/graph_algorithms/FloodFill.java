@@ -3,8 +3,42 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Implements the Flood Fill algorithm using both DFS and BFS approaches.
- * LeetCode Problem 733: https://leetcode.com/problems/flood-fill/
+ * ✍️ Algorithm: Flood Fill (LeetCode 733)
+ * * 📖 Description:
+ * The Flood Fill algorithm is used to fill a connected region of a multi-dimensional array 
+ * with a specific color. Starting from a given seed pixel, it changes the color of all 
+ * pixels that are connected to it (4-directionally) and have the same original color.
+ *
+ * 💡 Approach & Methodology:
+ * This problem can be solved using standard graph traversal algorithms. The grid of pixels
+ * is treated as a graph where each pixel is a node and adjacent pixels with the same color
+ * have an edge between them.
+ * This file provides two common implementations:
+ * 1.  DFS (Depth-First Search): A recursive approach that explores as far as possible down
+ * each path before backtracking. It's concise and elegant.
+ * 2.  BFS (Breadth-First Search): An iterative approach using a queue that explores all
+ * neighboring pixels level by level. It's useful for finding the shortest path but
+ * works equally well here.
+ *
+ * 📊 Complexity Analysis:
+ * Let N be the number of rows and M be the number of columns in the image.
+ * * - Time Complexity: O(N * M)
+ * In the worst-case scenario, the algorithm has to visit every pixel in the grid once
+ * to check its color and potentially change it. Both DFS and BFS ensure that each
+ * pixel is processed at most once.
+ *
+ * - Space Complexity: O(N * M)
+ * - DFS: The space complexity is determined by the maximum depth of the recursion stack.
+ * In the worst case (e.g., a long, snake-like path), the recursion depth could be
+ * proportional to the total number of pixels.
+ * - BFS: The space complexity is determined by the maximum size of the queue. In the
+ * worst case (e.g., a checkerboard pattern), the queue could hold a significant
+ * fraction of the pixels.
+ *
+ * 🎯 Use Cases & Applications:
+ * - "Paint Bucket" tool in image editing software (e.g., Photoshop, MS Paint).
+ * - Finding connected components in a grid or matrix.
+ * - Pathfinding and solving maze puzzles in games.
  */
 public class FloodFill {
 
@@ -128,7 +162,7 @@ public class FloodFill {
     }
 
     //=========================================================================
-    // Main method for demonstration and testing
+    // Main method for demonstration and testing (Test Cases)
     //=========================================================================
 
     public static void main(String[] args) {
@@ -151,11 +185,11 @@ public class FloodFill {
 
         System.out.println("--- BFS Approach ---");
         int[][] image2 = {
-            {1, 1, 1},
-            {1, 1, 0},
-            {1, 0, 1}
+            {0, 0, 0},
+            {0, 1, 1},
+            {0, 1, 1}
         };
-        int sr2 = 1, sc2 = 1, color2 = 2;
+        int sr2 = 1, sc2 = 1, color2 = 5;
         System.out.println("Original Image:");
         printImage(image2);
         int[][] resultBFS = solver.floodFillBFS(image2, sr2, sc2, color2);
