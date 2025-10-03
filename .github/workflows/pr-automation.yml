@@ -245,12 +245,33 @@ jobs:
           Welcome to the community! 🚀
           `;
 
-            await github.rest.issues.createComment({
+            // Check if we already posted a welcome message
+            const comments = await github.rest.issues.listComments({
               owner,
               repo,
-              issue_number: number,
-              body: welcomeMessage
+              issue_number: number
             });
+
+            const welcomeComment = comments.data.find(comment =>
+              comment.user.type === 'Bot' && comment.body.includes('Welcome to Hacktoberfest 2025')
+            );
+
+            // Only post if we haven't already commented, otherwise update
+            if (!welcomeComment) {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: welcomeMessage
+              });
+            } else {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: welcomeComment.id,
+                body: welcomeMessage
+              });
+            }
           }
 
   # Request review from maintainers
@@ -333,9 +354,30 @@ jobs:
           statusMessage += '---\n';
           statusMessage += '*This comment was generated automatically. Checks will re-run when you push new commits.*';
 
-          await github.rest.issues.createComment({
+          // Check if we already posted a status comment
+          const comments = await github.rest.issues.listComments({
             owner,
             repo,
-            issue_number: number,
-            body: statusMessage
+            issue_number: number
           });
+
+          const statusComment = comments.data.find(comment =>
+            comment.user.type === 'Bot' && comment.body.includes('Automated PR Status')
+          );
+
+          // Only post if we haven't already commented, otherwise update
+          if (!statusComment) {
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: statusMessage
+            });
+          } else {
+            await github.rest.issues.updateComment({
+              owner,
+              repo,
+              comment_id: statusComment.id,
+              body: statusMessage
+            });
+          }

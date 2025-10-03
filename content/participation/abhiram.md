@@ -6,3 +6,6 @@
 
 ## Contribution
 - [Euclidean Algorithm](../../CPP/algorithms/mathematical/euclidean_algorithm.cpp)
+- [Aho-Corasick Algorithm](../../CPP/algorithms/mathematical/aho_corasick.cpp)
+- [Finite automaton Search](../../Python/algorithms/string_algorithms/finite_automaton_pattern_search.py)
+- [Aho-Corasick Algorithm](../../CPP/algorithms/mathematical/aho_corasick.cpp)
