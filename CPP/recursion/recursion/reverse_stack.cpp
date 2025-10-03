@@ -1,11 +1,36 @@
 /******************************************************
  * Reverse a Stack using Recursion
  *
- * Method:
- * 1. Take out the top element.
- * 2. Recursively reverse the rest of the stack.
- * 3. Use a temporary stack to move elements,
- *    then place the removed element at the bottom.
+ * Intuition:
+ * - A stack only allows access to the top element.
+ * - To reverse, we need the bottom element first, but we can’t directly access it.
+ * - Recursion helps simulate going "deep" into the stack until it’s empty.
+ * - When recursion starts to unwind, we insert each popped element at the bottom instead of the top.
+ * - This gradually reverses the order of elements.
+ *
+ * Approach:
+ * - Base case: If the stack is empty → return.
+ * - Pop the top element and store it.
+ * - Recursively reverse the rest of the stack.
+ * - Insert the popped element at the bottom:
+ *     - Move all elements into a temporary stack.
+ *     - Push the saved element.
+ *     - Push everything back from the temporary stack.
+ * - Continue until all elements are placed back in reversed order.
+ *
+ * Complexity:
+ * - Time: O(n^2)  (moving elements for each recursion)
+ * - Space: O(n)   (recursion depth + temporary stack)
+ * 
+ * Output:
+ * Original: 5 4 3 2 1 
+ * Reversed: 1 2 3 4 5 
+ *
+ * Original: 51 12 42 
+ * Reversed: 42 12 51 
+ *
+ * Original: 
+ * Reversed:
  ******************************************************/
 
 #include <bits/stdc++.h>
@@ -99,36 +124,3 @@ int main() {
 
     return 0;
 }
-
-/****************************************
- * Output:
- * Original: 5 4 3 2 1 
- * Reversed: 1 2 3 4 5 
- *
- * Original: 51 12 42 
- * Reversed: 42 12 51 
- *
- * Original: 
- * Reversed:
- *
- * Intuition:
- * - A stack only allows access to the top element.
- * - To reverse, we need the bottom element first, but we can’t directly access it.
- * - Recursion helps simulate going "deep" into the stack until it’s empty.
- * - When recursion starts to unwind, we insert each popped element at the bottom instead of the top.
- * - This gradually reverses the order of elements.
- *
- * Approach:
- * - Base case: If the stack is empty → return.
- * - Pop the top element and store it.
- * - Recursively reverse the rest of the stack.
- * - Insert the popped element at the bottom:
- *     - Move all elements into a temporary stack.
- *     - Push the saved element.
- *     - Push everything back from the temporary stack.
- * - Continue until all elements are placed back in reversed order.
- *
- * Complexity:
- * - Time: O(n^2)  (moving elements for each recursion)
- * - Space: O(n)   (recursion depth + temporary stack)
- ****************************************/
