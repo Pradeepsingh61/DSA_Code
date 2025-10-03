@@ -1,30 +1,17 @@
 /****************************************
- * @description: Reverse a Stack using Recursion
- *
- * Intuition:
- * - A stack only allows access to the top element.
- * - To reverse it, we need to place the bottom element first.
- * - Recursion lets us remove elements until the stack is empty.
- * - As recursion unwinds, each popped element is inserted at the bottom, reversing the stack.
- *
- * Approach:
- * - Base case: If the stack is empty, return.
- * - Pop the top element and store it temporarily.
- * - Recursively reverse the remaining stack.
- * - Insert the stored element at the bottom using a temporary stack:
- *     - Move all elements to a temporary stack.
- *     - Push the saved element onto the main stack.
- *     - Restore the elements from the temporary stack.
- * - Repeat until all elements are back in reversed order.
- *
- * Complexity:
- * - Time: O(n^2)
- * - Space: O(n)
- *
- * Output:
- * Original: 5 4 3 2 1
- * Reversed: 1 2 3 4 5
- ****************************************/
+*Reverse a Stack using Recursion
+*
+* Description: Reverses a stack using recursion without loops. 
+* Removes the top element recursively until the stack is empty 
+* and inserts each element at the bottom to reverse the stack.
+
+* Time Complexity: O(n^2) - each element may require moving n elements into/out of a temporary stack
+* Space Complexity: O(n) - recursion depth + temporary stack
+
+* Output:
+* Original: 5 4 3 2 1
+* Reversed: 1 2 3 4 5
+****************************************/
 
 #include <bits/stdc++.h>
 using namespace std;
