@@ -33,7 +33,7 @@ class ListNode {
   }
 }
 
-public class Multiply_TwoNumbers_LL {
+public class Multiply_TwoNums_LL {
 
   /**
    * Multiplies two numbers represented as linked lists
@@ -140,7 +140,7 @@ public class Multiply_TwoNumbers_LL {
     l2.next = new ListNode(6);
     l2.next.next = new ListNode(5);
 
-    MultiplyTwoNumbersLL mt = new MultiplyTwoNumbersLL();
+    Multiply_TwoNums_LL mt = new Multiply_TwoNums_LL();
     ListNode result = mt.multiplyTwoNumbers(l1, l2);
 
     System.out.print("Product: ");
