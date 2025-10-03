@@ -1,4 +1,4 @@
-
+# linked_list_demo.py
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Iterable, Iterator, Optional
@@ -21,7 +21,7 @@ class LinkedList:
         self.tail: Optional[Node] = None
         self._size: int = 0
 
- 
+    # ---------- Core helpers ----------
     def __len__(self) -> int:
         return self._size
 
@@ -41,13 +41,14 @@ class LinkedList:
             ll.append(x)
         return ll
 
+    # ---------- Operations ----------
     def append(self, value: Any) -> None:
         """Add to the end. O(1)."""
         node = Node(value)
         if not self.head:
             self.head = self.tail = node
         else:
-            assert self.tail is not None  
+            assert self.tail is not None  # for type checkers
             self.tail.next = node
             self.tail = node
         self._size += 1
@@ -114,7 +115,7 @@ class LinkedList:
             self.head = self.tail = None
             self._size = 0
             return val
-      
+        # find penultimate
         prev = self.head
         curr = self.head.next
         while curr and curr is not self.tail:
@@ -147,7 +148,7 @@ class LinkedList:
             curr = nxt
         self.head = prev
 
-    
+    # ---------- Internal ----------
     def _node_at(self, index: int) -> Node:
         """Return node at index in [0, len-1]."""
         if index < 0 or index >= self._size:
