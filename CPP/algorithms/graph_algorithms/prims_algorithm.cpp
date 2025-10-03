@@ -1,6 +1,6 @@
 // Prim’s Algorithm — Minimum Spanning Tree (MST)
 // Problem
-//   Given a weighted, undirected graph, find a subset of edges 
+//   Given a weighted, undirected graph, find a subset of edges
 //   that connects all vertices with minimum total weight without cycles.
 //
 // Approach
@@ -28,61 +28,70 @@
 #include <limits>
 using namespace std;
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+int main()
+{
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
 
-    int V, E;
-    cin >> V >> E;
-    vector<vector<pair<int,int>>> adj(V);
+  int V, E;
+  cin >> V >> E;
+  vector<vector<pair<int, int>>> adj(V);
 
-    for (int i = 0; i < E; i++) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        adj[u].push_back({v, w});
-        adj[v].push_back({u, w}); // undirected graph
+  
+  for (int i = 0; i < E; i++)
+  {
+    int u, v, w;
+    cin >> u >> v >> w;
+    adj[u].push_back({v, w});
+    adj[v].push_back({u, w}); // undirected graph
+  }
+
+  const int INF = numeric_limits<int>::max();
+  vector<int> key(V, INF);      // minimum edge weight to MST
+  vector<int> parent(V, -1);    // store MST edges
+  vector<bool> inMST(V, false); // track vertices included
+
+  priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+
+  int start = 0;
+  key[start] = 0;
+  pq.push({0, start});
+
+  while (!pq.empty())
+  {
+    int w = pq.top().first;
+    int u = pq.top().second;
+    pq.pop();
+    if (inMST[u])
+      continue;
+
+    inMST[u] = true;
+
+    for (auto &edge : adj[u])
+    {
+      int v = edge.first, weight = edge.second;
+      if (!inMST[v] && weight < key[v])
+      {
+        key[v] = weight;
+        parent[v] = u;
+        pq.push({key[v], v});
+      }
     }
+  }
 
-    const int INF = numeric_limits<int>::max();
-    vector<int> key(V, INF);       // minimum edge weight to MST
-    vector<int> parent(V, -1);     // store MST edges
-    vector<bool> inMST(V, false);  // track vertices included
-
-    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;
-
-    int start = 0;
-    key[start] = 0;
-    pq.push({0, start});
-
-    while (!pq.empty()) {
-        int w = pq.top().first; 
-        int u = pq.top().second;
-        pq.pop();
-        if (inMST[u]) continue;
-
-        inMST[u] = true;
-
-        for (auto &edge : adj[u]) {
-            int v = edge.first, weight = edge.second;
-            if (!inMST[v] && weight < key[v]) {
-                key[v] = weight;
-                parent[v] = u;
-                pq.push({key[v], v});
-            }
-        }
+  int totalWeight = 0;
+  cout << "Edges in MST:\n";
+  for (int v = 0; v < V; v++)
+  {
+    if (parent[v] != -1)
+    {
+      cout << parent[v] << " - " << v << " (weight " << key[v] << ")\n";
+      totalWeight += key[v];
     }
+  }
+  cout << "Total MST weight: " << totalWeight << "\n";
 
-    int totalWeight = 0;
-    cout << "Edges in MST:\n";
-    for (int v = 0; v < V; v++) {
-        if (parent[v] != -1) {
-            cout << parent[v] << " - " << v << " (weight " << key[v] << ")\n";
-            totalWeight += key[v];
-        }
-    }
-    cout << "Total MST weight: " << totalWeight << "\n";
-
-    return 0;
+  return 0;
 }
 
 /*
@@ -105,7 +114,7 @@ Graph:
       \   /   \
         3       4
         (9)    (7)
-        
+
 Step-by-step Execution:
 Start from 0:
 - Include 0 → candidate edges: 0→1(2), 0→3(6)
@@ -132,3 +141,5 @@ Space : O(V+E)
 // add: Prim PR
 
 // prepare Prim PR
+
+// prepare PR
