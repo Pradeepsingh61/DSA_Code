@@ -1,23 +1,22 @@
 """
-Trie (Prefix Tree) Data Structure
-----------------------------------
+Trie (Prefix Tree) Algorithm
 
-🔍 Problem:
-Efficiently store and retrieve strings, especially useful for prefix-based queries like autocomplete.
+📌 Description:
+A Trie is a tree-like data structure used to efficiently store and retrieve strings, especially useful for prefix-based queries. Each node represents a character, and paths from root to leaf form words. It supports fast insertions, lookups, and prefix checks.
 
-📈 Time Complexity:
-- Insert: O(L)
-- Search: O(L)
-- startsWith: O(P)
-Where L = length of word, P = length of prefix
-
-📦 Space Complexity:
-- O(N * A) where N = number of nodes, A = alphabet size
-
-👨‍💻 Use Cases:
+🔍 Use Cases:
 - Autocomplete systems
 - Spell checkers
 - Dictionary word lookups
+- IP routing and longest prefix match
+
+📈 Time Complexity:
+- Insert: O(L) — where L is the length of the word
+- Search: O(L)
+- startsWith: O(P) — where P is the length of the prefix
+
+📦 Space Complexity:
+- O(N * A) — N = number of nodes, A = alphabet size
 """
 
 class TrieNode:
