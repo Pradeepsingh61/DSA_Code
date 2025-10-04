@@ -8,6 +8,22 @@ import java.util.*;
  * Computes shortest distances from a source vertex to all other vertices in an unweighted graph
  * using Breadth-First Search (BFS).
  */
+/**
+ * ShortestPathBFS
+ *
+ * Description:
+ * Computes the shortest distance from a source vertex to all other vertices
+ * in an unweighted graph using Breadth-First Search (BFS).
+ *
+ * Time Complexity: O(V + E)
+ *   - V = number of vertices
+ *   - E = number of edges
+ *   - Each vertex and edge is visited once during BFS traversal
+ *
+ * Space Complexity: O(V)
+ *   - Stores distance array, visited array, and BFS queue
+ */
+
 public class ShortestPathBFS {
 
     /**
