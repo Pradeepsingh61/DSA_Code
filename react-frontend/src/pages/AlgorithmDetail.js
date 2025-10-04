@@ -82,6 +82,180 @@ const AlgorithmDetail = () => {
         'Comprehensive test cases',
         'Memory efficient implementation'
       ]
+    },
+    'quick-sort': {
+      id: 'quick-sort',
+      name: 'Quick Sort',
+      category: 'sorting',
+      language: 'Java',
+      difficulty: 'Medium',
+      description: 'Quick Sort is a highly efficient divide-and-conquer sorting algorithm. It works by selecting a pivot element and partitioning the array around it, then recursively sorting the sub-arrays.',
+      timeComplexity: 'O(n log n)',
+      spaceComplexity: 'O(log n)',
+      path: 'Java/algorithms/sorting/QuickSort.java',
+      tags: ['sorting', 'divide-conquer', 'in-place', 'recursive'],
+      operations: ['sort', 'partition', 'quickSelect'],
+      author: 'contributor',
+      lastUpdated: '2024-10-01',
+      applications: [
+        'General purpose sorting',
+        'Database query optimization',
+        'Selection algorithms (finding kth element)',
+        'Competitive programming',
+        'System sorting utilities'
+      ],
+      keyFeatures: [
+        'Average O(n log n) time complexity',
+        'In-place sorting algorithm',
+        'Divide and conquer approach',
+        'Efficient for large datasets',
+        'Cache-friendly implementation'
+      ]
+    },
+    'binary-search': {
+      id: 'binary-search',
+      name: 'Binary Search',
+      category: 'searching',
+      language: 'Java',
+      difficulty: 'Easy',
+      description: 'Binary Search is an efficient algorithm for finding an item from a sorted list of items. It works by repeatedly dividing the search interval in half.',
+      timeComplexity: 'O(log n)',
+      spaceComplexity: 'O(1)',
+      path: 'Java/algorithms/BinarySearch.java',
+      tags: ['searching', 'sorted-array', 'logarithmic', 'iterative'],
+      operations: ['search', 'findFirst', 'findLast', 'findInsertPosition'],
+      author: 'contributor',
+      lastUpdated: '2024-09-28',
+      applications: [
+        'Searching in sorted arrays',
+        'Finding insertion points',
+        'Range queries',
+        'Database indexing',
+        'Library search functions'
+      ],
+      keyFeatures: [
+        'Logarithmic time complexity',
+        'Works only on sorted data',
+        'Space efficient O(1)',
+        'Simple implementation',
+        'Foundation for many algorithms'
+      ]
+    },
+    'dijkstra-algorithm': {
+      id: 'dijkstra-algorithm',
+      name: 'Dijkstra Algorithm',
+      category: 'graph',
+      language: 'Java',
+      difficulty: 'Hard',
+      description: 'Dijkstra\'s algorithm finds the shortest paths between nodes in a graph. It uses a priority queue to always process the closest unvisited vertex.',
+      timeComplexity: 'O((V + E) log V)',
+      spaceComplexity: 'O(V)',
+      path: 'Java/algorithms/graph_algorithms/DijkstraAlgorithm.java',
+      tags: ['graph', 'shortest-path', 'weighted', 'greedy'],
+      operations: ['findShortestPath', 'relaxEdges', 'extractMin', 'updateDistance'],
+      author: 'contributor',
+      lastUpdated: '2024-09-25',
+      applications: [
+        'GPS navigation systems',
+        'Network routing protocols',
+        'Social network analysis',
+        'Game pathfinding',
+        'Flight connection systems'
+      ],
+      keyFeatures: [
+        'Finds shortest path in weighted graphs',
+        'Uses priority queue for efficiency',
+        'Greedy algorithm approach',
+        'Works with non-negative weights',
+        'Optimal substructure property'
+      ]
+    },
+    'a-star-search': {
+      id: 'a-star-search',
+      name: 'A* Search',
+      category: 'graph',
+      language: 'Java',
+      difficulty: 'Hard',
+      description: 'A* (A-star) is a graph traversal and path search algorithm that uses heuristics to find the optimal path. It combines the benefits of Dijkstra\'s algorithm and Greedy Best-First Search.',
+      timeComplexity: 'O(b^d)',
+      spaceComplexity: 'O(b^d)',
+      path: 'Java/algorithms/graph_algorithms/AStarSearch.java',
+      tags: ['graph', 'pathfinding', 'heuristic', 'ai', 'optimal'],
+      operations: ['findPath', 'heuristic', 'reconstructPath', 'fScore', 'gScore'],
+      author: 'contributor',
+      lastUpdated: '2024-09-20',
+      applications: [
+        'Video game AI pathfinding',
+        'Robotics navigation',
+        'Route planning applications',
+        'Puzzle solving algorithms',
+        'AI search problems'
+      ],
+      keyFeatures: [
+        'Optimal pathfinding with heuristics',
+        'Combines Dijkstra and Greedy approaches',
+        'Uses f(n) = g(n) + h(n) evaluation',
+        'Admissible heuristic guarantees optimality',
+        'Widely used in AI applications'
+      ]
+    },
+    'merge-sort': {
+      id: 'merge-sort',
+      name: 'Merge Sort',
+      category: 'sorting',
+      language: 'Python',
+      difficulty: 'Medium',
+      description: 'Merge Sort is a stable, divide-and-conquer sorting algorithm that divides the array into halves, sorts them separately, and then merges them back together.',
+      timeComplexity: 'O(n log n)',
+      spaceComplexity: 'O(n)',
+      path: 'Python/algorithms/sorting/merge_sort.py',
+      tags: ['sorting', 'stable', 'divide-conquer', 'recursive'],
+      operations: ['sort', 'merge', 'divide', 'conquer'],
+      author: 'contributor',
+      lastUpdated: '2024-09-15',
+      applications: [
+        'External sorting for large datasets',
+        'Stable sorting requirements',
+        'Parallel processing applications',
+        'Merge operations in databases',
+        'Version control systems'
+      ],
+      keyFeatures: [
+        'Guaranteed O(n log n) performance',
+        'Stable sorting algorithm',
+        'Predictable performance',
+        'Parallelizable algorithm',
+        'Good for linked lists'
+      ]
+    },
+    'heap-sort': {
+      id: 'heap-sort',
+      name: 'Heap Sort',
+      category: 'sorting',
+      language: 'C++',
+      difficulty: 'Medium',
+      description: 'Heap Sort is a comparison-based sorting algorithm that uses a binary heap data structure. It builds a max heap and repeatedly extracts the maximum element.',
+      timeComplexity: 'O(n log n)',
+      spaceComplexity: 'O(1)',
+      path: 'CPP/algorithms/sorting/heap_sort.cpp',
+      tags: ['sorting', 'heap', 'in-place', 'comparison-based'],
+      operations: ['sort', 'heapify', 'buildHeap', 'extractMax'],
+      author: 'contributor',
+      lastUpdated: '2024-09-10',
+      applications: [
+        'Priority queue implementation',
+        'Selection algorithms',
+        'Memory-constrained environments',
+        'Real-time systems',
+        'Embedded systems programming'
+      ],
+      keyFeatures: [
+        'In-place sorting algorithm',
+        'Guaranteed O(n log n) performance',
+        'Not stable but consistent',
+        'Uses heap data structure',
+        'Memory efficient'
+      ]
     }
   };
 
@@ -114,10 +288,10 @@ const AlgorithmDetail = () => {
   }, [id, fetchFileContent]);
 
   const getFallbackCode = (algorithmId) => {
-    if (algorithmId === 'fenwick-tree') {
-      return `/**
+    switch (algorithmId) {
+      case 'fenwick-tree':
+        return `/**
  * Fenwick Tree (Binary Indexed Tree) Implementation in Java
- * 
  * Time Complexity: O(log n) for all operations
  * Space Complexity: O(n)
  */
@@ -153,8 +327,372 @@ public class FenwickTree {
         return sum;
     }
 }`;
+
+      case 'matrix-multiplication':
+        return `/**
+ * Matrix Multiplication Implementation in Java
+ * Time Complexity: O(m×n×p)
+ * Space Complexity: O(m×p)
+ */
+public class MatrixMultiplication {
+    
+    public static int[][] multiply(int[][] A, int[][] B) {
+        int m = A.length;
+        int n = A[0].length;
+        int p = B[0].length;
+        
+        // Validate dimensions
+        if (n != B.length) {
+            throw new IllegalArgumentException("Invalid matrix dimensions");
+        }
+        
+        int[][] result = new int[m][p];
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < p; j++) {
+                for (int k = 0; k < n; k++) {
+                    result[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+        
+        return result;
     }
-    return '// Code loading...';
+    
+    public static void displayMatrix(int[][] matrix) {
+        for (int[] row : matrix) {
+            for (int element : row) {
+                System.out.print(element + " ");
+            }
+            System.out.println();
+        }
+    }
+}`;
+
+      case 'quick-sort':
+        return `/**
+ * Quick Sort Implementation in Java
+ * Time Complexity: O(n log n) average, O(n²) worst
+ * Space Complexity: O(log n)
+ */
+public class QuickSort {
+    
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+    
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = (low - 1);
+        
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        
+        swap(arr, i + 1, high);
+        return i + 1;
+    }
+    
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}`;
+
+      case 'binary-search':
+        return `/**
+ * Binary Search Implementation in Java
+ * Time Complexity: O(log n)
+ * Space Complexity: O(1)
+ */
+public class BinarySearch {
+    
+    public static int binarySearch(int[] arr, int target) {
+        int left = 0;
+        int right = arr.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (arr[mid] == target) {
+                return mid;
+            }
+            
+            if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return -1; // Element not found
+    }
+    
+    public static int findFirst(int[] arr, int target) {
+        int result = -1;
+        int left = 0, right = arr.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (arr[mid] == target) {
+                result = mid;
+                right = mid - 1; // Continue searching left
+            } else if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return result;
+    }
+}`;
+
+      case 'dijkstra-algorithm':
+        return `/**
+ * Dijkstra's Algorithm Implementation in Java
+ * Time Complexity: O((V + E) log V)
+ * Space Complexity: O(V)
+ */
+import java.util.*;
+
+public class DijkstraAlgorithm {
+    
+    static class Edge {
+        int destination, weight;
+        
+        Edge(int destination, int weight) {
+            this.destination = destination;
+            this.weight = weight;
+        }
+    }
+    
+    public static int[] dijkstra(List<List<Edge>> graph, int source) {
+        int V = graph.size();
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[source] = 0;
+        
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        pq.offer(new int[]{source, 0});
+        
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int u = current[0];
+            
+            for (Edge edge : graph.get(u)) {
+                int v = edge.destination;
+                int weight = edge.weight;
+                
+                if (dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    pq.offer(new int[]{v, dist[v]});
+                }
+            }
+        }
+        
+        return dist;
+    }
+}`;
+
+      case 'a-star-search':
+        return `/**
+ * A* Search Algorithm Implementation in Java
+ * Time Complexity: O(b^d)
+ * Space Complexity: O(b^d)
+ */
+import java.util.*;
+
+public class AStarSearch {
+    
+    static class Node implements Comparable<Node> {
+        int x, y, g, h, f;
+        Node parent;
+        
+        Node(int x, int y, int g, int h, Node parent) {
+            this.x = x;
+            this.y = y;
+            this.g = g;
+            this.h = h;
+            this.f = g + h;
+            this.parent = parent;
+        }
+        
+        @Override
+        public int compareTo(Node other) {
+            return this.f - other.f;
+        }
+    }
+    
+    static int heuristic(int x, int y, int targetX, int targetY) {
+        return Math.abs(x - targetX) + Math.abs(y - targetY);
+    }
+    
+    public static List<int[]> aStar(int[][] grid, int[] start, int[] target) {
+        int rows = grid.length, cols = grid[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        
+        pq.add(new Node(start[0], start[1], 0, 
+                       heuristic(start[0], start[1], target[0], target[1]), null));
+        
+        int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+        
+        while (!pq.isEmpty()) {
+            Node current = pq.poll();
+            
+            if (visited[current.x][current.y]) continue;
+            visited[current.x][current.y] = true;
+            
+            if (current.x == target[0] && current.y == target[1]) {
+                List<int[]> path = new ArrayList<>();
+                Node temp = current;
+                while (temp != null) {
+                    path.add(new int[]{temp.x, temp.y});
+                    temp = temp.parent;
+                }
+                Collections.reverse(path);
+                return path;
+            }
+            
+            for (int[] dir : directions) {
+                int nx = current.x + dir[0];
+                int ny = current.y + dir[1];
+                
+                if (nx >= 0 && nx < rows && ny >= 0 && ny < cols && 
+                    grid[nx][ny] == 0 && !visited[nx][ny]) {
+                    int gNew = current.g + 1;
+                    int hNew = heuristic(nx, ny, target[0], target[1]);
+                    pq.add(new Node(nx, ny, gNew, hNew, current));
+                }
+            }
+        }
+        
+        return null; // No path found
+    }
+}`;
+
+      case 'merge-sort':
+        return `"""
+Merge Sort Implementation in Python
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+"""
+
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    result.extend(left[i:])
+    result.extend(right[j:])
+    
+    return result
+
+# Example usage
+if __name__ == "__main__":
+    arr = [64, 34, 25, 12, 22, 11, 90]
+    print("Original array:", arr)
+    
+    sorted_arr = merge_sort(arr)
+    print("Sorted array:", sorted_arr)`;
+
+      case 'heap-sort':
+        return `/**
+ * Heap Sort Implementation in C++
+ * Time Complexity: O(n log n)
+ * Space Complexity: O(1)
+ */
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class HeapSort {
+public:
+    static void heapSort(vector<int>& arr) {
+        int n = arr.size();
+        
+        // Build max heap
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
+        
+        // Extract elements from heap one by one
+        for (int i = n - 1; i > 0; i--) {
+            swap(arr[0], arr[i]);
+            heapify(arr, i, 0);
+        }
+    }
+    
+private:
+    static void heapify(vector<int>& arr, int n, int i) {
+        int largest = i;
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        
+        if (left < n && arr[left] > arr[largest]) {
+            largest = left;
+        }
+        
+        if (right < n && arr[right] > arr[largest]) {
+            largest = right;
+        }
+        
+        if (largest != i) {
+            swap(arr[i], arr[largest]);
+            heapify(arr, n, largest);
+        }
+    }
+};
+
+int main() {
+    vector<int> arr = {64, 34, 25, 12, 22, 11, 90};
+    
+    cout << "Original array: ";
+    for (int x : arr) cout << x << " ";
+    cout << endl;
+    
+    HeapSort::heapSort(arr);
+    
+    cout << "Sorted array: ";
+    for (int x : arr) cout << x << " ";
+    cout << endl;
+    
+    return 0;
+}`;
+
+      default:
+        return `// Algorithm implementation loading...
+// This algorithm's code will be fetched from GitHub repository
+// Please check back in a moment or visit the GitHub link above`;
+    }
   };
 
   const getDifficultyColor = (difficulty) => {
