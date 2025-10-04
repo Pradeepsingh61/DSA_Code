@@ -1,3 +1,6 @@
+import java.lang.reflect.Constructor;
+import java.sql.Driver;
+
 public class StackUsingLinkedList {
     private static class Node {
         int data;
@@ -11,10 +14,12 @@ public class StackUsingLinkedList {
 
     private Node top; // top of the stack
 
+    // Constructor to initialize the stack
     public StackUsingLinkedList() {
         this.top = null;
     }
 
+    // Pushes an element onto the stack.
     public void push(int value) {
         Node newNode = new Node(value);
         newNode.next = top;
@@ -22,7 +27,7 @@ public class StackUsingLinkedList {
         System.out.println(value + " pushed to stack.");
     }
 
-
+    // Removes the top element from the stack and returns it.
     public int pop() {
         if (isEmpty()) {
             throw new IllegalStateException("Stack Underflow! Cannot pop from an empty stack.");
@@ -33,7 +38,7 @@ public class StackUsingLinkedList {
         return popped;
     }
 
-   
+    // Returns the top element without removing it.
     public int peek() {
         if (isEmpty()) {
             throw new IllegalStateException("Stack is empty! No top element.");
@@ -41,11 +46,12 @@ public class StackUsingLinkedList {
         return top.data;
     }
 
-    
+    // Checks if the stack is empty.
     public boolean isEmpty() {
         return top == null;
     }
 
+    // Displays all elements in the stack.
     public void display() {
         if (isEmpty()) {
             System.out.println("Stack is empty!");
@@ -61,6 +67,7 @@ public class StackUsingLinkedList {
         System.out.println("NULL");
     }
 
+    // Driver code to test the Stack implementation
     public static void main(String[] args) {
         StackUsingLinkedList stack = new StackUsingLinkedList();
 
