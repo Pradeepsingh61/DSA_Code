@@ -1,3 +1,26 @@
+/*
+ * linked_list.c
+ *
+ * Description:
+ * This program implements a basic singly linked list in C.
+ * It supports operations such as inserting a node at the beginning,
+ * inserting at the end, deleting a node by value, and displaying all nodes.
+ * The linked list uses dynamic memory allocation to create nodes at runtime.
+ *
+ * Time Complexity:
+ * - Insertion at beginning: O(1)
+ * - Insertion at end: O(n)
+ * - Deletion: O(n)
+ * - Traversal/Display: O(n)
+ *
+ * Space Complexity:
+ * - O(n), where n is the number of nodes in the linked list
+ *   (each node requires memory for data and a pointer)
+ */
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
