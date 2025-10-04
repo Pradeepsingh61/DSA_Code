@@ -1,4 +1,19 @@
 /**
+ * validateBST.cpp
+ *
+ * Description:
+ * This algorithm checks whether a given binary tree is a valid Binary Search Tree (BST).
+ * It uses an in-order traversal to verify that each node's value is greater than the value of the previously visited node.
+ * The in-order traversal naturally visits nodes in ascending order for a valid BST.
+ * If any node violates the BST property (i.e., its value is not greater than the previous node's value), the algorithm sets the answer to false.
+ * 
+ * Time Complexity:
+ * The algorithm traverses each node exactly once, resulting in a time complexity of O(n),
+ * where n is the number of nodes in the binary tree.
+ * The space complexity is O(h), where h is the height of the tree, due to the recursion stack.
+ */
+
+/**
  * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
