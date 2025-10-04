@@ -1,4 +1,20 @@
-package yagcache
+// This is a generic, thread-safe in-memory cache implementation in Go, designed to store key-value pairs with optional expiration times. It supports:
+
+// Generic keys (strings only) and generic values (any)
+
+// Per-item expiration and default expiration
+
+// Automatic cleanup of expired items via a background goroutine
+
+// Safe concurrent access using sync.RWMutex
+
+// Common cache operations: Set, Get, Update, Delete, Flush, Count, List, MapToCache
+
+// Designed to be efficient: O(1) access time for most operations
+
+// It is suitable for caching data in-memory within a single Go application and provides a lightweight alternative to external caching systems like Redis for local use cases.
+
+package inmemory_cache
 
 import (
 	"errors"
