@@ -26,7 +26,7 @@ struct TreeNode {
  
 class Solution {
 public:
-    TreeNode *prev = NULL;
+    TreeNode *prev = nullptr;
     void validate(TreeNode *root, bool &ans){
         if(!ans || !root) return;
         if(root->left) validate(root->left, ans);
