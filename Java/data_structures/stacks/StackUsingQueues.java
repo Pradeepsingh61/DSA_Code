@@ -55,7 +55,7 @@ public class StackUsingQueues {
     private Node top; // Top of stack
 
     // Constructor
-    public StackUsingLinkedList() {
+    public StackUsingQueues() {
         this.top = null;
     }
 
@@ -93,7 +93,7 @@ public class StackUsingQueues {
 
     // Test the implementation
     public static void main(String[] args) {
-        StackUsingLinkedList stack = new StackUsingLinkedList();
+        StackUsingQueues stack = new StackUsingQueues();
 
         // Push test
         System.out.println("Pushing elements: 10, 20, 30");
