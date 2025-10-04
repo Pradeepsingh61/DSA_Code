@@ -39,7 +39,7 @@
 
 package DSA_Code.Java.data_structures.stacks;
 
-public class StackUsingLinkedList {
+public class StackUsingQueues {
 
     // Node class representing each element in the stack
     private static class Node {
