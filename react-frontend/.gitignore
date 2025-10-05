@@ -52,6 +52,4 @@ Desktop.ini
 .idea/
 *.iml
 
-.claude/
-*node_modules/
-react-frontend/node_modules
+node_modules/
