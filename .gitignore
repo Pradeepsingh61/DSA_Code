@@ -7,6 +7,7 @@
 *.pyo
 *.pyd
 __pycache__/
+bin/
 
 # C/C++
 *.obj
