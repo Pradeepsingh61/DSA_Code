@@ -37,7 +37,7 @@
  * Author: Pradyumn Pratap Singh
  */
 
-package DSA_Code.Java.data_structures.stacks;
+// package DSA_Code.Java.data_structures.stacks;
 
 public class StackUsingQueues {
 
