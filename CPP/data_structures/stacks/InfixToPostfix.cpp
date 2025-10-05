@@ -1,3 +1,26 @@
+
+/*
+Infix to Postfix Conversion (Shunting Yard Algorithm)
+
+Description:
+This algorithm converts an infix expression (e.g., A+B*C) into a postfix expression (e.g., A B C * +)
+using the C++ Standard Template Library (STL) stack.
+It follows operator precedence and associativity rules to ensure correct order of operations.
+The stack temporarily stores operators and parentheses during the conversion process.
+
+Example:
+Input:  A+B*C
+Output: A B C * +
+
+Time Complexity: O(n)
+Each character in the infix expression is scanned once and pushed/popped from the stack at most once.
+
+Space Complexity: O(n)
+A stack is used to store operators and parentheses during processing.
+
+Reference:
+https://en.wikipedia.org/wiki/Shunting_yard_algorithm
+*/
 #include <iostream>
 #include <stack>
 #include <string>
