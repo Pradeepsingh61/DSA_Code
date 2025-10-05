@@ -23,8 +23,15 @@ Medium
      - If nums[i] > nums[j], update dp[i] = max(dp[i], dp[j] + 1)
 -> The final answer is the maximum value in the dp array.
 
-3. Com
+3. Complexity:
+Time: O(n²), due to two nested loops.
+Space: O(n), for the dp array.
+
+* Author : Surya Pratap Singh
 */
+
+// Time Complexity: O(n^2)
+// Space Complexity: O(n)
 
 import java.util.*;
 
