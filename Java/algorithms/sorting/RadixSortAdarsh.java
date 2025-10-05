@@ -39,7 +39,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class RadixSort {
+public class RadixSortAdarsh {
     
     /**
      * Main method to demonstrate Radix Sort with user input and test cases
