@@ -1,4 +1,18 @@
 package Games;
+/*
+Wordle Game
+
+Description:
+A simple Wordle game where the player has to guess a randomly selected word 
+from a dictionary. After each guess, feedback is provided:
+- 'O' : Correct letter in the correct position
+- 'N' : Correct letter in the wrong position
+- '*' : Incorrect letter
+
+Rules:
+1. Each guess must be a 5-letter word.
+2. Player has 6 attempts to guess the correct word.
+*/
 //take word from dictionary 
 //give random word to user
 //make array of the words given by user
