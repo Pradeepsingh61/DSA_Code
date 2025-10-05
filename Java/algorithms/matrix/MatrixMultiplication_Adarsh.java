@@ -26,7 +26,7 @@
 
 import java.util.Scanner;
 
-public class MatrixMultiplication {
+public class MatrixMultiplication_Adarsh {
     
     /**
      * Main method to demonstrate matrix multiplication with user input
