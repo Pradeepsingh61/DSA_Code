@@ -1,3 +1,11 @@
+/* Stack
+
+Description: A stack is a linear data structure that follows the Last In, First Out (LIFO) principle, meaning the last element added to the stack will be the first one to be removed. Common operations include push (add element), pop (remove top element), and peek (view top element).
+
+Time Complexity: O(1)
+Space Complexity: O(1)
+*/
+
 class Stack {
   constructor() {
     this.items = [];
