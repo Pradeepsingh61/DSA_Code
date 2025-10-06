@@ -42,14 +42,14 @@
 
 #include <iostream>
 #include <vector>
-#include <algorithm> // Add this for std::shuffle
-#include <random>    // Add this for random engine
+#include <algorithm>
+#include <random>   
 
 using namespace std;
 
 /**
  * Core DNF Algorithm
- * @param Vector Array of 0s, 1s and 2s to be sorted
+ * @param arr Array of 0s, 1s and 2s to be sorted
  */
 void dnf_sort(vector<int> &arr)
 {
@@ -111,7 +111,6 @@ void run_test(vector<int> input, const vector<int> expected, const string testNa
 
 /**
  * Utility function to Run all the test cases
- * @param Vector Array of integers to be displayed
  */
 void test_cases()
 {
