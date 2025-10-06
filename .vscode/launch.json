@@ -3,13 +3,6 @@
   "configurations": [
     {
       "type": "java",
-      "name": "LongestPalindromicSubsequence",
-      "request": "launch",
-      "mainClass": "Java.dynamic_programming.LongestPalindromicSubsequence",
-      "projectName": "DSA_Code_a7fcb688"
-    },
-    {
-      "type": "java",
       "name": "LongestCommonSubsequence",
       "request": "launch",
       "mainClass": "Java.dynamic_programming.LongestCommonSubsequence",
