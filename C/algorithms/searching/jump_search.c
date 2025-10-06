@@ -11,9 +11,31 @@
  *   Worst : O(1)
  * Author: tanshen-kun
  */
-
-#include <math.h>
 #include <stdio.h>
+
+/*
+ * int_int_sqrt : Calculates the integer square root of a non-negative integer
+ * x.
+ * @param x: The number to find the square root of
+ * @return: The floor of the square root of x
+ */
+int int_sqrt(int x) {
+  if (x == 0 || x == 1)
+    return x;
+
+  int start = 1, end = x, ans = 0;
+  while (start <= end) {
+    int mid = start + (end - start) / 2;
+
+    if (mid <= x / mid) {
+      start = mid + 1;
+      ans = mid;
+    } else {
+      end = mid - 1;
+    }
+  }
+  return ans;
+}
 
 /*
  * jump_search : Searches for a target value in a sorted array using jump search
@@ -23,12 +45,12 @@
  * @return: Index of the target if found, otherwise -1
  */
 int jump_search(int arr[], int size, int target) {
-  int step = sqrt(size);
+  int step = int_sqrt(size);
   int prev = 0;
 
   while (arr[(step < size ? step : size) - 1] < target) {
     prev = step;
-    step += sqrt(size);
+    step += int_sqrt(size);
     if (prev >= size)
       return -1;
   }
