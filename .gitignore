@@ -56,3 +56,5 @@ Desktop.ini
 .claude/
 *node_modules/
 react-frontend/node_modules
+/.vscode
+/.vscode
