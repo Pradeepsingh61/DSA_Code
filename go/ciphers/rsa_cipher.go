@@ -1,4 +1,4 @@
-//This Go program generates an RSA key pair, encrypts a message using the public key with OAEP padding and SHA-256, and then decrypts it using the private key to recover the original message.
+// Description:This Go program generates an RSA key pair, encrypts a message using the public key with OAEP padding and SHA-256, and then decrypts it using the private key to recover the original message.
 
 package rsa_cipher
 
