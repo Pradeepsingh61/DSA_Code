@@ -13,7 +13,7 @@
         Output: 28
 */
 
-public class UniquePaths {
+public class unique_paths {
 
     // -----------------------------------------------------------
     //  1. BRUTE FORCE (Recursive)
