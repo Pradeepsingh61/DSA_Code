@@ -1,29 +1,46 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
-// Function to perform Binary Search
+/*
+=========================================================
+Algorithm Name: Binary Search
+Category: Searching
+Difficulty Level: Easy (Beginner friendly)
+
+Algorithm Description:
+Binary search is an efficient algorithm used to find the position 
+of a target value within a sorted array. It works by repeatedly 
+dividing the search interval in half. If the value of the search key 
+is less than the item in the middle of the interval, the algorithm 
+continues on the left half, otherwise on the right half.
+
+Time Complexity:
+- Best Case: O(1)  (target is at the middle)
+- Average Case: O(log n)
+- Worst Case: O(log n)
+
+Space Complexity:
+- O(1) (iterative implementation uses constant extra space)
+=========================================================
+*/
+
+// Function to perform Binary Search on a sorted array
 int binarySearch(int arr[], int size, int target) {
-    int left = 0, right = size - 1;
+    int left = 0;           // Start of the search interval
+    int right = size - 1;   // End of the search interval
 
     while (left <= right) {
-        int mid = left + (right - left) / 2; // Calculate mid index
+        int mid = left + (right - left) / 2;  // Middle index
 
-        // Check if the target is at mid
         if (arr[mid] == target) {
-            return mid; // Return the index if found
-        }
-
-        // If target is greater, ignore the left half
-        if (arr[mid] < target) {
-            left = mid + 1;
-        } 
-        // If target is smaller, ignore the right half
-        else {
-            right = mid - 1;
+            return mid; // Target found, return its index
+        } else if (arr[mid] < target) {
+            left = mid + 1; // Ignore left half
+        } else {
+            right = mid - 1; // Ignore right half
         }
     }
 
-    return -1; // Return -1 if the target is not found
+    return -1; // Target not found
 }
 
 int main() {
@@ -36,9 +53,9 @@ int main() {
 
     // Output the result
     if (result != -1) {
-        cout << "Element found at index: " << result << endl;
+        printf("Element found at index: %d\n", result);
     } else {
-        cout << "Element not found!" << endl;
+        printf("Element not found!\n");
     }
 
     return 0;

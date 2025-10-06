@@ -26,6 +26,8 @@ This repository serves as:
 
 📢 **Register [here](https://hacktoberfest.com/) for Hacktoberfest and make six pull requests (PRs) between October 1st-31st for exclusive T-shirt + Tree contribution! 🔥🌱**
 
+🌟 **Make Sure to Star the repository - We need 100 Stars to make it a 'worthy repository' ⭐⭐⭐**
+
 📖 **[Read our complete Hacktoberfest 2025 guide on dev.to](https://dev.to/karanjot786/join-hacktoberfest-2025-contribute-to-our-dsa-code-repository-7nb)** - Step-by-step instructions, tips, and everything you need to get started!
 
 ## 👥 Repository Maintainers
@@ -211,12 +213,105 @@ Python/
 - **Projects**: Complete applications using the algorithms
 - **Language-Specific READMEs**: Setup guides for new languages
 
+## 💎 Quality Over Quantity - Our Standards
+
+**We prioritize quality contributions that provide real value to the community.**
+
+### ✨ What Makes a Great Contribution
+
+- **Well-documented code** with clear explanations and complexity analysis
+- **Original implementations** - not copy-pasted from other repositories
+- **New algorithms/implementations** - check existing files before contributing
+- **Proper testing** with multiple test cases and edge cases
+- **Clean, readable code** following language-specific best practices
+- **Meaningful commit messages** that explain what and why
+
+### 🚫 What We Don't Accept
+
+- ❌ Copy-pasted code from other repositories or websites
+- ❌ **Duplicate implementations** - always check if it already exists first!
+- ❌ Code without documentation, comments, or complexity analysis
+- ❌ Low-effort PRs created just to increase PR count
+- ❌ Spam, irrelevant changes, or placeholder files
+- ❌ Code that doesn't compile, run, or has syntax errors
+
+### 📝 Before You Contribute - Checklist
+
+**🔍 Step 1: Check for Duplicates**
+- Browse the language folder to see what already exists
+- Search the repository for similar implementations
+- If it exists, consider improving it instead of duplicating
+- **Automated Check**: Our workflow will detect potential duplicates and notify you
+
+**✍️ Step 2: Ensure Quality**
+- [ ] Algorithm explanation included
+- [ ] Time & space complexity documented
+- [ ] Multiple test cases with edge cases
+- [ ] Proper comments explaining logic (3+ for single file, 5+ for multiple files)
+- [ ] Code follows language conventions
+- [ ] No compilation/runtime errors
+- **Automated Check**: Our quality workflow will review your code and provide helpful feedback
+
+**🎯 Step 3: Add Unique Value**
+- Implement algorithms NOT yet in the repository
+- Add new language support
+- Improve existing implementations with better approaches
+- Add advanced variations of existing algorithms
+- Contribute complete projects using multiple algorithms
+
+## 🤖 Automated Checks & Quality Assurance
+
+We use automated workflows to maintain high quality and help contributors improve:
+
+### 🔍 What Gets Automatically Checked
+
+1. **Duplicate Detection**
+   - Scans for similar file names and implementations
+   - Notifies you if potential duplicates are found
+   - Helps avoid redundant contributions
+
+2. **Code Quality Validation**
+   - ✅ Algorithm description and complexity analysis (Required)
+   - ✅ Meaningful comments and documentation (Recommended)
+   - ✅ Test cases and examples (Recommended)
+   - ✅ File structure and naming conventions
+
+3. **Compilation & Testing**
+   - Automatically compiles C/C++/Java code
+   - Syntax checks for Python/JavaScript
+   - Identifies compilation errors with helpful explanations
+
+4. **Helpful Error Reporting**
+   - Clear explanations when checks fail
+   - Step-by-step fix instructions
+   - Example templates and best practices
+
+### 📊 Smart Comment System
+
+All automated comments are **smart and non-spammy**:
+- Updates existing comments instead of creating duplicates
+- Shows current status of your PR
+- Provides actionable feedback for improvements
+- Helpful, not critical - designed to educate!
+
+### 💡 Single File Contributions Get Special Treatment
+
+Contributing just one file? You get **more lenient checks**:
+- Only 3 comments required (vs 5 for multiple files)
+- Minimum 15 lines (vs 20 for multiple files)
+- Focus on critical requirements only
+- Perfect for beginners!
+
+**See our [Contributing Guidelines](./CONTRIBUTING.md#-automated-quality-checks) for complete details!**
+
 ### 💡 Hacktoberfest Pro Tips
 
 - Make **6+ quality pull requests** for Hacktoberfest Super Contributor status (T-shirt + Tree!)
-- **Quality over quantity** - make meaningful contributions
-- Help others by **reviewing PRs**
+- **Quality over quantity** - one great PR beats ten mediocre ones
+- **Add new, unique implementations** - avoid duplicating existing code
+- Help others by **reviewing PRs** and suggesting improvements
 - Ensure proper **documentation** and **testing**
+- **Check existing files first** to avoid duplicate work
 
 ## 🏆 Hall of Fame
 
@@ -233,7 +328,7 @@ Python/
 [![Karanjot Singh](https://img.shields.io/badge/🛠️_Co--Admin-Karanjot786-green?style=flat&logo=github)](https://github.com/Karanjot786)
 
 #### **📊 Repository Stats:**
-🎯 **70+ Contributors** • 🔥 **200+ Commits** • 💻 **4+ Languages** • 🎃 **Hacktoberfest Ready**
+🎯 **99+ Contributors** • 🔥 **200+ Commits** • 💻 **6+ Languages** • 🎃 **Hacktoberfest Ready**
 
 [![Start Contributing](https://img.shields.io/badge/Start_Contributing-Now-brightgreen?style=for-the-badge&logo=github)](https://github.com/Pradeepsingh61/DSA_Code)
 [![View Full Hall of Fame](https://img.shields.io/badge/View_Full-Hall_of_Fame-gold?style=for-the-badge&logo=trophy)](./HALL_OF_FAME.md)

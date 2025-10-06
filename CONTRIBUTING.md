@@ -557,11 +557,100 @@ if __name__ == "__main__":
     main()
 ```
 
+## 🤖 Automated Quality Checks
+
+We have automated workflows that will check your PR for quality and help you improve your contributions!
+
+### 🔍 Duplicate Detection
+
+Our **Duplicate Detection** workflow automatically checks if similar implementations already exist:
+
+- **What it checks**: Compares your file names with existing files to find potential duplicates
+- **When it runs**: Automatically on every PR
+- **What happens**: If a potential duplicate is found, you'll receive a friendly comment explaining:
+  - Which files appear similar
+  - How to verify if it's truly a duplicate
+  - Options to either improve existing code or explain why yours is different
+
+**💡 Pro Tip**: Always search the repository before adding a new algorithm to avoid duplicates!
+
+### 💎 Quality Checks
+
+Our **Quality Checks** workflow ensures all contributions meet our standards:
+
+#### What Gets Checked:
+
+1. **✅ Algorithm Description** (Required)
+   - Your code must explain what the algorithm does
+   - Include the purpose and approach
+
+2. **✅ Complexity Analysis** (Required)
+   - Time complexity (e.g., `O(n log n)`)
+   - Space complexity (e.g., `O(n)`)
+   - Brief explanation of why
+
+3. **✅ Comments** (Recommended)
+   - Single file PRs: Minimum 3 comments
+   - Multiple file PRs: Minimum 5 comments per file
+   - Explain complex logic and key steps
+
+4. **✅ Test Cases/Examples** (Recommended)
+   - Demonstrate your code works
+   - Show different input scenarios
+   - Include edge cases
+
+#### Single File vs Multiple Files:
+
+**Single File Contributions** (More Lenient):
+- Only 3 comments required (vs 5)
+- Minimum 15 lines (vs 20)
+- Won't receive warnings for minor issues
+- Focus on critical requirements (description + complexity)
+
+**Multiple File Contributions** (Stricter):
+- All quality checks apply
+- Higher standards for documentation
+- Ensures consistency across files
+
+#### What You'll Receive:
+
+If your PR needs improvements, you'll get a **helpful comment** with:
+- ✅ What's missing or needs improvement
+- 📚 Why each requirement is important
+- 💡 Example template showing best practices
+- 🔧 Exactly how to fix the issues
+
+**Note**: Quality checks are **educational, not blocking** - they help you improve, but won't fail your PR!
+
+### 🚨 Error Explanations
+
+If any workflow fails, you'll receive a **friendly explanation** with:
+
+- 🔍 **What went wrong**: Clear explanation of the error
+- 🔧 **How to fix it**: Step-by-step instructions
+- 💡 **Common causes**: Why this error typically happens
+- 📚 **Resources**: Links to documentation and examples
+
+### 📊 How Comments Work:
+
+All automated workflows **update existing comments** instead of spamming:
+- ✅ One comment per workflow type
+- ✅ Updates when you push new commits
+- ✅ Always shows current status
+- ✅ Clean, non-spammy PR discussions
+
 ## 🔄 Pull Request Process
 
 ### Before Creating a Pull Request
 
-1. **Test Your Code**
+1. **Search for Duplicates**
+   ```bash
+   # Search the repository for similar implementations
+   # Check the language folder to see what already exists
+   ls CPP/algorithms/sorting/  # Example for C++ sorting algorithms
+   ```
+
+2. **Test Your Code**
    ```bash
    # For Python
    python your_algorithm.py
@@ -576,14 +665,17 @@ if __name__ == "__main__":
    gcc -o algorithm your_algorithm.c && ./algorithm
    ```
 
-2. **Check Code Quality**
-   - No compilation errors
-   - No runtime errors on test cases
-   - Proper input validation
-   - Clear variable names
-   - Adequate comments
+3. **Check Code Quality**
+   - ✅ No compilation errors
+   - ✅ No runtime errors on test cases
+   - ✅ Algorithm description included
+   - ✅ Time & space complexity documented
+   - ✅ Meaningful comments (3+ for single file, 5+ for multiple)
+   - ✅ Test cases or examples included
+   - ✅ Proper input validation
+   - ✅ Clear variable names
 
-3. **Update Documentation**
+4. **Update Documentation**
    - Add algorithm to appropriate README
    - Include complexity analysis
    - Provide usage examples
