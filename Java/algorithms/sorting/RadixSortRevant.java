@@ -30,11 +30,11 @@
  * Author:
  * Revant Singh
  */
-package DSA_Code.Java.algorithms.sorting;
+// package DSA_Code.Java.algorithms.sorting;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class RadixSort {
+public class RadixSortRevant {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
