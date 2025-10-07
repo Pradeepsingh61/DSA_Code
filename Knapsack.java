@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class knapsack {
+public class Knapsack {
 
     /**
      * Solves the 0/1 Knapsack problem using Dynamic Programming (Tabulation).
