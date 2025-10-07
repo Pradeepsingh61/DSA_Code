@@ -1,6 +1,19 @@
+import java.sql.Time;
 import java.util.Arrays;
 
 public class Knapsack {
+
+    //Description:
+    // This function solves the 0/1 Knapsack problem to find the maximum value of items
+    // that can fit within a limited weight capacity. It uses a bottom-up dynamic
+    // programming approach by building a table of optimal solutions for all subproblems.
+
+    //Time Complexity: O(n * W)
+      //- Where 'n' is the number of items and 'W' is the knapsack capacity.
+      //- The complexity arises from the nested loops used to fill the DP table of size (n+1) x (W+1).
+     
+      //Space Complexity: O(n * W)
+      //- We use a 2D array (DP table) of size (n+1) x (W+1) to store the results of subproblems.
 
     /**
      * Solves the 0/1 Knapsack problem using Dynamic Programming (Tabulation).
