@@ -1,3 +1,17 @@
+/*
+ * Algorithm Name:Spiral Matrix .
+ * Programming Language: Java
+ * Category: Array ,matrix
+ * Difficulty Level: Medium
+ *
+ * Author: Priya Rani 
+ *
+ * Algorithm Description: Given an m x n matrix, return all elements of the matrix in spiral order.
+
+* Time complexity: O(m × n) (each element is visited once).
+
+* Space complexity: O(1) (excluding output list).
+*/
 import java.util.*;
 
 public class SpiralMatrix {
