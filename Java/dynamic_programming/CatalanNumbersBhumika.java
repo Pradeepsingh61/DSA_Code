@@ -81,7 +81,7 @@ public class CatalanNumbersBhumika {
     }
 
     public static void main(String[] args) {
-        CatalanNumbers cn = new CatalanNumbers();
+        CatalanNumbersBhumika cn = new CatalanNumbersBhumika();
         int limit = 15;
 
         System.out.println("The first " + limit + " Catalan numbers are:");
