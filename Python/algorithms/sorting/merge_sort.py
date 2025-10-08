@@ -1,4 +1,4 @@
-# 📌 Merge Sort Algorithm
+# Merge Sort Algorithm
 # Language: Python
 # Category: Sorting
 # Time Complexity: O(n log n)
@@ -6,60 +6,59 @@
 
 """
 Merge Sort is a classic Divide and Conquer algorithm.
+
 It works in three main steps:
-1. Divide: Split the array into two halves.
-2. Conquer: Recursively sort the two halves.
-3. Combine: Merge the two sorted halves into a single sorted array.
+1 Divide: Split the array into two halves.
+2 Conquer: Recursively sort both halves.
+3 Combine: Merge the sorted halves into a single sorted array.
+
+Key Advantages:
+- Guaranteed O(n log n) performance.
+- Stable sorting algorithm.
+- Ideal for large datasets.
+
+Drawback:
+- Requires extra space (O(n)) for merging.
 """
 
 def merge_sort(arr):
-    """
-    Sorts the input list 'arr' using the Merge Sort algorithm.
-    :param arr: list of elements (int/float) to be sorted
-    :return: sorted list
-    """
-    # Base condition: if array has 0 or 1 elements, it's already sorted
     if len(arr) <= 1:
         return arr
 
-    # Step 1: Divide the array into two halves
+    # Step 1: Divide
     mid = len(arr) // 2
-    left_half = merge_sort(arr[:mid])
-    right_half = merge_sort(arr[mid:])
+    left = arr[:mid]
+    right = arr[mid:]
 
-    # Step 2: Merge the sorted halves
-    return merge(left_half, right_half)
+    # Step 2: Conquer (sort recursively)
+    left_sorted = merge_sort(left)
+    right_sorted = merge_sort(right)
+
+    # Step 3: Combine (merge results)
+    return merge(left_sorted, right_sorted)
 
 
 def merge(left, right):
-    """
-    Merges two sorted lists 'left' and 'right' into a single sorted list.
-    :param left: sorted list
-    :param right: sorted list
-    :return: merged sorted list
-    """
-    merged = []
+    result = []
     i = j = 0
 
-    # Compare elements of both halves and add the smaller one
+    # Compare and merge
     while i < len(left) and j < len(right):
         if left[i] <= right[j]:
-            merged.append(left[i])
+            result.append(left[i])
             i += 1
         else:
-            merged.append(right[j])
+            result.append(right[j])
             j += 1
 
-    # If there are remaining elements in left or right, add them
-    merged.extend(left[i:])
-    merged.extend(right[j:])
+    # Add remaining elements
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
 
-    return merged
 
-
-# 🧪 Example usage
 if __name__ == "__main__":
-    sample_array = [38, 27, 43, 3, 9, 82, 10]
-    print("Original array:", sample_array)
-    sorted_array = merge_sort(sample_array)
-    print("Sorted array:", sorted_array)
+    data = [38, 27, 43, 3, 9, 82, 10]
+    print("Original Array:", data)
+    sorted_data = merge_sort(data)
+    print("Sorted Array:", sorted_data)
