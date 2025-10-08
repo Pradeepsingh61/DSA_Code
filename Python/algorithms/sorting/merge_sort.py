@@ -1,64 +1,67 @@
 # Merge Sort Algorithm
 # Language: Python
 # Category: Sorting
+# Difficulty: Medium
 # Time Complexity: O(n log n)
 # Space Complexity: O(n)
 
 """
-Merge Sort is a classic Divide and Conquer algorithm.
+Merge Sort is a Divide and Conquer algorithm that recursively divides
+an array into halves, sorts each half, and merges the sorted halves into
+a single sorted array.
 
-It works in three main steps:
-1 Divide: Split the array into two halves.
-2 Conquer: Recursively sort both halves.
-3 Combine: Merge the sorted halves into a single sorted array.
+Steps:
+1. Divide: Split the array into two halves.
+2. Conquer: Recursively sort each half.
+3. Combine: Merge the sorted halves.
 
-Key Advantages:
-- Guaranteed O(n log n) performance.
-- Stable sorting algorithm.
-- Ideal for large datasets.
-
-Drawback:
-- Requires extra space (O(n)) for merging.
+Complexity Analysis:
+- Time Complexity: O(n log n)
+- Space Complexity: O(n)
 """
 
 def merge_sort(arr):
+    """Performs merge sort and returns a sorted list."""
     if len(arr) <= 1:
         return arr
 
-    # Step 1: Divide
     mid = len(arr) // 2
-    left = arr[:mid]
-    right = arr[mid:]
+    left_sorted = merge_sort(arr[:mid])
+    right_sorted = merge_sort(arr[mid:])
 
-    # Step 2: Conquer (sort recursively)
-    left_sorted = merge_sort(left)
-    right_sorted = merge_sort(right)
-
-    # Step 3: Combine (merge results)
     return merge(left_sorted, right_sorted)
 
 
 def merge(left, right):
-    result = []
+    """Merges two sorted lists into one sorted list."""
+    merged = []
     i = j = 0
 
-    # Compare and merge
     while i < len(left) and j < len(right):
         if left[i] <= right[j]:
-            result.append(left[i])
+            merged.append(left[i])
             i += 1
         else:
-            result.append(right[j])
+            merged.append(right[j])
             j += 1
 
-    # Add remaining elements
-    result.extend(left[i:])
-    result.extend(right[j:])
-    return result
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged
 
 
+# Example Test Cases
 if __name__ == "__main__":
-    data = [38, 27, 43, 3, 9, 82, 10]
-    print("Original Array:", data)
-    sorted_data = merge_sort(data)
-    print("Sorted Array:", sorted_data)
+    test_cases = [
+        [38, 27, 43, 3, 9, 82, 10],
+        [5, 2, 8, 1, 3],
+        [],
+        [1],
+        [10, 10, 10],
+    ]
+
+    for i, arr in enumerate(test_cases, 1):
+        print(f"Test Case {i}:")
+        print("Original:", arr)
+        print("Sorted:  ", merge_sort(arr))
+        print("-" * 30)
