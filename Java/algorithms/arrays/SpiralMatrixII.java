@@ -1,3 +1,23 @@
+/*
+ * Algorithm Name:Spiral Matrix2 .
+ * Programming Language: Java
+ * Category: Array ,matrix
+ * Difficulty Level: Medium
+ *
+ * Author: Priya Rani 
+ *
+ * Algorithm Description: Given a positive integer n, generate an n x n matrix filled with elements from 1 to n2 in spiral order.
+ * Input: n = 3
+   Output: [[1,2,3],[8,9,4],[7,6,5]]
+   Example 2:
+   Input: n = 1
+   Output: [[1]]
+
+ 
+
+ * Time Complexity: O(1) Time complexity: O(n²)
+ * Space complexity: O(1) (excluding output matrix)
+*/
 import java.util.*;
 
 public class SpiralMatrixII {
