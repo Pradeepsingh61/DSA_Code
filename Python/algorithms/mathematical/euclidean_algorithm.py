@@ -8,94 +8,111 @@ Space Complexity: O(log(min(a, b))) for recursive calls, O(1) for iterative.
 Author: Gemini
 """
 
-def gcd_recursive(a: int, b: int) -> int:
+def euclidean_algorithm_recursive(a, b):
     """
-    Computes the greatest common divisor (GCD) of two non-negative integers using the recursive Euclidean algorithm.
+    Calculates the Greatest Common Divisor (GCD) of two non-negative integers using the Euclidean algorithm recursively.
+
+    The Euclidean algorithm is based on the principle that the greatest common divisor of two
+    numbers does not change if the larger number is replaced by its difference with the smaller number.
+    This process is repeated until one of the numbers becomes zero, and the other number is the GCD.
+
+    Time Complexity: O(log(min(a, b))) - The number of steps is proportional to the number of digits in the smaller number.
+    Space Complexity: O(log(min(a, b))) - Due to recursive call stack.
 
     Args:
         a (int): The first non-negative integer.
         b (int): The second non-negative integer.
 
     Returns:
-        int: The greatest common divisor of a and b.
+        int: The Greatest Common Divisor (GCD) of a and b.
 
     Raises:
         ValueError: If either a or b is negative.
     """
     if a < 0 or b < 0:
-        raise ValueError("Both numbers must be non-negative.")
+        raise ValueError("Inputs must be non-negative integers.")
+    # Base case: if b is 0, then a is the GCD
     if b == 0:
         return a
-    return gcd_recursive(b, a % b)
+    # Recursive step: GCD(a, b) = GCD(b, a % b)
+    return euclidean_algorithm_recursive(b, a % b)
 
-def gcd_iterative(a: int, b: int) -> int:
+def euclidean_algorithm_iterative(a, b):
     """
-    Computes the greatest common divisor (GCD) of two non-negative integers using the iterative Euclidean algorithm.
+    Calculates the Greatest Common Divisor (GCD) of two non-negative integers using the Euclidean algorithm iteratively.
+
+    Time Complexity: O(log(min(a, b))) - The number of steps is proportional to the number of digits in the smaller number.
+    Space Complexity: O(1) - Uses a constant amount of extra space.
 
     Args:
         a (int): The first non-negative integer.
         b (int): The second non-negative integer.
 
     Returns:
-        int: The greatest common divisor of a and b.
+        int: The Greatest Common Divisor (GCD) of a and b.
 
     Raises:
         ValueError: If either a or b is negative.
     """
     if a < 0 or b < 0:
-        raise ValueError("Both numbers must be non-negative.")
+        raise ValueError("Inputs must be non-negative integers.")
+    # Loop until b becomes 0
     while b:
+        # Update a and b: a becomes b, and b becomes a % b
         a, b = b, a % b
+    # When b is 0, a holds the GCD
     return a
 
-def main():
-    """Test the Euclidean algorithm with example cases."""
+if __name__ == "__main__":
+    print("Euclidean Algorithm (GCD) Tests:")
+
+    # Test cases for recursive version
+    print("\nRecursive Version:")
     test_cases = [
-        (48, 18, 6),
-        (101, 103, 1),
-        (0, 5, 5),
-        (7, 0, 7),
-        (10, 10, 10),
-        (1, 1, 1),
-        (12, 15, 3),
-        (270, 192, 6)
+        (48, 18, 6),  # Standard case
+        (101, 103, 1), # Prime numbers
+        (0, 5, 5),    # One number is zero
+        (7, 0, 7),    # One number is zero
+        (10, 10, 10), # Same numbers
+        (12, 4, 4),   # Divisible numbers
+        (17, 23, 1)   # Co-prime numbers
     ]
 
-    print("--- Recursive GCD ---")
     for a, b, expected in test_cases:
         try:
-            result = gcd_recursive(a, b)
-            print(f"GCD_recursive({a}, {b}) = {result} (Expected: {expected}) {'✅' if result == expected else '❌'}")
+            result = euclidean_algorithm_recursive(a, b)
+            print(f"GCD_recursive({a}, {b}) = {result} (Expected: {expected})")
+            assert result == expected
         except ValueError as e:
-            print(f"GCD_recursive({a}, {b}) raised error: {e} (Expected: {expected}) ❌")
+            print(f"Error for ({a}, {b}): {e}")
 
-    print("\n--- Iterative GCD ---")
+    # Test cases for iterative version
+    print("\nIterative Version:")
     for a, b, expected in test_cases:
         try:
-            result = gcd_iterative(a, b)
-            print(f"GCD_iterative({a}, {b}) = {result} (Expected: {expected}) {'✅' if result == expected else '❌'}")
+            result = euclidean_algorithm_iterative(a, b)
+            print(f"GCD_iterative({a}, {b}) = {result} (Expected: {expected})")
+            assert result == expected
         except ValueError as e:
-            print(f"GCD_iterative({a}, {b}) raised error: {e} (Expected: {expected}) ❌")
+            print(f"Error for ({a}, {b}): {e}")
 
-    # Test edge cases with negative numbers
-    print("\n--- Negative Number Test Cases ---")
+    # Test cases for negative inputs (should raise ValueError)
+    print("\nNegative Input Tests:")
     negative_test_cases = [
-        (-5, 10),
-        (10, -5),
-        (-5, -10)
+        (-4, 2),
+        (4, -2),
+        (-4, -2)
     ]
+
     for a, b in negative_test_cases:
         try:
-            gcd_recursive(a, b)
-            print(f"GCD_recursive({a}, {b}) - Expected ValueError, but no error. ❌")
+            euclidean_algorithm_recursive(a, b)
+            print(f"GCD_recursive({a}, {b}) - Expected ValueError, but got result.")
         except ValueError as e:
-            print(f"GCD_recursive({a}, {b}) - Caught expected error: {e} ✅")
+            print(f"GCD_recursive({a}, {b}) - Caught expected error: {e}")
+
         try:
-            gcd_iterative(a, b)
-            print(f"GCD_iterative({a}, {b}) - Expected ValueError, but no error. ❌")
+            euclidean_algorithm_iterative(a, b)
+            print(f"GCD_iterative({a}, {b}) - Expected ValueError, but got result.")
         except ValueError as e:
-            print(f"GCD_iterative({a}, {b}) - Caught expected error: {e} ✅")
-
-
-if __name__ == "__main__":
-    main()
+            print(f"GCD_iterative({a}, {b}) - Caught expected error: {e}")
