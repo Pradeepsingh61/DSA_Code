@@ -13,7 +13,6 @@ public:
         head->next = reverseKGroup(tail, k);
         return newHead;
     }
-
 private:
     ListNode* reverse(ListNode* cur, ListNode* end) {
         ListNode* prev = nullptr;
