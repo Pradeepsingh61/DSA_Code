@@ -1,23 +1,21 @@
 // 02_minimum_window_substring.cpp
-// Problem: Minimum Window Substring
+//
+// 🔍 Algorithm: Minimum Window Substring
+// Description:
+//   Finds the smallest substring in `source` that contains all 
+//   characters of `target` (including duplicates).
+//   Uses a Sliding Window approach combined with frequency maps 
+//   to expand and contract the window optimally.
+//
+// Use Case:
+//   Useful in text search problems, DNA sequence matching, 
+//   or when finding minimal segments containing specific data.
+//
+// Time Complexity: O(|S| + |T|)
+// Space Complexity: O(|T|)
+//
 // LeetCode: https://leetcode.com/problems/minimum-window-substring/
-// Author: DeveloperViraj (curated DSA set for Hacktoberfest 2025)
-// Compile: g++ -std=c++17 02_minimum_window_substring.cpp -o 02_minimum_window_substring
-// Run: ./02_minimum_window_substring
-//
-// Summary:
-// Given strings S and T, find the smallest substring in S that contains all characters of T
-// (including multiplicity). If no such window exists, return an empty string.
-//
-// Approach (sliding window + frequency maps):
-// 1. Build a frequency map for characters required by T.
-// 2. Expand 'right' pointer: add chars to current window counts.
-// 3. When the window satisfies all required counts (formed == required), try to shrink 'left'
-//    to minimize the window while still satisfying the requirement.
-// 4. Track best (smallest) window found during the process.
-//
-// Time Complexity: O(|S| + |T|) average (each char processed a constant number of times).
-// Space Complexity: O(CHARSET) or O(|T|) for maps.
+
 
 #include <iostream>
 #include <string>

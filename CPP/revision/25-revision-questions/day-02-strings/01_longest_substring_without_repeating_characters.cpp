@@ -1,21 +1,20 @@
 // 01_longest_substring_without_repeating_characters.cpp
-// Problem: Longest Substring Without Repeating Characters
+//
+// 🔍 Algorithm: Longest Substring Without Repeating Characters
+// Description:
+//   Finds the length of the longest substring in a given string 
+//   that contains no repeating characters.
+//   Uses the Sliding Window technique with a hash map to track 
+//   character indices and adjust window boundaries efficiently.
+//
+// Use Case:
+//   Commonly used to analyze substring patterns or find unique 
+//   character sequences in data streams.
+//
+// Time Complexity: O(n) — each character visited once.
+// Space Complexity: O(1) — constant size (at most 256 chars).
+//
 // LeetCode: https://leetcode.com/problems/longest-substring-without-repeating-characters/
-// Author: DeveloperViraj (curated DSA set for Hacktoberfest 2025)
-// Compile: g++ -std=c++17 01_longest_substring_without_repeating_characters.cpp -o 01_longest_substring
-// Run: ./01_longest_substring
-//
-// Summary:
-// Given a string, find the length of the longest substring without repeating characters.
-//
-// Approach (sliding window + last-seen index):
-// Use two indices (windowStart and windowEnd) and a map of last-seen indices for characters.
-// Expand the windowEnd and if the current character was seen inside the current window,
-// move windowStart to lastSeenIndex + 1. Update the maximum window length as you go.
-//
-// Time Complexity: O(n) where n = length of string (each char visited at most twice).
-// Space Complexity: O(min(n, charset)) for the hash map of last seen indices.
-
 #include <iostream>
 #include <string>
 #include <unordered_map>
