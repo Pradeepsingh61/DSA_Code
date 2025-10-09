@@ -1,20 +1,44 @@
-"""Comprehensive Trie (Prefix Tree) Implementation
-
-A Trie is a tree-like data structure that stores a dynamic set of strings,
-where keys are usually strings. It's particularly useful for:
-- Autocomplete functionality
-- Spell checking
-- IP routing (longest prefix matching)
-- Dictionary implementations
-
-Time Complexity:
-- Insert: O(m) where m is the length of the word
-- Search: O(m) where m is the length of the word
-- StartsWith: O(m) where m is the length of the prefix
-- Delete: O(m) where m is the length of the word
-
-Space Complexity: O(ALPHABET_SIZE * N * M) where N is number of words and M is average length
 """
+Trie - Prefix Tree
+
+Description: A trie (pronounced "try") is a tree-based data structure that stores a dynamic 
+set of strings where keys are usually strings. Unlike a binary search tree, nodes are not 
+associated with specific keys; instead, a node's position in the tree defines the key it's 
+associated with. Each node represents a single character, and paths from root to nodes form 
+complete words or prefixes.
+
+The trie excels at prefix-based operations and is particularly useful for:
+- Autocomplete functionality in search bars and text editors
+- Spell checking and word validation
+- IP routing tables (longest prefix matching)
+- Dictionary implementations and word games
+- T9 predictive text input
+- Genome sequence analysis
+
+How it works:
+- Insert: Traverse the trie character by character, creating new nodes as needed. Mark the 
+  final node as end-of-word
+- Search: Traverse the trie following the characters. Return true only if we reach a node 
+  marked as end-of-word
+- Prefix Search: Similar to search but return true if we can traverse all characters, 
+  regardless of end-of-word marker
+- Delete: Recursively remove nodes bottom-up, only deleting nodes that have no other children 
+  and aren't end-of-word markers for other words
+- Autocomplete: Find the node for a given prefix, then recursively collect all words from 
+  that point
+
+Time Complexity: 
+- Insert: O(m) - visits each character once, where m is word length
+- Search: O(m) - visits each character once, where m is word length  
+- Prefix Search: O(m) - visits each character once, where m is prefix length
+- Delete: O(m) - visits each character once, where m is word length
+- Autocomplete: O(p + n) - O(p) to find prefix node, O(n) to collect all matching words
+
+Space Complexity: O(ALPHABET_SIZE × N × M) - each node can have up to ALPHABET_SIZE children,
+with N total words of average length M. In practice, space usage is much lower due to shared 
+prefixes. Worst case is O(26 × N × M) for lowercase English alphabet.
+"""
+
 
 class TrieNode:
     """Node class for Trie structure"""
@@ -24,6 +48,7 @@ class TrieNode:
         self.is_end_of_word = False
         self.word_count = 0  # Count of words ending at this node
         
+
 class Trie:
     """Complete Trie implementation with all common operations"""
     
