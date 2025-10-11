@@ -1,7 +1,6 @@
 /*
- * This program calculates the derangement numbers D(n) modulo m using dynamic programming.
+ * This program calculates the derangement numbers D(n) modulo m using princilple of inclusion-exclusion.
  * A derangement is a permutation of elements such that no element appears in its original position.
- * The formula used is D(n) = n! * (1 - 1/1! + 1/2! - 1/3! + ... + (-1)^n/n!)
  * This is done in linear time O(n) and uses O(1) additional space.
  */
 #include <atcoder/modint>  // AtCoder library for modular arithmetic
