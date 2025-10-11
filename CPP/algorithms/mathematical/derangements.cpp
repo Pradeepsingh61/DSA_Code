@@ -1,7 +1,7 @@
 /*
- * This program calculates the derangement numbers D(n) modulo m using princilple of inclusion-exclusion.
- * A derangement is a permutation of elements such that no element appears in its original position.
- * This is done in linear time O(n) and uses O(1) additional space.
+ * Derangements Calculation using Inclusion-Exclusion Principle
+ * Time Complexity: O(n)
+ * Space Complexity: O(1)
  */
 #include <atcoder/modint>  // AtCoder library for modular arithmetic
 #include <bits/stdc++.h>   // Includes all standard C++ libraries (not best practice, but convenient for contests)
