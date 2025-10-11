@@ -1,6 +1,11 @@
 //C code to implement counting sort
 
-//Counting Sort is a simple sorting algorithm that works by counting how many times each element appears in the input array instead of comparing them directly. First, it finds the largest value in the array to determine the range of numbers. Then, it creates a separate “count” array, where each index represents a number from the input and stores how many times that number occurs. After counting all elements, the algorithm reconstructs the sorted array by writing each number according to its frequency. This process efficiently sorts the elements in **O(n + k)** time, where *n* is the number of elements and *k* is the range of possible values. Counting Sort is best suited for sorting integers or small-range data.
+//Counting Sort is a simple sorting algorithm that works by counting how many times each element appears in the input array instead of comparing them directly. 
+// First, it finds the largest value in the array to determine the range of numbers. 
+// Then, it creates a separate “count” array, where each index represents a number from the input and stores how many times that number occurs. 
+// After counting all elements, the algorithm reconstructs the sorted array by writing each number according to its frequency. 
+// This process efficiently sorts the elements in "O(n + k)" time, where n is the number of elements and *k* is the range of possible values. 
+// Counting Sort is best suited for sorting integers or small-range data.
 
 //Time Complexity= O(n+max), same for all cases
 //Space Complexity= O(max), same for all cases
