@@ -8,7 +8,7 @@
  * Time Complexity: O(n³)
  * Space Complexity: O(n²)
  * 
- * Author: Abhiram
+ * Author: Abhi
  * Date: October 13, 2025
  */
 
