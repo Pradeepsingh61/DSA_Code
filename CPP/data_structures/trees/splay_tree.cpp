@@ -16,7 +16,7 @@
  * through a sequence of rotations, restructuring the tree to provide faster access to recently
  * used elements.
  * 
- * Author: Abhiram
+ * Author: Abhi
  * Date: October 13, 2025
  */
 
