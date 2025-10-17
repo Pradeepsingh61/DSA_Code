@@ -171,7 +171,7 @@ jobs:
           const isFirstTime = contributions.data.length <= 1;
 
           // Add labels based on PR content and status
-          const labels = ['hacktoberfest-accepted'];
+          const labels = ['hacktoberfest', 'hacktoberfest-accepted'];
 
           // Add language labels based on changed files
           const files = await github.rest.pulls.listFiles({ owner, repo, pull_number: number });
