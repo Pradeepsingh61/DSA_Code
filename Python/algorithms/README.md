@@ -56,6 +56,7 @@ Located in `graph_algorithms/`
 Located in `mathematical/`
 
 - **Karatsuba Algorithm** (`karatsuba_algorithm.py`) - Fast multiplication algorithm
+- **PRISM Algorithm** (`prism.py`) - Rule-based classification algorithm
 
 ## 🔄 Backtracking Algorithms
 

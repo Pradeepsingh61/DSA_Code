@@ -56,10 +56,13 @@ while IFS= read -r file; do
             ;;
     esac
 
-    # Check directory structure
+    # Check directory structure - must be in Language/Category or Language/Category/Subcategory
     if [[ "$file" =~ \.(c|cpp|java|py|js|ts|go|rs|kt|swift|php|rb|cs|dart|scala)$ ]]; then
-        if [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects|graph|sorting|searching) ]]; then
-            invalid_files+=("$file: Should be in proper subdirectory (algorithms/, data_structures/, etc.)")
+        # Check if file is in a valid language directory with at least one subdirectory
+        if [[ ! "$dir" =~ ^(C|CPP|Java|Python|JavaScript|TypeScript|Go|Rust|Kotlin|Swift|PHP|Ruby|CSharp|Dart|Scala)/ ]]; then
+            invalid_files+=("$file: Must be in a language directory (C/, CPP/, Java/, Python/, etc.)")
+        elif [[ ! "$dir" =~ (algorithms|data_structures|dynamic_programming|projects) ]]; then
+            invalid_files+=("$file: Should be in proper category (algorithms/, data_structures/, dynamic_programming/, or projects/)")
         fi
     fi
 done <<< "$changed_files"

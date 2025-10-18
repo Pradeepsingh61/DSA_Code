@@ -1,0 +1,247 @@
+name: 🤝 Helpful Error Reporter
+
+on:
+  workflow_run:
+    workflows: ["🔍 PR Validation", "🧪 Multi-Language Testing", "🎃 PR Automation"]
+    types: [completed]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  actions: read
+
+jobs:
+  report-errors:
+    name: 📢 Explain Errors
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+
+    steps:
+    - name: 📥 Get PR number
+      id: get-pr
+      uses: actions/github-script@v7
+      with:
+        script: |
+          // Get the head repository owner (handles forks correctly)
+          const headOwner = context.payload.workflow_run.head_repository?.owner?.login || context.repo.owner;
+          const headBranch = context.payload.workflow_run.head_branch;
+
+          const pulls = await github.rest.pulls.list({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            head: `${headOwner}:${headBranch}`
+          });
+
+          if (pulls.data.length > 0) {
+            return pulls.data[0].number;
+          }
+          return null;
+
+    - name: 📥 Download workflow logs
+      if: steps.get-pr.outputs.result != 'null'
+      uses: actions/github-script@v7
+      id: get-logs
+      with:
+        script: |
+          const run_id = context.payload.workflow_run.id;
+
+          try {
+            const jobs = await github.rest.actions.listJobsForWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: run_id
+            });
+
+            let failureReasons = [];
+
+            for (const job of jobs.data.jobs) {
+              if (job.conclusion === 'failure') {
+                failureReasons.push({
+                  name: job.name,
+                  steps: job.steps.filter(s => s.conclusion === 'failure').map(s => s.name)
+                });
+              }
+            }
+
+            return JSON.stringify(failureReasons);
+          } catch (error) {
+            console.log('Error fetching logs:', error);
+            return '[]';
+          }
+
+    - name: 💬 Post helpful error explanation
+      if: steps.get-pr.outputs.result != 'null'
+      uses: actions/github-script@v7
+      env:
+        PR_NUMBER: ${{ steps.get-pr.outputs.result }}
+        FAILURES_JSON: ${{ steps.get-logs.outputs.result }}
+      with:
+        script: |
+          const prNumber = parseInt(process.env.PR_NUMBER);
+          const workflowName = context.payload.workflow_run.name;
+          const failures = JSON.parse(process.env.FAILURES_JSON || '[]');
+
+          let errorExplanation = '';
+
+          // Generate helpful messages based on workflow type
+          if (workflowName.includes('PR Validation')) {
+            errorExplanation = `## ❌ PR Validation Failed
+
+          Your PR didn't pass our validation checks. Here's what went wrong and how to fix it:
+
+          ### 🔍 Common Issues:
+
+          **1️⃣ File Naming Convention**
+          - **Problem:** File names don't follow our standards
+          - **Fix:** Use descriptive names like \`binary_search.cpp\`, \`merge_sort.py\`
+          - **Avoid:** Generic names like \`test.cpp\`, \`program.py\`
+
+          **2️⃣ Wrong Directory Structure**
+          - **Problem:** Files are not in the correct folder
+          - **Fix:** Place files in \`Language/Category/file\`
+          - **Examples:**
+            - ✅ \`Python/algorithms/sorting/quick_sort.py\`
+            - ✅ \`CPP/data_structures/trees/binary_tree.cpp\`
+            - ❌ \`Python/quick_sort.py\` (missing category)
+
+          **3️⃣ Missing Documentation**
+          - **Problem:** Code lacks comments or complexity analysis
+          - **Fix:** Add algorithm description, time/space complexity, and inline comments
+
+          ### 🔧 How to Fix:
+
+          1. Check the workflow logs above to see specific errors
+          2. Fix the issues in your code
+          3. Commit and push the changes
+          4. The checks will run automatically again
+
+          ### 📚 Need Help?
+
+          - Check our [Contributing Guidelines](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CONTRIBUTING.md)
+          - Review similar merged PRs for examples
+          - Ask questions in the PR comments - we're here to help!`;
+
+          } else if (workflowName.includes('Multi-Language Testing')) {
+            errorExplanation = `## ❌ Code Testing Failed
+
+          Your code didn't compile or run successfully. Don't worry - this is fixable!
+
+          ### 🐛 Common Issues:
+
+          **1️⃣ Compilation Errors**
+          - **C/C++:** Missing headers, syntax errors, undefined variables
+          - **Java:** Class name doesn't match filename, missing semicolons
+          - **Python:** Indentation errors, syntax mistakes
+
+          **2️⃣ Runtime Errors**
+          - **Problem:** Code compiles but crashes when running
+          - **Common causes:** Array out of bounds, null pointers, infinite loops
+          - **Fix:** Add error handling and validate inputs
+
+          **3️⃣ Code Requires User Input**
+          - **Problem:** Code waits for user input (cin, scanf, input())
+          - **Fix:** Use test cases that don't require user input, or include sample data
+
+          ### 🔧 How to Fix:
+
+          1. **Test Locally First:**
+             \`\`\`bash
+             # For C++
+             g++ your_file.cpp -o program && ./program
+
+             # For Python
+             python3 your_file.py
+
+             # For Java
+             javac YourClass.java && java YourClass
+             \`\`\`
+
+          2. **Check the error logs** in the workflow run details
+          3. **Fix the errors** and test locally again
+          4. **Push your changes** - tests will re-run automatically
+
+          ### 💡 Pro Tips:
+
+          - Always test your code locally before pushing
+          - Include test cases in your code to verify it works
+          - Add error handling for edge cases
+          - Avoid code that requires user input`;
+
+          } else {
+            errorExplanation = `## ❌ Workflow Check Failed
+
+          One of our automated checks didn't pass. Here's what you need to know:
+
+          ### 🔍 What Failed:
+          Workflow: **${workflowName}**
+
+          ### 🔧 General Fix Steps:
+
+          1. Click on "Details" next to the failed check to see specific errors
+          2. Read the error messages carefully - they usually explain what's wrong
+          3. Fix the issues mentioned in the errors
+          4. Push your changes - checks will re-run automatically
+
+          ### 📚 Resources:
+
+          - [Contributing Guidelines](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CONTRIBUTING.md)
+          - [Code Examples](https://github.com/${context.repo.owner}/${context.repo.repo}/tree/main)
+          - Ask questions in this PR - maintainers will help!
+
+          ### 💪 You Can Do This!
+
+          Every developer faces failed checks - it's part of the learning process. Fix the issues and you'll be one step closer to a successful contribution!`;
+          }
+
+          // Add specific failed steps if available
+          if (failures.length > 0) {
+            errorExplanation += '\n\n### 📋 Specific Failed Steps:\n\n';
+            for (const failure of failures) {
+              errorExplanation += `**${failure.name}:**\n`;
+              for (const step of failure.steps) {
+                errorExplanation += `- ${step}\n`;
+              }
+              errorExplanation += '\n';
+            }
+          }
+
+          errorExplanation += `\n---\n*Need help? Tag @Karanjot786 or @Pradeepsingh61 and we'll assist you! 🤝*`;
+
+          // Check if we already posted an error explanation
+          const comments = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: prNumber
+          });
+
+          const errorComment = comments.data.find(comment =>
+            comment.user.type === 'Bot' &&
+            (comment.body.includes('PR Validation Failed') ||
+             comment.body.includes('Code Testing Failed') ||
+             comment.body.includes('Workflow Check Failed'))
+          );
+
+          // Only post if we haven't already commented, otherwise update
+          if (!errorComment) {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: errorExplanation
+            });
+          } else {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: errorComment.id,
+              body: errorExplanation
+            });
+          }
+
+    - name: ✅ Summary
+      run: |
+        echo "Posted helpful error explanation to PR"
+        echo "Workflow: ${{ github.event.workflow_run.name }}"
+        echo "Conclusion: ${{ github.event.workflow_run.conclusion }}"

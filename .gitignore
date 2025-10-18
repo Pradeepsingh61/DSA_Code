@@ -7,6 +7,7 @@
 *.pyo
 *.pyd
 __pycache__/
+bin/
 
 # C/C++
 *.obj
@@ -53,3 +54,5 @@ Desktop.ini
 *.iml
 
 .claude/
+*node_modules/
+react-frontend/node_modules

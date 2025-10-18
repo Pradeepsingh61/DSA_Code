@@ -53,50 +53,74 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y gcc g++ make
 
-    - name: 🔍 Get C/C++ files
-      id: cpp-files
-      run: |
-        echo "files<<EOF" >> $GITHUB_OUTPUT
-        find C/ CPP/ -name "*.c" -o -name "*.cpp" 2>/dev/null || echo "No C/C++ files found"
-        echo "EOF" >> $GITHUB_OUTPUT
+    - name: 🔍 Get changed C/C++ files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: |
+          C/**/*.c
+          CPP/**/*.cpp
 
-    - name: 🧪 Test C files
+    - name: 🧪 Test changed C/C++ files
+      if: steps.changed-files.outputs.any_changed == 'true'
       run: |
-        echo "🔍 Testing C files..."
-        find C/ -name "*.c" -type f 2>/dev/null | while read file; do
+        echo "🔍 Testing only changed C/C++ files..."
+        echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
+
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo ""
+          echo "========================================"
           echo "Testing: $file"
-          gcc -o "${file%.c}" "$file" -lm
-          if [ $? -eq 0 ]; then
+          echo "========================================"
+
+          # Determine compiler based on extension
+          if [[ "$file" == *.c ]]; then
+            compiler="gcc"
+            output="${file%.c}.out"
+            compile_cmd="gcc -o \"$output\" \"$file\" -lm"
+          else
+            compiler="g++"
+            output="${file%.cpp}.out"
+            compile_cmd="g++ -std=c++17 -o \"$output\" \"$file\""
+          fi
+
+          # Compile the file
+          echo "📦 Compiling with $compiler..."
+          if eval $compile_cmd 2>&1; then
             echo "✅ $file compiled successfully"
-            # Run basic execution test if file has main function
+
+            # Only run if it has main function and doesn't require cin/scanf
             if grep -q "int main" "$file"; then
-              echo "Running: $file"
-              timeout 5s "./${file%.c}" < /dev/null || echo "⚠️ Runtime test completed"
+              # Check if file requires user input
+              if grep -qE "(cin|scanf|getline|getchar|gets)" "$file"; then
+                echo "⏭️  Skipping runtime test (requires user input)"
+              else
+                echo "🏃 Running compiled program..."
+                if timeout 2s "$output" < /dev/null 2>&1; then
+                  echo "✅ Program executed successfully"
+                else
+                  exit_code=$?
+                  if [ $exit_code -eq 124 ]; then
+                    echo "⏱️  Program timed out (might be waiting for input or infinite loop)"
+                  else
+                    echo "⚠️  Program exited with code $exit_code"
+                  fi
+                fi
+              fi
+            else
+              echo "ℹ️  No main function found, skipping execution"
             fi
+
+            # Cleanup
+            rm -f "$output"
           else
             echo "❌ $file failed to compile"
             exit 1
           fi
-        done || echo "No C files to test"
+        done
 
-    - name: 🧪 Test C++ files
-      run: |
-        echo "🔍 Testing C++ files..."
-        find CPP/ -name "*.cpp" -type f 2>/dev/null | while read file; do
-          echo "Testing: $file"
-          g++ -std=c++17 -o "${file%.cpp}" "$file"
-          if [ $? -eq 0 ]; then
-            echo "✅ $file compiled successfully"
-            # Run basic execution test if file has main function
-            if grep -q "int main" "$file"; then
-              echo "Running: $file"
-              timeout 5s "./${file%.cpp}" < /dev/null || echo "⚠️ Runtime test completed"
-            fi
-          else
-            echo "❌ $file failed to compile"
-            exit 1
-          fi
-        done || echo "No C++ files to test"
+        echo ""
+        echo "✅ All changed C/C++ files tested successfully!"
 
   test-java:
     runs-on: ubuntu-latest
@@ -113,25 +137,59 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: 🧪 Test Java files
+    - name: 🔍 Get changed Java files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: |
+          Java/**/*.java
+
+    - name: 🧪 Test changed Java files
+      if: steps.changed-files.outputs.any_changed == 'true'
       run: |
-        echo "🔍 Testing Java files..."
-        find Java/ -name "*.java" -type f 2>/dev/null | while read file; do
+        echo "🔍 Testing only changed Java files..."
+        echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
+
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo ""
+          echo "========================================"
           echo "Testing: $file"
-          javac "$file"
-          if [ $? -eq 0 ]; then
+          echo "========================================"
+
+          # Compile
+          echo "📦 Compiling Java file..."
+          if javac "$file" 2>&1; then
             echo "✅ $file compiled successfully"
+
             # Try to run if it has main method
             if grep -q "public static void main" "$file"; then
-              classname=$(basename "${file%.java}")
-              echo "Running: $classname"
-              timeout 5s java -cp "$(dirname "$file")" "$classname" < /dev/null || echo "⚠️ Runtime test completed"
+              # Check if requires user input
+              if grep -qE "(Scanner|BufferedReader|readLine|nextInt|nextLine)" "$file"; then
+                echo "⏭️  Skipping runtime test (requires user input)"
+              else
+                classname=$(basename "${file%.java}")
+                classpath=$(dirname "$file")
+                echo "🏃 Running: $classname..."
+                if timeout 2s java -cp "$classpath" "$classname" < /dev/null 2>&1; then
+                  echo "✅ Program executed successfully"
+                else
+                  echo "⚠️  Runtime test completed with warnings"
+                fi
+              fi
+            else
+              echo "ℹ️  No main method found, skipping execution"
             fi
+
+            # Cleanup .class files
+            rm -f "$(dirname "$file")"/*.class
           else
             echo "❌ $file failed to compile"
             exit 1
           fi
-        done || echo "No Java files to test"
+        done
+
+        echo ""
+        echo "✅ All changed Java files tested successfully!"
 
   test-python:
     runs-on: ubuntu-latest
@@ -157,24 +215,54 @@ jobs:
         # Install common packages for algorithms
         pip install numpy scipy matplotlib pandas
 
-    - name: 🧪 Test Python files
+    - name: 🔍 Get changed Python files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: |
+          Python/**/*.py
+
+    - name: 🧪 Test changed Python files
+      if: steps.changed-files.outputs.any_changed == 'true'
       run: |
-        echo "🔍 Testing Python files with Python ${{ matrix.python-version }}..."
-        find Python/ -name "*.py" -type f 2>/dev/null | while read file; do
+        echo "🔍 Testing only changed Python files with Python ${{ matrix.python-version }}..."
+        echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
+
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo ""
+          echo "========================================"
           echo "Testing: $file"
-          python -m py_compile "$file"
-          if [ $? -eq 0 ]; then
+          echo "========================================"
+
+          # Check syntax
+          echo "📦 Checking Python syntax..."
+          if python -m py_compile "$file" 2>&1; then
             echo "✅ $file syntax is valid"
+
             # Try to run if it has main guard
             if grep -q "if __name__ == ['\"]__main__['\"]" "$file"; then
-              echo "Running: $file"
-              timeout 5s python "$file" < /dev/null || echo "⚠️ Runtime test completed"
+              # Check if requires user input
+              if grep -qE "(input\(|raw_input\()" "$file"; then
+                echo "⏭️  Skipping runtime test (requires user input)"
+              else
+                echo "🏃 Running Python script..."
+                if timeout 2s python "$file" < /dev/null 2>&1; then
+                  echo "✅ Program executed successfully"
+                else
+                  echo "⚠️  Runtime test completed with warnings"
+                fi
+              fi
+            else
+              echo "ℹ️  No __main__ guard found, skipping execution"
             fi
           else
             echo "❌ $file has syntax errors"
             exit 1
           fi
-        done || echo "No Python files to test"
+        done
+
+        echo ""
+        echo "✅ All changed Python files tested successfully!"
 
   test-javascript:
     runs-on: ubuntu-latest

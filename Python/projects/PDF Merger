@@ -1,0 +1,13 @@
+from PyPDF2 import PdfMerger
+import os
+
+folder_path = "path/to/pdfs"
+output_file = "merged.pdf"
+
+merger = PdfMerger()
+for file in os.listdir(folder_path):
+    if file.endswith(".pdf"):
+        merger.append(os.path.join(folder_path, file))
+merger.write(output_file)
+merger.close()
+print("PDFs merged successfully!")

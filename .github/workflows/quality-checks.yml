@@ -1,0 +1,303 @@
+name: 💎 Code Quality Checks
+
+on:
+  pull_request_target:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  quality-validation:
+    name: 📋 Validate Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout PR code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - name: 🔍 Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: |
+          **/*.c
+          **/*.cpp
+          **/*.java
+          **/*.py
+          **/*.js
+          **/*.go
+          **/*.rs
+
+    - name: 📊 Check code quality standards
+      if: steps.changed-files.outputs.any_changed == 'true'
+      id: quality-check
+      run: |
+        echo "Checking code quality for changed files..."
+
+        changed_files="${{ steps.changed-files.outputs.all_changed_files }}"
+        file_count=$(echo "$changed_files" | wc -w)
+
+        echo "Number of changed files: $file_count"
+
+        missing_complexity=()
+        missing_comments=()
+        missing_tests=()
+        missing_description=()
+        quality_issues=""
+
+        # Be more lenient for single file contributions
+        is_single_file=false
+        if [ "$file_count" -eq 1 ]; then
+          is_single_file=true
+          echo "Single file contribution detected - applying relaxed checks"
+        fi
+
+        for file in $changed_files; do
+          if [ ! -f "$file" ]; then
+            continue
+          fi
+
+          echo "Checking: $file"
+          filename=$(basename "$file")
+          has_issues=false
+
+          # Check for complexity analysis (Time/Space complexity)
+          if ! grep -qi "complexity\|time.*complexity\|space.*complexity\|O(.*)" "$file"; then
+            missing_complexity+=("$file")
+            has_issues=true
+          fi
+
+          # Check for meaningful comments (more lenient for single file)
+          min_comments=5
+          if [ "$is_single_file" = true ]; then
+            min_comments=3
+          fi
+
+          comment_count=$(grep -cE "^\s*(//|#|\*|/\*)" "$file" 2>/dev/null || echo "0")
+          if [ "$comment_count" -lt "$min_comments" ]; then
+            missing_comments+=("$file")
+            has_issues=true
+          fi
+
+          # Check for algorithm description or documentation
+          if ! grep -qi "algorithm\|description\|@description\|purpose\|what.*does" "$file"; then
+            missing_description+=("$file")
+            has_issues=true
+          fi
+
+          # Check for test cases or examples
+          if ! grep -qi "test\|example\|main\|if.*__name__\|public static void main" "$file"; then
+            missing_tests+=("$file")
+            has_issues=true
+          fi
+
+          # Check file size (more lenient for single file)
+          min_lines=20
+          if [ "$is_single_file" = true ]; then
+            min_lines=15
+          fi
+
+          file_size=$(wc -l < "$file")
+          if [ "$file_size" -lt "$min_lines" ]; then
+            quality_issues="${quality_issues}⚠️ **$file** - File is very small ($file_size lines). Consider adding more documentation or test cases.\n"
+          fi
+        done
+
+        echo "is_single_file=$is_single_file" >> $GITHUB_OUTPUT
+
+        # Build quality report
+        has_quality_issues=false
+        critical_issues=0
+
+        if [ ${#missing_complexity[@]} -gt 0 ]; then
+          has_quality_issues=true
+          critical_issues=$((critical_issues + 1))
+          quality_issues="${quality_issues}### ❌ Missing Complexity Analysis\n\n"
+          quality_issues="${quality_issues}These files don't include time/space complexity:\n"
+          for f in "${missing_complexity[@]}"; do
+            quality_issues="${quality_issues}- \`$f\`\n"
+          done
+          quality_issues="${quality_issues}\n**Required:** Add comments explaining time and space complexity (e.g., \`Time: O(n log n), Space: O(n)\`)\n\n"
+        fi
+
+        if [ ${#missing_description[@]} -gt 0 ]; then
+          has_quality_issues=true
+          critical_issues=$((critical_issues + 1))
+          quality_issues="${quality_issues}### ❌ Missing Algorithm Description\n\n"
+          quality_issues="${quality_issues}These files don't explain what the algorithm does:\n"
+          for f in "${missing_description[@]}"; do
+            quality_issues="${quality_issues}- \`$f\`\n"
+          done
+          quality_issues="${quality_issues}\n**Required:** Add a description explaining the algorithm, its purpose, and how it works\n\n"
+        fi
+
+        # Only warn about comments/tests for non-single-file PRs or if there are other critical issues
+        if [ ${#missing_comments[@]} -gt 0 ] && ([ "$is_single_file" = false ] || [ "$critical_issues" -gt 0 ]); then
+          has_quality_issues=true
+          quality_issues="${quality_issues}### ⚠️ Insufficient Comments\n\n"
+          quality_issues="${quality_issues}These files have very few comments:\n"
+          for f in "${missing_comments[@]}"; do
+            quality_issues="${quality_issues}- \`$f\`\n"
+          done
+          quality_issues="${quality_issues}\n**Recommended:** Add inline comments explaining the logic and key steps\n\n"
+        fi
+
+        if [ ${#missing_tests[@]} -gt 0 ] && ([ "$is_single_file" = false ] || [ "$critical_issues" -gt 0 ]); then
+          has_quality_issues=true
+          quality_issues="${quality_issues}### ⚠️ No Test Cases or Examples\n\n"
+          quality_issues="${quality_issues}These files don't include test cases:\n"
+          for f in "${missing_tests[@]}"; do
+            quality_issues="${quality_issues}- \`$f\`\n"
+          done
+          quality_issues="${quality_issues}\n**Recommended:** Add example usage or test cases to demonstrate the code works\n\n"
+        fi
+
+        # Only report issues if there are critical problems OR multiple files with issues
+        should_comment=false
+        if [ "$critical_issues" -gt 0 ]; then
+          should_comment=true
+        elif [ "$is_single_file" = false ] && [ "$has_quality_issues" = true ]; then
+          should_comment=true
+        fi
+
+        # Save results
+        if [ "$should_comment" = true ]; then
+          echo "issues_found=true" >> $GITHUB_OUTPUT
+          echo "quality_report<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$quality_issues" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "issues_found=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: 💬 Post quality feedback
+      if: steps.quality-check.outputs.issues_found == 'true'
+      uses: actions/github-script@v7
+      env:
+        QUALITY_REPORT: ${{ steps.quality-check.outputs.quality_report }}
+      with:
+        script: |
+          const report = process.env.QUALITY_REPORT;
+
+          // Check if we already commented about quality
+          const comments = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number
+          });
+
+          const botComment = comments.data.find(comment =>
+            comment.user.type === 'Bot' && comment.body.includes('💎 Code Quality Check Results')
+          );
+
+          const comment = `## 💎 Code Quality Check Results
+
+          ${ report }
+
+          ### 📚 Quality Standards
+
+          To maintain high quality, every contribution should include:
+
+          1. **✍️ Algorithm Description**
+             - Explain what the algorithm does
+             - Describe the approach and methodology
+             - Include use cases or applications
+
+          2. **📊 Complexity Analysis**
+             - Time complexity (e.g., O(n log n))
+             - Space complexity (e.g., O(n))
+             - Brief explanation of why
+
+          3. **💬 Meaningful Comments**
+             - Explain complex logic
+             - Document function parameters
+             - Add inline comments for clarity
+
+          4. **✅ Test Cases/Examples**
+             - Demonstrate the code works
+             - Show different input scenarios
+             - Include edge cases
+
+          ### 💡 Example Template
+
+          \`\`\`python
+          """
+          Binary Search Algorithm
+
+          Description: Searches for a target value in a sorted array using divide-and-conquer
+
+          Time Complexity: O(log n) - halves search space each iteration
+          Space Complexity: O(1) - only uses constant extra space
+          """
+
+          def binary_search(arr, target):
+              # Initialize pointers
+              left, right = 0, len(arr) - 1
+
+              while left <= right:
+                  mid = (left + right) // 2
+
+                  # Check if target found
+                  if arr[mid] == target:
+                      return mid
+                  # Search right half
+                  elif arr[mid] < target:
+                      left = mid + 1
+                  # Search left half
+                  else:
+                      right = mid - 1
+
+              return -1  # Not found
+
+          # Test cases
+          if __name__ == "__main__":
+              test_arr = [1, 3, 5, 7, 9]
+              print(binary_search(test_arr, 5))  # Output: 2
+              print(binary_search(test_arr, 6))  # Output: -1
+          \`\`\`
+
+          ### 🔧 How to Fix
+
+          1. Review each file mentioned above
+          2. Add the missing documentation
+          3. Push your changes
+          4. The workflow will re-run automatically
+
+          ### 💪 You've Got This!
+
+          These checks help maintain quality and make your contribution more valuable to learners. Thank you for taking the time to improve! 🙏
+
+          ---
+          *Quality over quantity - let's build something amazing together! 🌟*`;
+
+          // Only post if we haven't already commented, otherwise update
+          if (!botComment) {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+          } else {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: comment
+            });
+          }
+
+    - name: ✅ Quality check summary
+      run: |
+        if [ "${{ steps.quality-check.outputs.issues_found }}" = "true" ]; then
+          echo "⚠️ Quality issues detected - please review the feedback"
+          echo "This is not a failure - just suggestions to improve quality"
+        else
+          echo "✅ All quality checks passed - excellent work!"
+        fi

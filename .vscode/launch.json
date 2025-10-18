@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "LongestCommonSubsequence",
+      "request": "launch",
+      "mainClass": "Java.dynamic_programming.LongestCommonSubsequence",
+      "projectName": "DSA_Code_a7fcb688"
+    },
+    {
+      "type": "java",
+      "name": "CopyListWithRandomPointer",
+      "request": "launch",
+      "mainClass": "CopyListWithRandomPointer",
+      "projectName": "DSA_Code_a7ce894f"
+    },
+    {
+      "type": "java",
       "name": "Insertion_Sort",
       "request": "launch",
       "mainClass": "Insertion_Sort",
