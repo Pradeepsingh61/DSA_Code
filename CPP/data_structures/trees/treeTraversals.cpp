@@ -1,10 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-//Problem: Binary tree traversals (Inorder, Preorder, Postorder)
-//Approach: Recursive traversals
-//Time Complexity: O(n)
-//Space Complexity: O(n)
+/*
+Algorithm: Binary Tree Traversals (Inorder, Preorder, Postorder)
+
+Description:
+- Builds a Binary Search Tree (BST) using insertion.
+- Performs recursive traversals:
+     Inorder (Left → Root → Right)
+     Preorder (Root → Left → Right)
+     Postorder (Left → Right → Root)
+- Useful for processing hierarchical data, syntax trees, and expression evaluation.
+
+Time Complexity: O(n)
+Space Complexity: O(h), where h is tree height (O(log n) average, O(n) worst case)
+*/
 
 class TreeNode {
 public:
