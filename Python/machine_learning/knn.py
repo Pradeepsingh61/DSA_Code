@@ -21,6 +21,16 @@ Steps in this code:
 4. Use majority voting to determine the predicted class.
 5. Return the predicted label.
 
+ Time Complexity (per prediction):
+        1 Distance calculation → O(n * d)
+        2 Sorting distances → O(n log n)
+        3 Selecting k nearest points → O(k)
+        4 Majority voting (Counter) → O(k)
+        🔹 Overall → O(n * d + n log n)
+
+    Space Complexity:
+        O(n * d) → to store all distances and intermediate computations
+
 Contributor:
 ---------------------
 💻 Contributed by: **Lakhinana Chaturvedi Kashyap**
