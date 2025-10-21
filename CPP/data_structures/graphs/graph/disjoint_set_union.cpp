@@ -1,8 +1,57 @@
 /**
  * @file disjoint_set_union.cpp
- * @brief Simple and optimized implementation of Disjoint Set Union (Union-Find)
+ * @brief Implementation of the Disjoint Set Union (DSU) data structure.
+ *
+ * ---
+ * @section description_dsu Algorithm Description
+ * The Disjoint Set Union (DSU), or Union-Find, data structure manages a collection
+ * of disjoint (non-overlapping) sets.
+ *
+ * It provides two primary operations:
+ * 1. find(i): Finds the representative (or "leader") of the set that element 'i'
+ * belongs to.
+ * 2. unite(i, j): Merges the two sets containing elements 'i' and 'j' into a
+ * single set.
+ *
+ * This implementation uses two powerful optimizations:
+ * 1. Path Compression: During a 'find' operation, it makes every node on the
+ * path point directly to the root. This flattens the tree.
+ * 2. Union by Size: During a 'unite' operation, it attaches the root of the
+ * smaller tree to the root of the larger tree. This keeps the trees
+ * from becoming too deep.
+ *
+ * ---
+ * @section applications Use Cases
+ * - Detecting cycles in an undirected graph.
+ * - Kruskal's algorithm for finding a Minimum Spanning Tree (MST).
+ * - Finding connected components in a graph.
+ * - Solving connectivity problems (e.g., "Are these two people in the
+ * same friend group?").
+ *
+ * ---
+ * @section complexity Complexity Analysis
+ *
+ * Let N = the number of elements in the DSU.
+ * Let \alpha(N) = the Inverse Ackermann function. This function grows
+ * extremely slowly and is practically constant (less than 5) for all
+ * realistic values of N.
+ *
+ * @subsection time Time Complexity
+ * - **Constructor (DSU(N)):** O(N)
+ * We initialize two vectors of size N.
+ * - **find(i):** O(\alpha(N)) (Amortized)
+ * Thanks to path compression, finding the root is nearly constant time
+ * on average.
+ * - **unite(i, j):** O(\alpha(N)) (Amortized)
+ * This involves two 'find' operations and one constant-time link,
+ * so it's also nearly constant time on average due to the optimizations.
+ * - **inSameSet(i, j):** O(\alpha(N)) (Amortized)
+ * This is just two 'find' operations.
+ *
+ * @subsection space Space Complexity
+ * - **Overall:** O(N)
+ * We store two vectors, 'parent' and 'component_size', both of size N.
  */
-
 #include <iostream>
 #include <vector>
 #include <numeric> // for std::iota
