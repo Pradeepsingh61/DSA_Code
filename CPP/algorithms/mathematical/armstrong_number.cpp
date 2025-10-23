@@ -48,7 +48,7 @@ int armstrong(long long int n){
     }
 }
 int main(){
-    //Initialising an taking input of number:
+    //Initialising and taking input of number:
     int n;
     cout << "Enter your number here: ";
     cin >> n;
