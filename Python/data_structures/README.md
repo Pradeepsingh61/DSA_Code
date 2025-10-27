@@ -8,6 +8,7 @@ This directory contains implementations of fundamental data structures in Python
 data_structures/
 ├── linked_lists/    # Linked list implementations and operations
 ├── matrices/        # Matrix operations and algorithms
+├── queue/           # Queue implementations (FIFO, Priority)
 ├── stacks/         # Stack implementations and applications
 └── trees/          # Tree structures and algorithms
 ```
@@ -35,6 +36,7 @@ Located in `stacks/`
 ### Current Implementations
 - **Delete Middle Element** (`delete_middle_element_of_stack.py`) - Remove middle element from stack
 - **Stack using Queues** (`implement_stack_using_queues.py`) - Implement stack using queue operations
+- **Stack with Min** (`stack_with_min.py`) - Stack supporting O(1) `get_min` operation
 
 ### Stack Applications
 - Expression evaluation
@@ -56,6 +58,44 @@ from collections import deque
 stack = deque()
 stack.append(1)    # push
 top = stack.pop()  # pop
+```
+
+## 🔄 Queues
+
+Located in `queue/`
+
+### Current Implementations
+- **Array Queue** (`array_queue.py`) - Simple queue using Python list (O(n) dequeue)
+- **Queue using Stacks** (`queue_using_stacks.py`) - Queue implemented with two stacks (O(1) amortized enqueue/dequeue)
+
+### Queue Applications
+- Breadth-First Search (BFS)
+- Scheduling (CPU, tasks)
+- Buffers (I/O, network)
+- Simulations
+
+### Python Queue Examples
+```python
+# Using collections.deque (efficient FIFO)
+from collections import deque
+q = deque()
+q.append('a')      # enqueue
+q.append('b')      # enqueue
+front = q.popleft() # dequeue ('a')
+
+# Using queue.Queue (thread-safe)
+from queue import Queue
+q = Queue()
+q.put('a')         # enqueue
+q.put('b')         # enqueue
+front = q.get()    # dequeue ('a')
+
+# Using heapq for Priority Queue
+import heapq
+pq = []
+heapq.heappush(pq, (2, 'task1')) # (priority, item)
+heapq.heappush(pq, (1, 'task2'))
+highest_prio_item = heapq.heappop(pq)[1] # 'task2'
 ```
 
 ## 🌳 Trees
