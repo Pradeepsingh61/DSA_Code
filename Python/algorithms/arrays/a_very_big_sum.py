@@ -1,6 +1,20 @@
 def a_very_big_sum(arr: list[int]) -> int:
     """
-    Returns the sum of all integers in the input array.
+    Description:
+    This function calculates the sum of all integers in a given list.
+    It iterates through each element in the array and accumulates the total.
+    This approach ensures accurate summation even for large numbers
+    (common in problems like "A Very Big Sum" from HackerRank).
+
+    Approach:
+    - Initialize a variable to store the cumulative sum.
+    - Traverse the list and add each number to the sum.
+    - Return the final result.
+
+    Time Complexity:
+        O(n) - The function iterates through all n elements once.
+    Space Complexity:
+        O(1) - Uses a constant amount of extra memory.
 
     >>> a_very_big_sum([2, 4, 6])
     12
