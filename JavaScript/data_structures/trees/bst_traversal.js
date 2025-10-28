@@ -1,5 +1,19 @@
 /**
  * Binary Search Tree (BST) Traversal Methods in JavaScript
+ * * Description:
+ * These algorithms define the order in which nodes in a BST are visited.
+ * Traversal is fundamental for processing all nodes in the tree.
+ * * Approach & Purpose:
+ * 1. Inorder Traversal: Visits Left -> Root -> Right. Output is always sorted data. (Useful for listing sorted elements).
+ * 2. Preorder Traversal: Visits Root -> Left -> Right. (Useful for copying the tree structure).
+ * 3. Postorder Traversal: Visits Left -> Right -> Root. (Useful for deleting the tree).
+ * 4. Level Order (BFS): Visits nodes level by level using a queue. (Useful for finding the shortest path).
+ * * Time Complexity:
+ * - All Traversals (Inorder, Preorder, Postorder, Level Order): O(n)
+ * Each node is visited exactly once.
+ * * Space Complexity:
+ * - DFS (Recursive): O(h), where 'h' is the height of the tree. O(log n) for balanced BSTs, O(n) for skewed BSTs (stack space).
+ * - BFS (Level Order/Iterative): O(w), where 'w' is the maximum width of the tree. O(n) in the worst case (full level is stored in the queue).
  */
 
 class BSTNode {
@@ -12,7 +26,7 @@ class BSTNode {
 
 class BSTTraversal {
   constructor() {
-    this.root = null; // A simple BST for demonstration
+    this.root = null;
   }
 
   // Utility to insert for testing traversals
@@ -40,40 +54,43 @@ class BSTTraversal {
     }
   }
 
-  // --- Recursive Traversal Methods ---
+  // --- Recursive Traversal Methods (DFS) ---
 
-  // 1. Inorder: Left -> Root -> Right (Yields sorted data)
-  inorder(node = this.root) {
+  // 1. Inorder: Left -> Root -> Right
+  inorder(node = this.root, result = []) {
     if (node) {
-      this.inorder(node.left);
-      console.log(node.data);
-      this.inorder(node.right);
+      this.inorder(node.left, result);
+      result.push(node.data);
+      this.inorder(node.right, result);
     }
+    return result; // Return array for easy testing
   }
 
-  // 2. Preorder: Root -> Left -> Right (Useful for copying the tree)
-  preorder(node = this.root) {
+  // 2. Preorder: Root -> Left -> Right
+  preorder(node = this.root, result = []) {
     if (node) {
-      console.log(node.data);
-      this.preorder(node.left);
-      this.preorder(node.right);
+      result.push(node.data);
+      this.preorder(node.left, result);
+      this.preorder(node.right, result);
     }
+    return result;
   }
 
-  // 3. Postorder: Left -> Right -> Root (Useful for deleting the tree)
-  postorder(node = this.root) {
+  // 3. Postorder: Left -> Right -> Root
+  postorder(node = this.root, result = []) {
     if (node) {
-      this.postorder(node.left);
-      this.postorder(node.right);
-      console.log(node.data);
+      this.postorder(node.left, result);
+      this.postorder(node.right, result);
+      result.push(node.data);
     }
+    return result;
   }
 
-  // --- Iterative Traversal Method ---
+  // --- Iterative Traversal Method (BFS) ---
 
-  // 4. Breadth-First Search (Level Order Traversal)
+  // 4. Level Order Traversal
   levelOrder() {
-    if (!this.root) return;
+    if (!this.root) return [];
 
     const queue = [this.root];
     const result = [];
@@ -85,19 +102,6 @@ class BSTTraversal {
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
     }
-    console.log(result.join(' '));
+    return result;
   }
 }
-
-// --- Example Usage ---
-
-const bst = new BSTTraversal();
-[50, 30, 70, 20, 40, 60, 80].forEach(data => bst.insert(data));
-
-console.log("\n--- Inorder Traversal (Sorted) ---");
-// Expected: 20 30 40 50 60 70 80
-bst.inorder(); 
-
-console.log("\n--- Level Order Traversal (BFS) ---");
-// Expected: 50 30 70 20 40 60 80
-bst.levelOrder();
