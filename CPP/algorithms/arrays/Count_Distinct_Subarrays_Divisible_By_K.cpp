@@ -23,7 +23,7 @@ Key Insight:
 
 Complexity:
 -----------------------------------
-Time Complexity: O(N)
+Time Complexity: O(N*log(k))
 Space Complexity: O(K) , depending on distinct remainders
 */
 
