@@ -24,7 +24,7 @@
 
 /**
  * Brief description of the functions :
- *                      There are total 5 functions in the code excluding the main() function.
+ *                      There are total 5 functions in the code excluding the main() & test_algorithm() function.
  *                      
  *                  Binary_search_iterative : perform binary search in iterative way.
  *                  Binary_search_recursive : perform binary search with help of recursion;
